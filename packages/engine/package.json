@@ -4,10 +4,29 @@
   "private": true,
   "type": "module",
   "main": "./src/index.ts",
-  "exports": { ".": "./src/index.ts" },
+  "exports": {
+    ".": "./src/index.ts",
+    "./playwright": "./src/playwright.ts",
+    "./fake": "./src/fake-driver.ts"
+  },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json",
-    "test": "vitest run --passWithNoTests",
+    "test": "vitest run",
     "build": "echo nothing to build"
+  },
+  "dependencies": {
+    "@mcpify/contracts": "workspace:*"
+  },
+  "peerDependencies": {
+    "playwright": "*"
+  },
+  "peerDependenciesMeta": {
+    "playwright": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "playwright": "1.65.1",
+    "@mcpify/portals": "workspace:*"
   }
 }

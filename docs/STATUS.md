@@ -11,16 +11,16 @@ When marking ✅, fill in the short commit hash and date. Always `git pull --reb
 | C3 | Recorder | Rohan | ⬜ | | | |
 | C4 | Engine + PlaywrightDriver (golden tool passes) | Chaitanya | ✅ | 05e4f61 | 2026-11-25 | built by Subhash's session |
 | C5 | API core | Subhash | ⬜ | | | |
-| C5b | llm + storage packages | Subhash | ⬜ | | | |
+| C5b | llm + storage packages | Subhash | 🟡 | | | storage done; llm after demo |
 | C6 | Compiler | Rohan | ⬜ | | | |
-| C7 | MCP server end-to-end | Subhash | ⬜ | | | |
+| C7 | MCP server end-to-end | Subhash | ✅ | 987b900 | 2026-11-25 | reads tools from JSON files (API/Postgres after demo) |
 | C8 | Dashboard | Sinchana | ⬜ | | | |
 | C9 | DomDriver + extension + dry-run guard | Chaitanya | ⬜ | | | |
 | C10 | mcpify.js WebMCP script tag | Chaitanya | ⬜ | | | |
 | C11 | Layout Lab M1–M10 | Sinchana | ⬜ | | | |
 | C12 | Selective repair | Rohan | ⬜ | | | |
 | C13 | Voice via ElevenLabs | Sinchana | ⬜ | | | |
-| C14 | Signed receipts | Subhash | ⬜ | | | |
+| C14 | Signed receipts | Subhash | ✅ | 987b900 | 2026-11-25 | local Ed25519 (KMS after demo) |
 | C15 | Portals 2 and 3 + tools | Sinchana | ⬜ | | | |
 | C16 | Benchmarks | Subhash | ⬜ | | | |
 | C17 | Real gov sites dry-run | Chaitanya | ⬜ | | | |

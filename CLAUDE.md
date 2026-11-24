@@ -5,7 +5,7 @@ You are one of **four parallel Claude Code sessions** building MCPify, each driv
 ## 1. Who you are working for
 Your human tells you their name in the first message ("I am Rohan", for example). Your work plan is `docs/team/<name>.md` (`subhash.md`, `sinchana.md`, `rohan.md` or `chaitanya.md`). Execute it **phase by phase, in order**. If the human did not say who they are, ask before writing any code.
 
-## 0. Demo sprint (until 26 Nov)
+## 1b. Demo sprint (until 26 Nov)
 `docs/03-DEMO-SPRINT.md` overrides the 10-day plan until the demo on 26 Nov: build only what it lists, and use its integration points.
 
 ## 2. Required reading (in this order)

@@ -3,14 +3,17 @@
   "private": true,
   "type": "module",
   "packageManager": "pnpm@9.15.9",
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "typecheck": "pnpm -r typecheck",
     "test": "pnpm -r test",
     "build": "pnpm -r build",
     "format": "prettier --write .",
     "portal": "pnpm --filter @mcpify/portals dev",
-    "mcp": "pnpm --filter @mcpify/mcp-server dev"
+    "mcp": "pnpm --filter @mcpify/mcp-server dev",
+    "demo": "pnpm --parallel --filter @mcpify/portals --filter @mcpify/mcp-server start"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",

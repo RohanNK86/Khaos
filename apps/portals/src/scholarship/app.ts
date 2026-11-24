@@ -21,7 +21,7 @@ interface Application {
 }
 interface Sms { to: string; text: string; at: string }
 
-interface Ctx { s: SessionData; m: Set<string>; owner: boolean }
+interface Ctx { s: SessionData; sid: string; m: Set<string>; owner: boolean }
 
 export function createScholarshipPortal(opts: { apiUrl?: string } = {}) {
   const app = express();
@@ -30,6 +30,7 @@ export function createScholarshipPortal(opts: { apiUrl?: string } = {}) {
   let applications: Application[] = [];
   let sms: Sms[] = [];
   let nextId = 123;
+  let lastCaptchaSid = "";
   const apiUrl = opts.apiUrl ?? process.env.API_URL ?? "http://localhost:4000";
   const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 5 * 1024 * 1024 } });
 
@@ -39,8 +40,8 @@ export function createScholarshipPortal(opts: { apiUrl?: string } = {}) {
     knownMutations: MUTATIONS,
     state: () => ({ mutations: [...mutations], applications }),
     reset: () => { applications = []; sms = []; nextId = 123; mutations.clear(); sessions.clear(); },
-    otpFor: (sid) => (sessions.get(sid)?.otp as { code: string } | undefined)?.code,
-    captchaFor: (sid) => sessions.get(sid)?.captcha as string | undefined,
+    otpFor: (sid) => (sessions.get(sid === "latest" ? lastCaptchaSid : sid)?.otp as { code: string } | undefined)?.code,
+    captchaFor: (sid) => sessions.get(sid === "latest" ? lastCaptchaSid : sid)?.captcha as string | undefined,
   }));
   app.use(sessions.middleware());
   app.use(express.urlencoded({ extended: false }));
@@ -49,7 +50,7 @@ export function createScholarshipPortal(opts: { apiUrl?: string } = {}) {
     const s = res.locals.session as SessionData;
     if (req.query.owner === "1") s.owner = true;
     if (req.query.owner === "0") s.owner = false;
-    return { s, m: mutations, owner: process.env.OWNER_MODE === "1" || s.owner === true };
+    return { s, sid: res.locals.sid as string, m: mutations, owner: process.env.OWNER_MODE === "1" || s.owner === true };
   };
 
   // ── rendering helpers ──────────────────────────────────────────────────────
@@ -166,6 +167,7 @@ export function createScholarshipPortal(opts: { apiUrl?: string } = {}) {
   function renderPage3(c: Ctx, errors: Record<string, string>, info?: string) {
     const captcha = newCaptcha();
     c.s.captcha = captcha;
+    lastCaptchaSid = c.sid;
     const mobile = ((c.s.personal as Record<string, string>)?.mobile ?? "").slice(-4);
     const otpRows = `
 <tr><td class="${cls(c, "lbl")}">Enter OTP <span class="${cls(c, "req")}">*</span></td><td><input ${attrs({ type: "text", id: PREFIX_ID + "txtOTP", name: PREFIX_NAME + "txtOTP", maxlength: 6, autocomplete: "off", "data-mcpify": mc(c, "otp") })}/>${errSpan(c, { ctl: "txtOTP" }, errors.otp)}</td></tr>

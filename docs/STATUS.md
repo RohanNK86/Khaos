@@ -5,7 +5,7 @@ When marking ✅, fill in the short commit hash and date. Always `git pull --reb
 
 | ID | Name | Owner | Status | Commit | Date | Notes |
 |---|---|---|---|---|---|---|
-| C0 | Repo scaffold | Subhash | ⬜ | | | |
+| C0 | Repo scaffold | Subhash | ✅ | 0f88344 | 2026-11-25 | |
 | C1 | Contracts package | Subhash | ⬜ | | | |
 | C2 | Portal 1 + /__lab | Sinchana | ⬜ | | | |
 | C3 | Recorder | Rohan | ⬜ | | | |

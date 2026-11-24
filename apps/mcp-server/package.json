@@ -12,7 +12,8 @@
     "test": "vitest run",
     "build": "echo nothing to build",
     "dev": "tsx src/index.ts",
-    "start": "tsx src/index.ts"
+    "start": "tsx src/index.ts",
+    "approve": "tsx src/approve.ts"
   },
   "dependencies": {
     "@mcpify/contracts": "workspace:^",

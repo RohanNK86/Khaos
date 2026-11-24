@@ -48,6 +48,7 @@ async function tick(){
     const icon={passed:"✓",failed:"✗",awaiting:"…",blocked_dry_run:"⛔",skipped:"–"}[st]||"";
     const chk=t?[...t.preResults.map(c=>["pre",c]),...t.postResults.map(c=>["post",c])].map(([k,c])=>'<span class="'+(c.ok?"ok":"bad")+'">'+k+(c.ok?" ✓":" ✗")+(c.detail&&!c.ok?" "+esc(c.detail):c.detail&&k==="post"&&c.detail.includes("=")?" "+esc(c.detail):"")+'</span>').join(" · "):"";
     h+='<div class="step '+st+'"><div class="dot">'+icon+'</div><div><b>'+esc(s.intent)+'</b><div class="chk">'+(t&&t.usedLocator?'found by <i>'+esc(loc(t.usedLocator))+'</i> · ':'')+chk+(t&&t.error?'<div class="bad">'+esc(t.error)+'</div>':'')+(st==="blocked_dry_run"?'<div><b>DRY RUN: blocked, nothing sent</b></div>':'')+'</div></div><span class="risk '+s.risk+'">'+s.risk+'</span></div>';}
+  if(r.dryRun&&r.blockedRequests.length)h+='<div class="need" style="background:#a7d3ff"><b>DRY RUN network guard: '+r.blockedRequests.length+' sending request(s) blocked</b>'+r.blockedRequests.map(b=>'<div><code>'+esc(b.method)+'</code> '+esc(b.url)+'</div>').join("")+'</div>';
   if(r.status==="succeeded")h+='<div class="out">'+Object.entries(r.outputs).map(([k,v])=>esc(k)+': <b>'+esc(v)+'</b>').join("<br>")+(r.receiptId?'<br><small>Signed receipt <code>'+esc(r.receiptId)+'</code> (Ed25519)</small>':'')+'</div>';
   document.getElementById("detail").innerHTML=h;
 }

@@ -6,6 +6,7 @@ import { ToolSchema, type Tool } from "@mcpify/contracts";
 import { createScholarshipPortal } from "@mcpify/portals";
 import { runTool, type RunHooks } from "../src/index.js";
 import { createPlaywrightDriver } from "../src/playwright.js";
+import { installNetworkGuard } from "../src/network-guard.js";
 
 const root = new URL("../../../", import.meta.url);
 const TOKEN = { "x-lab-token": "changeme" };
@@ -106,3 +107,16 @@ test("M8 (new required field) fails safely at the Next step with the portal's me
   expect(run.trace.at(-1)!.error).toMatch(/required/i);
   await ctx.close();
 }, 60_000);
+
+test("network guard blocks the form POST even if a click gets through", async () => {
+  const ctx = await browser.newContext();
+  const blocked = await installNetworkGuard(ctx);
+  const page = await ctx.newPage();
+  await page.goto(`${base}/apply/1`);
+  await page.fill("#ctl00_ContentPlaceHolder1_txtApplicantName", "Asha Demo");
+  await page.click("#ctl00_ContentPlaceHolder1_btnNext1").catch(() => undefined);
+  await page.waitForTimeout(500);
+  expect(blocked.map((b) => b.method)).toContain("POST");
+  expect(page.url()).not.toMatch(/apply\/2/);
+  await ctx.close();
+}, 30_000);

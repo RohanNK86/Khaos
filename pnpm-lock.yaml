@@ -87,7 +87,17 @@ importers:
 
   apps/voice: {}
 
-  bench: {}
+  bench:
+    dependencies:
+      '@mcpify/contracts':
+        specifier: workspace:*
+        version: link:../packages/contracts
+      '@mcpify/engine':
+        specifier: workspace:*
+        version: link:../packages/engine
+      playwright:
+        specifier: 1.65.1
+        version: 1.65.1
 
   packages/agent-ready: {}
 

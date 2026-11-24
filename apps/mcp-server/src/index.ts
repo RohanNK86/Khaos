@@ -40,7 +40,7 @@ export function createMcpHttpApp(opts: ManagerOptions & { registry?: Registry } 
   app.get("/api/runs", (_req, res) => {
     res.json(runs.list().slice(0, 20).map((r) => {
       const tool = runs.toolOf(r.id);
-      return { ...r, toolName: tool?.name, toolTitle: tool?.title, steps: tool?.steps.map((s) => ({ id: s.id, intent: s.intent, risk: s.risk })) ?? [] };
+      return { ...r, blockedRequests: runs.blockedOf(r.id), toolName: tool?.name, toolTitle: tool?.title, steps: tool?.steps.map((s) => ({ id: s.id, intent: s.intent, risk: s.risk })) ?? [] };
     }));
   });
   app.get("/api/receipts/:id", (req, res) => {

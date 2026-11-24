@@ -4,6 +4,7 @@ import { chromium, type Browser, type BrowserContext } from "playwright";
 import { redactInputs, type Need, type Receipt, type Run, type RunStatus, type StepTrace, type Tool } from "@mcpify/contracts";
 import { runTool, type NeedAnswer } from "@mcpify/engine";
 import { createPlaywrightDriver } from "@mcpify/engine/playwright";
+import { installNetworkGuard, type BlockedRequest } from "@mcpify/engine/network-guard";
 import { FsBlobStore, LocalEd25519Signer, issueReceipt, verifyReceipt } from "@mcpify/storage";
 import type { Entry } from "./registry.js";
 import { DATA, p } from "./paths.js";
@@ -20,6 +21,7 @@ interface Live {
   abort: AbortController;
   ctx?: BrowserContext;
   lastActivity: number;
+  blocked: BlockedRequest[];
 }
 
 export interface ManagerOptions {
@@ -52,7 +54,7 @@ export class RunManager {
     const runId = crypto.randomUUID();
     const tool = entry.tool;
     const live: Live = {
-      entry, waiters: [], abort: new AbortController(), lastActivity: Date.now(),
+      entry, waiters: [], abort: new AbortController(), lastActivity: Date.now(), blocked: [],
       run: {
         id: runId, toolId: tool.id, toolVersion: tool.version, mode: "owner", dryRun, status: "running",
         inputsRedacted: redactInputs(tool, inputs), outputs: {}, trace: [], startedAt: new Date().toISOString(),
@@ -63,6 +65,13 @@ export class RunManager {
 
     const browser = await this.getBrowser();
     live.ctx = await browser.newContext({ viewport: { width: 1080, height: 820 } });
+    // third-party sites: block every sending request at the network level too (owner sites trust their own risk labels)
+    if (dryRun && entry.site.mode === "user_only") {
+      live.blocked = await installNetworkGuard(live.ctx, (b) => {
+        console.log(`[dry-run] blocked ${b.method} ${b.url}`);
+        this.changed(live);
+      });
+    }
     const page = await live.ctx.newPage();
     const driver = createPlaywrightDriver(page, { showActions: this.opts.showActions ?? !(this.opts.headless ?? false) });
 
@@ -125,6 +134,10 @@ export class RunManager {
 
   list(): Run[] {
     return [...this.runs.values()].map((l) => l.run).sort((a, b) => b.startedAt.localeCompare(a.startedAt));
+  }
+
+  blockedOf(runId: string): BlockedRequest[] {
+    return this.runs.get(runId)?.blocked ?? [];
   }
 
   toolOf(runId: string): Tool | undefined {

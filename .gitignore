@@ -1,0 +1,11 @@
+node_modules
+dist
+.env
+.data
+.next
+playwright-report
+test-results
+bench/results/raw
+recordings/
+*.local
+.DS_Store

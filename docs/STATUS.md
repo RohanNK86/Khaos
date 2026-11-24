@@ -7,7 +7,7 @@ When marking ✅, fill in the short commit hash and date. Always `git pull --reb
 |---|---|---|---|---|---|---|
 | C0 | Repo scaffold | Subhash | ✅ | 0f88344 | 2026-11-25 | |
 | C1 | Contracts package | Subhash | ✅ | dcf2cbb | 2026-11-25 | zod v4 |
-| C2 | Portal 1 + /__lab | Sinchana | ⬜ | | | |
+| C2 | Portal 1 + /__lab | Sinchana | ✅ | 17e22ef | 2026-11-25 | built by Subhash's session; M1–M5, M7–M10 |
 | C3 | Recorder | Rohan | ⬜ | | | |
 | C4 | Engine + PlaywrightDriver (golden tool passes) | Chaitanya | ⬜ | | | |
 | C5 | API core | Subhash | ⬜ | | | |

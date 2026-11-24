@@ -1,0 +1,1626 @@
+{
+  "id": "5c1a0b6e-0000-4000-8000-000000000001",
+  "siteId": "site-scholarship",
+  "name": "apply_scholarship",
+  "title": "Apply for State Scholarship",
+  "description": "Apply for the Post-Matric Scholarship 2026-27 on the State Scholarship Portal (DEMO). Fills all three pages of the form. It PAUSES for the user's confirmation before sending the OTP and again before the final submission, and asks the user for the OTP (sent to their mobile) and the CAPTCHA shown on the page. Returns application_id.",
+  "version": 1,
+  "status": "approved",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "applicant_name": {
+        "type": "string",
+        "title": "Applicant name"
+      },
+      "date_of_birth": {
+        "type": "string",
+        "format": "date",
+        "title": "Date of birth",
+        "description": "YYYY-MM-DD"
+      },
+      "gender": {
+        "type": "string",
+        "enum": [
+          "Male",
+          "Female",
+          "Other"
+        ],
+        "title": "Gender"
+      },
+      "mobile": {
+        "type": "string",
+        "pattern": "^[6-9]\\d{9}$",
+        "title": "Mobile number",
+        "description": "10 digits; the OTP is sent here"
+      },
+      "email": {
+        "type": "string",
+        "format": "email",
+        "title": "Email"
+      },
+      "course": {
+        "type": "string",
+        "enum": [
+          "B.Sc",
+          "B.Com",
+          "B.A",
+          "B.E",
+          "Diploma"
+        ],
+        "title": "Course"
+      },
+      "year_of_study": {
+        "type": "string",
+        "enum": [
+          "1st Year",
+          "2nd Year",
+          "3rd Year",
+          "4th Year"
+        ],
+        "title": "Year of study"
+      },
+      "institution_name": {
+        "type": "string",
+        "title": "Institution name"
+      },
+      "annual_income": {
+        "type": "integer",
+        "minimum": 0,
+        "title": "Annual family income (Rs)"
+      },
+      "category": {
+        "type": "string",
+        "enum": [
+          "General",
+          "OBC",
+          "SC",
+          "ST"
+        ],
+        "title": "Category"
+      },
+      "declaration": {
+        "type": "boolean",
+        "const": true,
+        "title": "Declaration that the information is true"
+      },
+      "income_certificate": {
+        "type": "string",
+        "default": "sample-income-certificate.pdf",
+        "title": "Income certificate file",
+        "description": "File name in the MCPify file store"
+      }
+    },
+    "required": [
+      "applicant_name",
+      "date_of_birth",
+      "gender",
+      "mobile",
+      "email",
+      "course",
+      "year_of_study",
+      "institution_name",
+      "annual_income",
+      "category",
+      "declaration"
+    ],
+    "additionalProperties": false
+  },
+  "outputs": [
+    "application_id"
+  ],
+  "startUrl": "http://localhost:5101/apply/1",
+  "steps": [
+    {
+      "id": "open_application_form",
+      "intent": "Open the new scholarship application form",
+      "action": {
+        "type": "navigate",
+        "url": "http://localhost:5101/apply/1"
+      },
+      "locators": [],
+      "pre": [],
+      "post": [
+        {
+          "kind": "urlMatches",
+          "pattern": "/apply/1$"
+        },
+        {
+          "kind": "textPresent",
+          "text": "Personal Details"
+        }
+      ],
+      "risk": "read",
+      "repair": "auto"
+    },
+    {
+      "id": "enter_applicant_name",
+      "intent": "Fill the applicant's full name",
+      "action": {
+        "type": "fill",
+        "param": "applicant_name"
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "applicant_name"
+        },
+        {
+          "kind": "id",
+          "value": "ctl00_ContentPlaceHolder1_txtApplicantName"
+        },
+        {
+          "kind": "name",
+          "value": "ctl00$ContentPlaceHolder1$txtApplicantName"
+        },
+        {
+          "kind": "label",
+          "value": "Applicant Name"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "applicant_name"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_txtApplicantName"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtApplicantName"
+            },
+            {
+              "kind": "label",
+              "value": "Applicant Name"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "valueEquals",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "applicant_name"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_txtApplicantName"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtApplicantName"
+            },
+            {
+              "kind": "label",
+              "value": "Applicant Name"
+            }
+          ],
+          "param": "applicant_name"
+        },
+        {
+          "kind": "noErrorNear",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "applicant_name"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_txtApplicantName"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtApplicantName"
+            },
+            {
+              "kind": "label",
+              "value": "Applicant Name"
+            }
+          ]
+        }
+      ],
+      "risk": "fill",
+      "repair": "auto"
+    },
+    {
+      "id": "enter_date_of_birth",
+      "intent": "Fill the applicant's date of birth",
+      "action": {
+        "type": "fill",
+        "param": "date_of_birth"
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "date_of_birth"
+        },
+        {
+          "kind": "id",
+          "value": "ctl00_ContentPlaceHolder1_txtDOB"
+        },
+        {
+          "kind": "name",
+          "value": "ctl00$ContentPlaceHolder1$txtDOB"
+        },
+        {
+          "kind": "label",
+          "value": "Date of Birth"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "date_of_birth"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_txtDOB"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtDOB"
+            },
+            {
+              "kind": "label",
+              "value": "Date of Birth"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "valueEquals",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "date_of_birth"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_txtDOB"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtDOB"
+            },
+            {
+              "kind": "label",
+              "value": "Date of Birth"
+            }
+          ],
+          "param": "date_of_birth"
+        },
+        {
+          "kind": "noErrorNear",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "date_of_birth"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_txtDOB"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtDOB"
+            },
+            {
+              "kind": "label",
+              "value": "Date of Birth"
+            }
+          ]
+        }
+      ],
+      "risk": "fill",
+      "repair": "auto"
+    },
+    {
+      "id": "select_gender",
+      "intent": "Select the applicant's gender",
+      "action": {
+        "type": "select",
+        "param": "gender"
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "gender"
+        },
+        {
+          "kind": "id",
+          "value": "ctl00_ContentPlaceHolder1_ddlGender"
+        },
+        {
+          "kind": "name",
+          "value": "ctl00$ContentPlaceHolder1$ddlGender"
+        },
+        {
+          "kind": "label",
+          "value": "Gender"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "gender"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_ddlGender"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$ddlGender"
+            },
+            {
+              "kind": "label",
+              "value": "Gender"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "valueEquals",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "gender"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_ddlGender"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$ddlGender"
+            },
+            {
+              "kind": "label",
+              "value": "Gender"
+            }
+          ],
+          "param": "gender"
+        },
+        {
+          "kind": "noErrorNear",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "gender"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_ddlGender"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$ddlGender"
+            },
+            {
+              "kind": "label",
+              "value": "Gender"
+            }
+          ]
+        }
+      ],
+      "risk": "fill",
+      "repair": "auto"
+    },
+    {
+      "id": "enter_mobile",
+      "intent": "Fill the applicant's mobile number",
+      "action": {
+        "type": "fill",
+        "param": "mobile"
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "mobile"
+        },
+        {
+          "kind": "id",
+          "value": "ctl00_ContentPlaceHolder1_txtMobile"
+        },
+        {
+          "kind": "name",
+          "value": "ctl00$ContentPlaceHolder1$txtMobile"
+        },
+        {
+          "kind": "label",
+          "value": "Mobile Number"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "mobile"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_txtMobile"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtMobile"
+            },
+            {
+              "kind": "label",
+              "value": "Mobile Number"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "valueEquals",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "mobile"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_txtMobile"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtMobile"
+            },
+            {
+              "kind": "label",
+              "value": "Mobile Number"
+            }
+          ],
+          "param": "mobile"
+        },
+        {
+          "kind": "noErrorNear",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "mobile"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_txtMobile"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtMobile"
+            },
+            {
+              "kind": "label",
+              "value": "Mobile Number"
+            }
+          ]
+        }
+      ],
+      "risk": "fill",
+      "repair": "auto"
+    },
+    {
+      "id": "enter_email",
+      "intent": "Fill the applicant's email address",
+      "action": {
+        "type": "fill",
+        "param": "email"
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "email"
+        },
+        {
+          "kind": "id",
+          "value": "ctl00_ContentPlaceHolder1_txtEmail"
+        },
+        {
+          "kind": "name",
+          "value": "ctl00$ContentPlaceHolder1$txtEmail"
+        },
+        {
+          "kind": "label",
+          "value": "Email ID"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "email"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_txtEmail"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtEmail"
+            },
+            {
+              "kind": "label",
+              "value": "Email ID"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "valueEquals",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "email"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_txtEmail"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtEmail"
+            },
+            {
+              "kind": "label",
+              "value": "Email ID"
+            }
+          ],
+          "param": "email"
+        },
+        {
+          "kind": "noErrorNear",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "email"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_txtEmail"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtEmail"
+            },
+            {
+              "kind": "label",
+              "value": "Email ID"
+            }
+          ]
+        }
+      ],
+      "risk": "fill",
+      "repair": "auto"
+    },
+    {
+      "id": "continue_to_academic_details",
+      "intent": "Save personal details and go to the academic details page",
+      "action": {
+        "type": "click"
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "next_1"
+        },
+        {
+          "kind": "id",
+          "value": "ctl00_ContentPlaceHolder1_btnNext1"
+        },
+        {
+          "kind": "role",
+          "role": "button",
+          "name": "Next"
+        },
+        {
+          "kind": "text",
+          "value": "Next"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "next_1"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_btnNext1"
+            },
+            {
+              "kind": "role",
+              "role": "button",
+              "name": "Next"
+            },
+            {
+              "kind": "text",
+              "value": "Next"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "urlMatches",
+          "pattern": "/apply/2$"
+        }
+      ],
+      "risk": "fill",
+      "repair": "auto",
+      "timeoutMs": 15000
+    },
+    {
+      "id": "select_course",
+      "intent": "Select the course of study",
+      "action": {
+        "type": "select",
+        "param": "course"
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "course"
+        },
+        {
+          "kind": "id",
+          "value": "ctl00_ContentPlaceHolder1_ddlCourse"
+        },
+        {
+          "kind": "name",
+          "value": "ctl00$ContentPlaceHolder1$ddlCourse"
+        },
+        {
+          "kind": "label",
+          "value": "Course"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "course"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_ddlCourse"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$ddlCourse"
+            },
+            {
+              "kind": "label",
+              "value": "Course"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "valueEquals",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "course"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_ddlCourse"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$ddlCourse"
+            },
+            {
+              "kind": "label",
+              "value": "Course"
+            }
+          ],
+          "param": "course"
+        },
+        {
+          "kind": "noErrorNear",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "course"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_ddlCourse"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$ddlCourse"
+            },
+            {
+              "kind": "label",
+              "value": "Course"
+            }
+          ]
+        }
+      ],
+      "risk": "fill",
+      "repair": "auto"
+    },
+    {
+      "id": "select_year_of_study",
+      "intent": "Select the year of study",
+      "action": {
+        "type": "select",
+        "param": "year_of_study"
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "year_of_study"
+        },
+        {
+          "kind": "id",
+          "value": "ctl00_ContentPlaceHolder1_ddlYear"
+        },
+        {
+          "kind": "name",
+          "value": "ctl00$ContentPlaceHolder1$ddlYear"
+        },
+        {
+          "kind": "label",
+          "value": "Year of Study"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "year_of_study"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_ddlYear"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$ddlYear"
+            },
+            {
+              "kind": "label",
+              "value": "Year of Study"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "valueEquals",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "year_of_study"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_ddlYear"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$ddlYear"
+            },
+            {
+              "kind": "label",
+              "value": "Year of Study"
+            }
+          ],
+          "param": "year_of_study"
+        },
+        {
+          "kind": "noErrorNear",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "year_of_study"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_ddlYear"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$ddlYear"
+            },
+            {
+              "kind": "label",
+              "value": "Year of Study"
+            }
+          ]
+        }
+      ],
+      "risk": "fill",
+      "repair": "auto"
+    },
+    {
+      "id": "enter_institution_name",
+      "intent": "Fill the institution name",
+      "action": {
+        "type": "fill",
+        "param": "institution_name"
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "institution_name"
+        },
+        {
+          "kind": "id",
+          "value": "ctl00_ContentPlaceHolder1_txtInstitution"
+        },
+        {
+          "kind": "name",
+          "value": "ctl00$ContentPlaceHolder1$txtInstitution"
+        },
+        {
+          "kind": "label",
+          "value": "Institution Name"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "institution_name"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_txtInstitution"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtInstitution"
+            },
+            {
+              "kind": "label",
+              "value": "Institution Name"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "valueEquals",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "institution_name"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_txtInstitution"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtInstitution"
+            },
+            {
+              "kind": "label",
+              "value": "Institution Name"
+            }
+          ],
+          "param": "institution_name"
+        },
+        {
+          "kind": "noErrorNear",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "institution_name"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_txtInstitution"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtInstitution"
+            },
+            {
+              "kind": "label",
+              "value": "Institution Name"
+            }
+          ]
+        }
+      ],
+      "risk": "fill",
+      "repair": "auto"
+    },
+    {
+      "id": "enter_annual_income",
+      "intent": "Fill the applicant's annual family income",
+      "action": {
+        "type": "fill",
+        "param": "annual_income"
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "annual_income"
+        },
+        {
+          "kind": "id",
+          "value": "ctl00_ContentPlaceHolder1_txtIncome"
+        },
+        {
+          "kind": "name",
+          "value": "ctl00$ContentPlaceHolder1$txtIncome"
+        },
+        {
+          "kind": "label",
+          "value": "Annual family income"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "annual_income"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_txtIncome"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtIncome"
+            },
+            {
+              "kind": "label",
+              "value": "Annual family income"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "valueEquals",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "annual_income"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_txtIncome"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtIncome"
+            },
+            {
+              "kind": "label",
+              "value": "Annual family income"
+            }
+          ],
+          "param": "annual_income"
+        },
+        {
+          "kind": "noErrorNear",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "annual_income"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_txtIncome"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtIncome"
+            },
+            {
+              "kind": "label",
+              "value": "Annual family income"
+            }
+          ]
+        }
+      ],
+      "risk": "fill",
+      "repair": "auto"
+    },
+    {
+      "id": "select_category",
+      "intent": "Select the applicant's category",
+      "action": {
+        "type": "select",
+        "param": "category"
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "category"
+        },
+        {
+          "kind": "id",
+          "value": "ctl00_ContentPlaceHolder1_ddlCategory"
+        },
+        {
+          "kind": "name",
+          "value": "ctl00$ContentPlaceHolder1$ddlCategory"
+        },
+        {
+          "kind": "label",
+          "value": "Category"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "category"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_ddlCategory"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$ddlCategory"
+            },
+            {
+              "kind": "label",
+              "value": "Category"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "valueEquals",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "category"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_ddlCategory"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$ddlCategory"
+            },
+            {
+              "kind": "label",
+              "value": "Category"
+            }
+          ],
+          "param": "category"
+        },
+        {
+          "kind": "noErrorNear",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "category"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_ddlCategory"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$ddlCategory"
+            },
+            {
+              "kind": "label",
+              "value": "Category"
+            }
+          ]
+        }
+      ],
+      "risk": "fill",
+      "repair": "auto"
+    },
+    {
+      "id": "accept_declaration",
+      "intent": "Tick the declaration that the information is true",
+      "action": {
+        "type": "check",
+        "param": "declaration"
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "declaration"
+        },
+        {
+          "kind": "id",
+          "value": "ctl00_ContentPlaceHolder1_chkDeclare"
+        },
+        {
+          "kind": "name",
+          "value": "ctl00$ContentPlaceHolder1$chkDeclare"
+        },
+        {
+          "kind": "label",
+          "value": "I declare the above information is true"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "declaration"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_chkDeclare"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$chkDeclare"
+            },
+            {
+              "kind": "label",
+              "value": "I declare the above information is true"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "valueEquals",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "declaration"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_chkDeclare"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$chkDeclare"
+            },
+            {
+              "kind": "label",
+              "value": "I declare the above information is true"
+            }
+          ],
+          "param": "declaration"
+        },
+        {
+          "kind": "noErrorNear",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "declaration"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_chkDeclare"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$chkDeclare"
+            },
+            {
+              "kind": "label",
+              "value": "I declare the above information is true"
+            }
+          ]
+        }
+      ],
+      "risk": "fill",
+      "repair": "auto"
+    },
+    {
+      "id": "continue_to_documents",
+      "intent": "Save academic details and go to the documents page",
+      "action": {
+        "type": "click"
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "next_2"
+        },
+        {
+          "kind": "id",
+          "value": "ctl00_ContentPlaceHolder1_btnNext2"
+        },
+        {
+          "kind": "role",
+          "role": "button",
+          "name": "Next"
+        },
+        {
+          "kind": "text",
+          "value": "Next"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "next_2"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_btnNext2"
+            },
+            {
+              "kind": "role",
+              "role": "button",
+              "name": "Next"
+            },
+            {
+              "kind": "text",
+              "value": "Next"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "urlMatches",
+          "pattern": "/apply/3$"
+        }
+      ],
+      "risk": "fill",
+      "repair": "auto",
+      "timeoutMs": 15000
+    },
+    {
+      "id": "send_otp",
+      "intent": "Send an OTP to the applicant's registered mobile number",
+      "action": {
+        "type": "click"
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "send_otp"
+        },
+        {
+          "kind": "id",
+          "value": "ctl00_ContentPlaceHolder1_btnSendOtp"
+        },
+        {
+          "kind": "role",
+          "role": "button",
+          "name": "Send OTP"
+        },
+        {
+          "kind": "text",
+          "value": "Send OTP"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "send_otp"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_btnSendOtp"
+            },
+            {
+              "kind": "role",
+              "role": "button",
+              "name": "Send OTP"
+            },
+            {
+              "kind": "text",
+              "value": "Send OTP"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "textPresent",
+          "text": "OTP has been sent"
+        }
+      ],
+      "risk": "commit",
+      "repair": "human",
+      "timeoutMs": 15000
+    },
+    {
+      "id": "enter_otp",
+      "intent": "Enter the OTP the applicant received by SMS",
+      "action": {
+        "type": "userInput",
+        "param": "otp",
+        "prompt": "Please tell me the 6-digit OTP sent to your mobile number."
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "otp"
+        },
+        {
+          "kind": "id",
+          "value": "ctl00_ContentPlaceHolder1_txtOTP"
+        },
+        {
+          "kind": "name",
+          "value": "ctl00$ContentPlaceHolder1$txtOTP"
+        },
+        {
+          "kind": "label",
+          "value": "Enter OTP"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "otp"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_txtOTP"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtOTP"
+            },
+            {
+              "kind": "label",
+              "value": "Enter OTP"
+            }
+          ]
+        }
+      ],
+      "post": [],
+      "risk": "auth",
+      "repair": "human",
+      "sensitive": true
+    },
+    {
+      "id": "upload_income_certificate",
+      "intent": "Upload the income certificate",
+      "action": {
+        "type": "upload",
+        "param": "income_certificate"
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "income_certificate"
+        },
+        {
+          "kind": "id",
+          "value": "ctl00_ContentPlaceHolder1_fuIncomeCert"
+        },
+        {
+          "kind": "name",
+          "value": "ctl00$ContentPlaceHolder1$fuIncomeCert"
+        },
+        {
+          "kind": "label",
+          "value": "Income Certificate (PDF/JPG, max 1 MB)"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "income_certificate"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_fuIncomeCert"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$fuIncomeCert"
+            }
+          ]
+        }
+      ],
+      "post": [],
+      "risk": "fill",
+      "repair": "auto"
+    },
+    {
+      "id": "enter_captcha",
+      "intent": "Enter the CAPTCHA characters shown on the page",
+      "action": {
+        "type": "userInput",
+        "param": "captcha",
+        "prompt": "Please read me the 5 CAPTCHA characters shown on the portal page."
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "captcha"
+        },
+        {
+          "kind": "id",
+          "value": "ctl00_ContentPlaceHolder1_txtCaptcha"
+        },
+        {
+          "kind": "name",
+          "value": "ctl00$ContentPlaceHolder1$txtCaptcha"
+        },
+        {
+          "kind": "label",
+          "value": "Type the characters shown"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "captcha"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_txtCaptcha"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtCaptcha"
+            },
+            {
+              "kind": "label",
+              "value": "Type the characters shown"
+            }
+          ]
+        }
+      ],
+      "post": [],
+      "risk": "auth",
+      "repair": "human",
+      "sensitive": true
+    },
+    {
+      "id": "submit_application",
+      "intent": "Submit the scholarship application",
+      "action": {
+        "type": "click"
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "submit_application"
+        },
+        {
+          "kind": "id",
+          "value": "ctl00_ContentPlaceHolder1_btnSubmit"
+        },
+        {
+          "kind": "role",
+          "role": "button",
+          "name": "Submit Application"
+        },
+        {
+          "kind": "text",
+          "value": "Submit Application"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "submit_application"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_btnSubmit"
+            },
+            {
+              "kind": "role",
+              "role": "button",
+              "name": "Submit Application"
+            },
+            {
+              "kind": "text",
+              "value": "Submit Application"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "urlMatches",
+          "pattern": "/apply/done$"
+        }
+      ],
+      "risk": "commit",
+      "repair": "human",
+      "timeoutMs": 15000
+    },
+    {
+      "id": "read_application_id",
+      "intent": "Read the Application ID from the confirmation page",
+      "action": {
+        "type": "extract"
+      },
+      "locators": [
+        {
+          "kind": "id",
+          "value": "ctl00_ContentPlaceHolder1_lblApplicationId"
+        },
+        {
+          "kind": "near",
+          "anchorText": "Application ID",
+          "tag": "b"
+        }
+      ],
+      "pre": [],
+      "post": [
+        {
+          "kind": "extract",
+          "locators": [
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_lblApplicationId"
+            },
+            {
+              "kind": "near",
+              "anchorText": "Application ID:",
+              "tag": "span"
+            }
+          ],
+          "as": "application_id",
+          "pattern": "SSP-\\d{4}-\\d{6}"
+        }
+      ],
+      "risk": "read",
+      "repair": "auto"
+    }
+  ],
+  "createdAt": "2026-11-25T00:00:00.000Z",
+  "updatedAt": "2026-11-25T00:00:00.000Z"
+}

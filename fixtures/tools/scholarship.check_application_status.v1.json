@@ -1,0 +1,340 @@
+{
+  "id": "5c1a0b6e-0000-4000-8000-000000000002",
+  "siteId": "site-scholarship",
+  "name": "check_application_status",
+  "title": "Check scholarship application status",
+  "description": "Look up the status of a scholarship application on the State Scholarship Portal (DEMO) with the Application ID and date of birth. Read-only: nothing is submitted, no pauses. Returns application_status.",
+  "version": 1,
+  "status": "approved",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "application_id": {
+        "type": "string",
+        "pattern": "^SSP-\\d{4}-\\d{6}$",
+        "title": "Application ID"
+      },
+      "date_of_birth": {
+        "type": "string",
+        "format": "date",
+        "title": "Date of birth",
+        "description": "YYYY-MM-DD"
+      }
+    },
+    "required": [
+      "application_id",
+      "date_of_birth"
+    ],
+    "additionalProperties": false
+  },
+  "outputs": [
+    "application_status"
+  ],
+  "startUrl": "http://localhost:5101/status",
+  "steps": [
+    {
+      "id": "open_status_page",
+      "intent": "Open the application status page",
+      "action": {
+        "type": "navigate",
+        "url": "http://localhost:5101/status"
+      },
+      "locators": [],
+      "pre": [],
+      "post": [
+        {
+          "kind": "textPresent",
+          "text": "Check Application Status"
+        }
+      ],
+      "risk": "read",
+      "repair": "auto"
+    },
+    {
+      "id": "enter_application_id",
+      "intent": "Fill the Application ID",
+      "action": {
+        "type": "fill",
+        "param": "application_id"
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "application_id"
+        },
+        {
+          "kind": "id",
+          "value": "ctl00_ContentPlaceHolder1_txtAppId"
+        },
+        {
+          "kind": "name",
+          "value": "ctl00$ContentPlaceHolder1$txtAppId"
+        },
+        {
+          "kind": "label",
+          "value": "Application ID"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "application_id"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_txtAppId"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtAppId"
+            },
+            {
+              "kind": "label",
+              "value": "Application ID"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "valueEquals",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "application_id"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_txtAppId"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtAppId"
+            },
+            {
+              "kind": "label",
+              "value": "Application ID"
+            }
+          ],
+          "param": "application_id"
+        },
+        {
+          "kind": "noErrorNear",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "application_id"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_txtAppId"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtAppId"
+            },
+            {
+              "kind": "label",
+              "value": "Application ID"
+            }
+          ]
+        }
+      ],
+      "risk": "fill",
+      "repair": "auto"
+    },
+    {
+      "id": "enter_date_of_birth",
+      "intent": "Fill the applicant's date of birth",
+      "action": {
+        "type": "fill",
+        "param": "date_of_birth"
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "date_of_birth"
+        },
+        {
+          "kind": "id",
+          "value": "ctl00_ContentPlaceHolder1_txtStatusDOB"
+        },
+        {
+          "kind": "name",
+          "value": "ctl00$ContentPlaceHolder1$txtStatusDOB"
+        },
+        {
+          "kind": "label",
+          "value": "Date of Birth"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "date_of_birth"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_txtStatusDOB"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtStatusDOB"
+            },
+            {
+              "kind": "label",
+              "value": "Date of Birth"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "valueEquals",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "date_of_birth"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_txtStatusDOB"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtStatusDOB"
+            },
+            {
+              "kind": "label",
+              "value": "Date of Birth"
+            }
+          ],
+          "param": "date_of_birth"
+        },
+        {
+          "kind": "noErrorNear",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "date_of_birth"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_txtStatusDOB"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtStatusDOB"
+            },
+            {
+              "kind": "label",
+              "value": "Date of Birth"
+            }
+          ]
+        }
+      ],
+      "risk": "fill",
+      "repair": "auto"
+    },
+    {
+      "id": "check_status",
+      "intent": "Look up the status",
+      "action": {
+        "type": "click"
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "check"
+        },
+        {
+          "kind": "id",
+          "value": "ctl00_ContentPlaceHolder1_btnCheck"
+        },
+        {
+          "kind": "role",
+          "role": "button",
+          "name": "Check Status"
+        },
+        {
+          "kind": "text",
+          "value": "Check Status"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "check"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_btnCheck"
+            },
+            {
+              "kind": "role",
+              "role": "button",
+              "name": "Check Status"
+            },
+            {
+              "kind": "text",
+              "value": "Check Status"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_lblStatus"
+            }
+          ]
+        }
+      ],
+      "risk": "read",
+      "repair": "auto",
+      "timeoutMs": 15000
+    },
+    {
+      "id": "read_status",
+      "intent": "Read the application status",
+      "action": {
+        "type": "extract"
+      },
+      "locators": [
+        {
+          "kind": "id",
+          "value": "ctl00_ContentPlaceHolder1_lblStatus"
+        }
+      ],
+      "pre": [],
+      "post": [
+        {
+          "kind": "extract",
+          "locators": [
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_lblStatus"
+            }
+          ],
+          "as": "application_status"
+        }
+      ],
+      "risk": "read",
+      "repair": "auto"
+    }
+  ],
+  "createdAt": "2026-11-25T00:00:00.000Z",
+  "updatedAt": "2026-11-25T00:00:00.000Z"
+}

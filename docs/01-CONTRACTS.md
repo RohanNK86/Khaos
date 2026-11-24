@@ -2,7 +2,7 @@
 
 Everything shared between people is defined here. `packages/contracts` (Subhash, checkpoint **C1**) implements these as Zod schemas **with exactly these names and fields**. Until C1 lands, other sessions may copy the types below into a local `src/contracts-stub.ts` and switch to `@mcpify/contracts` once it is ✅.
 
-Only Subhash edits this file. Version: **v1**.
+Only Subhash edits this file. Version: **v1.1** (additions in §15).
 
 ---
 
@@ -313,3 +313,11 @@ Each portal exposes (only when `LAB_TOKEN` header `x-lab-token` matches):
 - `POST /__lab/reset` → clears applications, mutations, OTPs.
 - `GET  /__lab/otp?session=<id>` → latest OTP (for automated benchmarks only; humans use `/phone`).
 Every interactive element also gets a stable `data-mcpify="<name>"` attribute in owner mode (`?owner=1` or env `OWNER_MODE=1`). Without it, pages look like untouched legacy HTML.
+
+## 15. Additions in v1.1 (25 Nov, demo sprint)
+- **Risk guidance:** a button that only moves between pages of a draft (portal keeps the data server-side, nothing is final) is `fill`. Anything with an external effect (send OTP, submit, pay, save permanently) is `commit`.
+- **Input schema:** properties may carry `title` (used as the preview label) and `sensitive: true`. Upload params are plain file names from the MCPify file store (`fixtures/files/` for the demo).
+- **Engine (§13):** `Driver.errors?(): Promise<string[]>` (visible validation messages, quoted in failures); `RunHooks.loadFile?(ref)` for uploads; `RunOptions.runId?` and `RunOptions.committedStepIds?` (idempotency on resume). Entry points also include `@mcpify/engine/network-guard` (`installNetworkGuard(ctx)`: aborts every non-GET request) and `@mcpify/engine/in-page` (the plain-JS resolver).
+- **MCP (§12):** every site tool accepts `mcpify_dry_run: boolean`; sites with `mode: "user_only"` are always dry-run and get the network guard. Fourth fixed tool: `mcpify_verify_receipt({ receipt_id })` → `{ valid, ... }`.
+- **Until the API exists**, approved tools are JSON files: `fixtures/tools/*.json` and `.data/tools/approved/*.json`; sites in `fixtures/sites.json`.
+- **Portal hooks (§14):** `GET /__lab/captcha?session=<id>`; `session=latest` means the session that last opened page 3 (tests only).

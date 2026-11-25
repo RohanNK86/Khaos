@@ -28,6 +28,8 @@ async function main() {
       events[events.length - 1] = event;
     } else events.push(event);
   });
+  // tsx/esbuild adds __name() helpers to serialized functions; define it in the page or capture throws
+  await context.addInitScript({ content: 'window.__name = window.__name || ((f) => f);' });
   await context.addInitScript(installCapture);
   const page = await context.newPage();
   page.on('framenavigated', frame => {

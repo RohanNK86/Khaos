@@ -1,0 +1,115 @@
+[
+  {
+    "id": "aud-0001",
+    "at": "2026-11-25T10:02:00.000Z",
+    "siteId": "site-scholarship",
+    "toolId": "5c1a0b6e-0000-4000-8000-000000000001",
+    "actor": "owner",
+    "action": "tool.approved",
+    "detail": "apply_scholarship v1 approved"
+  },
+  {
+    "id": "aud-0002",
+    "at": "2026-11-25T10:06:00.000Z",
+    "siteId": "site-scholarship",
+    "toolId": "5c1a0b6e-0000-4000-8000-000000000002",
+    "actor": "owner",
+    "action": "tool.approved",
+    "detail": "check_application_status v1 approved"
+  },
+  {
+    "id": "aud-0003",
+    "at": "2026-11-25T11:40:00.000Z",
+    "siteId": "site-scholarship",
+    "toolId": "5c1a0b6e-0000-4000-8000-000000000001",
+    "runId": "run-0001-succeeded",
+    "actor": "agent",
+    "action": "run.started",
+    "detail": "scholarship__apply_scholarship called by voice agent"
+  },
+  {
+    "id": "aud-0004",
+    "at": "2026-11-25T11:40:36.000Z",
+    "siteId": "site-scholarship",
+    "toolId": "5c1a0b6e-0000-4000-8000-000000000001",
+    "runId": "run-0001-succeeded",
+    "actor": "user",
+    "action": "run.confirmed",
+    "detail": "User approved: send_otp"
+  },
+  {
+    "id": "aud-0005",
+    "at": "2026-11-25T11:40:54.000Z",
+    "siteId": "site-scholarship",
+    "toolId": "5c1a0b6e-0000-4000-8000-000000000001",
+    "runId": "run-0001-succeeded",
+    "actor": "user",
+    "action": "run.user_input",
+    "detail": "OTP provided (value not stored)"
+  },
+  {
+    "id": "aud-0006",
+    "at": "2026-11-25T11:41:36.000Z",
+    "siteId": "site-scholarship",
+    "toolId": "5c1a0b6e-0000-4000-8000-000000000001",
+    "runId": "run-0001-succeeded",
+    "actor": "system",
+    "action": "receipt.issued",
+    "detail": "rcpt-0001"
+  },
+  {
+    "id": "aud-0007",
+    "at": "2026-11-25T12:00:36.000Z",
+    "siteId": "site-scholarship",
+    "toolId": "5c1a0b6e-0000-4000-8000-000000000001",
+    "runId": "run-0003-dryrun",
+    "actor": "system",
+    "action": "run.dry_run_complete",
+    "detail": "Blocked 1 sending request"
+  },
+  {
+    "id": "aud-0008",
+    "at": "2026-11-25T12:10:18.000Z",
+    "siteId": "site-scholarship",
+    "toolId": "5c1a0b6e-0000-4000-8000-000000000002",
+    "runId": "run-0004-failed",
+    "actor": "system",
+    "action": "run.failed",
+    "detail": "enter_application_id: precondition failed"
+  },
+  {
+    "id": "aud-0009",
+    "at": "2026-11-25T12:20:00.000Z",
+    "siteId": "site-scholarship",
+    "toolId": "5c1a0b6e-0000-4000-8000-000000000001",
+    "actor": "system",
+    "action": "repair.auto_applied",
+    "detail": "enter_annual_income → v2"
+  },
+  {
+    "id": "aud-0010",
+    "at": "2026-11-25T12:50:00.000Z",
+    "siteId": "site-scholarship",
+    "toolId": "5c1a0b6e-0000-4000-8000-000000000001",
+    "actor": "system",
+    "action": "repair.proposed",
+    "detail": "submit_application needs owner review"
+  },
+  {
+    "id": "aud-0011",
+    "at": "2026-11-25T13:20:00.000Z",
+    "siteId": "site-fees",
+    "toolId": "5c1a0b6e-0000-4000-8000-000000000010",
+    "actor": "owner",
+    "action": "tool.created",
+    "detail": "check_dues v1 draft from rec-fees-dues-01"
+  },
+  {
+    "id": "aud-0012",
+    "at": "2026-11-25T13:30:00.000Z",
+    "siteId": "site-buspass",
+    "actor": "owner",
+    "action": "site.registered",
+    "detail": "user_only mode"
+  }
+]

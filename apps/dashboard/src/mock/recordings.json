@@ -1,0 +1,80 @@
+[
+  {
+    "id": "rec-scholarship-apply-01",
+    "siteOrigin": "http://localhost:5101",
+    "startUrl": "http://localhost:5101/apply/1",
+    "taskName": "apply_scholarship",
+    "createdAt": "2026-11-25T09:30:00.000Z",
+    "events": [
+      {
+        "seq": 1,
+        "t": 0,
+        "type": "navigate",
+        "url": "http://localhost:5101/apply/1"
+      },
+      {
+        "seq": 2,
+        "t": 1800,
+        "type": "input",
+        "url": "http://localhost:5101/apply/1",
+        "value": "Kavya Demo",
+        "target": {
+          "tag": "input",
+          "type": "text",
+          "testid": "applicant_name",
+          "classes": [
+            "form-control"
+          ],
+          "label": "Applicant name",
+          "cssPath": "#applicant_name",
+          "xpath": "//input[@id='applicant_name']"
+        }
+      },
+      {
+        "seq": 3,
+        "t": 5200,
+        "type": "click",
+        "url": "http://localhost:5101/apply/1",
+        "target": {
+          "tag": "button",
+          "text": "Continue",
+          "classes": [
+            "btn"
+          ],
+          "cssPath": "form > button",
+          "xpath": "//form/button"
+        }
+      }
+    ]
+  },
+  {
+    "id": "rec-scholarship-status-01",
+    "siteOrigin": "http://localhost:5101",
+    "startUrl": "http://localhost:5101/status",
+    "taskName": "check_application_status",
+    "createdAt": "2026-11-25T09:40:00.000Z",
+    "events": [
+      {
+        "seq": 1,
+        "t": 0,
+        "type": "navigate",
+        "url": "http://localhost:5101/status"
+      }
+    ]
+  },
+  {
+    "id": "rec-fees-dues-01",
+    "siteOrigin": "http://localhost:5102",
+    "startUrl": "http://localhost:5102/dues",
+    "taskName": "check_dues",
+    "createdAt": "2026-11-25T13:15:00.000Z",
+    "events": [
+      {
+        "seq": 1,
+        "t": 0,
+        "type": "navigate",
+        "url": "http://localhost:5102/dues"
+      }
+    ]
+  }
+]

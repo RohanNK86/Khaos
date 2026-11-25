@@ -1,0 +1,296 @@
+[
+  {
+    "id": "rep-0001-pending",
+    "toolId": "5c1a0b6e-0000-4000-8000-000000000001",
+    "fromVersion": 2,
+    "stepId": "submit_application",
+    "reason": "pre visible failed: button text changed from \"Submit Application\" to \"Submit my application\"",
+    "evidence": {
+      "domSnapshotBlobId": "blob-snapshot-0101",
+      "failedChecks": [
+        "pre[0] visible: 0 of 4 locators resolved"
+      ]
+    },
+    "proposedStep": {
+      "id": "submit_application",
+      "intent": "Submit the scholarship application",
+      "action": {
+        "type": "click"
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "submit_application"
+        },
+        {
+          "kind": "role",
+          "role": "button",
+          "name": "Submit my application"
+        },
+        {
+          "kind": "text",
+          "value": "Submit my application"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "submit_application"
+            },
+            {
+              "kind": "role",
+              "role": "button",
+              "name": "Submit my application"
+            },
+            {
+              "kind": "text",
+              "value": "Submit my application"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "urlMatches",
+          "pattern": "/apply/done$"
+        }
+      ],
+      "risk": "commit",
+      "repair": "human",
+      "timeoutMs": 15000
+    },
+    "method": "heuristic",
+    "confidence": 0.74,
+    "sandbox": {
+      "passed": true,
+      "detail": "Replayed on a sandbox copy of page 3; button found by role, URL matched /apply/done$"
+    },
+    "reversible": false,
+    "status": "pending",
+    "createdAt": "2026-11-25T12:50:00.000Z"
+  },
+  {
+    "id": "rep-0002-auto",
+    "toolId": "5c1a0b6e-0000-4000-8000-000000000001",
+    "fromVersion": 1,
+    "stepId": "enter_annual_income",
+    "reason": "pre visible failed: testid annual_income no longer exists",
+    "evidence": {
+      "domSnapshotBlobId": "blob-snapshot-0102",
+      "failedChecks": [
+        "pre[0] visible: testid \"annual_income\" matched 0 elements"
+      ]
+    },
+    "proposedStep": {
+      "id": "enter_annual_income",
+      "intent": "Fill the applicant's annual family income",
+      "action": {
+        "type": "fill",
+        "param": "annual_income"
+      },
+      "locators": [
+        {
+          "kind": "label",
+          "value": "Annual family income"
+        },
+        {
+          "kind": "testid",
+          "value": "family_income"
+        },
+        {
+          "kind": "name",
+          "value": "ctl00$ContentPlaceHolder1$txtIncome"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "label",
+              "value": "Annual family income"
+            },
+            {
+              "kind": "testid",
+              "value": "family_income"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtIncome"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "valueEquals",
+          "locators": [
+            {
+              "kind": "label",
+              "value": "Annual family income"
+            },
+            {
+              "kind": "testid",
+              "value": "family_income"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtIncome"
+            }
+          ],
+          "param": "annual_income"
+        },
+        {
+          "kind": "noErrorNear",
+          "locators": [
+            {
+              "kind": "label",
+              "value": "Annual family income"
+            },
+            {
+              "kind": "testid",
+              "value": "family_income"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtIncome"
+            }
+          ]
+        }
+      ],
+      "risk": "fill",
+      "repair": "auto"
+    },
+    "method": "locator_fallback",
+    "confidence": 0.93,
+    "sandbox": {
+      "passed": true,
+      "detail": "Field found by label; valueEquals passed with 180000"
+    },
+    "reversible": true,
+    "status": "auto_applied",
+    "createdAt": "2026-11-25T12:19:00.000Z"
+  },
+  {
+    "id": "rep-0003-rerecord",
+    "toolId": "5c1a0b6e-0000-4000-8000-000000000002",
+    "fromVersion": 1,
+    "stepId": "enter_application_id",
+    "reason": "page now asks for a new required field (Registered mobile) before the Application ID",
+    "evidence": {
+      "domSnapshotBlobId": "blob-snapshot-0004",
+      "failedChecks": [
+        "pre[0] visible: 0 of 4 locators resolved",
+        "new required input detected: mobile"
+      ]
+    },
+    "proposedStep": {
+      "id": "enter_application_id",
+      "intent": "Fill the Application ID",
+      "action": {
+        "type": "fill",
+        "param": "application_id"
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "application_id"
+        },
+        {
+          "kind": "id",
+          "value": "ctl00_ContentPlaceHolder1_txtAppId"
+        },
+        {
+          "kind": "name",
+          "value": "ctl00$ContentPlaceHolder1$txtAppId"
+        },
+        {
+          "kind": "label",
+          "value": "Application ID"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "application_id"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_txtAppId"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtAppId"
+            },
+            {
+              "kind": "label",
+              "value": "Application ID"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "valueEquals",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "application_id"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_txtAppId"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtAppId"
+            },
+            {
+              "kind": "label",
+              "value": "Application ID"
+            }
+          ],
+          "param": "application_id"
+        },
+        {
+          "kind": "noErrorNear",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "application_id"
+            },
+            {
+              "kind": "id",
+              "value": "ctl00_ContentPlaceHolder1_txtAppId"
+            },
+            {
+              "kind": "name",
+              "value": "ctl00$ContentPlaceHolder1$txtAppId"
+            },
+            {
+              "kind": "label",
+              "value": "Application ID"
+            }
+          ]
+        }
+      ],
+      "risk": "fill",
+      "repair": "auto"
+    },
+    "method": "llm",
+    "confidence": 0.41,
+    "sandbox": {
+      "passed": false,
+      "detail": "Form rejected submission: Registered mobile is required"
+    },
+    "reversible": true,
+    "status": "needs_rerecord",
+    "createdAt": "2026-11-25T12:11:00.000Z"
+  }
+]

@@ -1,0 +1,34 @@
+[
+  {
+    "id": "rcpt-0001",
+    "runId": "run-0001-succeeded",
+    "toolId": "5c1a0b6e-0000-4000-8000-000000000001",
+    "toolVersion": 1,
+    "siteOrigin": "http://localhost:5101",
+    "summary": [
+      {
+        "label": "Applicant name",
+        "value": "Kavya Demo"
+      },
+      {
+        "label": "Course",
+        "value": "B.Sc"
+      },
+      {
+        "label": "Annual family income",
+        "value": "180000"
+      },
+      {
+        "label": "OTP",
+        "value": "•••"
+      }
+    ],
+    "outputs": {
+      "application_id": "SSP-2026-000123"
+    },
+    "traceHash": "9f2c6e1d4b7a8c3e0f5d2a1b6c9e8f7a3d4c5b6a7e8f9d0c1b2a3e4f5d6c7b8a",
+    "issuedAt": "2026-11-25T11:41:36.000Z",
+    "signature": "bW9jay1zaWduYXR1cmUtbm90LXJlYWwtZWQyNTUxOS1kZW1vLW9ubHk=",
+    "keyId": "local-ed25519-1"
+  }
+]

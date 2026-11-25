@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cream: #f8f2e4;
+  --color-ink: #1a1a1a;
+  --color-orange: #fd9b36;
+  --color-accent: #e8590c;
+  --font-display: "Archivo Black", "Arial Black", Impact, system-ui, sans-serif;
+  --font-body: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --shadow-hard: 6px 6px 0 #1a1a1a;
+  --shadow-hard-sm: 3px 3px 0 #1a1a1a;
+}
+
+@layer base {
+  html {
+    font-size: 17px;
+  }
+  body {
+    background: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+  a {
+    text-underline-offset: 3px;
+  }
+}
+
+@layer components {
+  .card {
+    background: #fff;
+    border: 3px solid var(--color-ink);
+    box-shadow: var(--shadow-hard);
+    padding: 1.1rem 1.25rem;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border: 3px solid var(--color-ink);
+    box-shadow: var(--shadow-hard-sm);
+    padding: 0.35rem 0.9rem;
+    font-weight: 700;
+    background: #fff;
+    cursor: pointer;
+    transition: transform 80ms, box-shadow 80ms;
+  }
+  .btn:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0 var(--color-ink);
+  }
+  .btn:active {
+    transform: translate(3px, 3px);
+    box-shadow: none;
+  }
+  .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .btn-primary {
+    background: var(--color-orange);
+  }
+  .btn-danger {
+    background: #f87171;
+  }
+  .badge {
+    display: inline-block;
+    border: 2px solid var(--color-ink);
+    padding: 0 0.5rem;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .code {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    background: #f1ece0;
+    border: 2px solid var(--color-ink);
+    padding: 0.6rem 0.75rem;
+    overflow-x: auto;
+    white-space: pre;
+  }
+  .tbl {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .tbl th {
+    text-align: left;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 3px solid var(--color-ink);
+    padding: 0.5rem 0.6rem;
+  }
+  .tbl td {
+    border-bottom: 1px dashed #b9b2a3;
+    padding: 0.6rem;
+    vertical-align: top;
+  }
+  .input {
+    border: 3px solid var(--color-ink);
+    padding: 0.35rem 0.6rem;
+    background: #fff;
+    font: inherit;
+  }
+}

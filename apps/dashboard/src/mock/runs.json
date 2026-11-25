@@ -1,0 +1,1183 @@
+[
+  {
+    "id": "run-0001-succeeded",
+    "toolId": "5c1a0b6e-0000-4000-8000-000000000001",
+    "toolVersion": 1,
+    "mode": "owner",
+    "dryRun": false,
+    "status": "succeeded",
+    "inputsRedacted": {
+      "applicant_name": "Kavya Demo",
+      "date_of_birth": "2006-04-12",
+      "gender": "Female",
+      "mobile": "9000000001",
+      "email": "kavya@example.com",
+      "course": "B.Sc",
+      "year_of_study": "2nd Year",
+      "institution_name": "Demo Government College",
+      "annual_income": "180000",
+      "category": "General",
+      "income_certificate": "sample-income-certificate.pdf",
+      "otp": "•••",
+      "captcha": "•••"
+    },
+    "outputs": {
+      "application_id": "SSP-2026-000123"
+    },
+    "trace": [
+      {
+        "stepId": "open_application_form",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420
+      },
+      {
+        "stepId": "enter_applicant_name",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "applicant_name"
+        }
+      },
+      {
+        "stepId": "enter_date_of_birth",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "date_of_birth"
+        }
+      },
+      {
+        "stepId": "select_gender",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "gender"
+        }
+      },
+      {
+        "stepId": "enter_mobile",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "mobile"
+        }
+      },
+      {
+        "stepId": "enter_email",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "email"
+        }
+      },
+      {
+        "stepId": "continue_to_academic_details",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "next_1"
+        }
+      },
+      {
+        "stepId": "select_course",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "course"
+        }
+      },
+      {
+        "stepId": "select_year_of_study",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "year_of_study"
+        }
+      },
+      {
+        "stepId": "enter_institution_name",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "institution_name"
+        }
+      },
+      {
+        "stepId": "enter_annual_income",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "annual_income"
+        }
+      },
+      {
+        "stepId": "select_category",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "category"
+        }
+      },
+      {
+        "stepId": "accept_declaration",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "declaration"
+        }
+      },
+      {
+        "stepId": "continue_to_documents",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "next_2"
+        }
+      },
+      {
+        "stepId": "send_otp",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "send_otp"
+        }
+      },
+      {
+        "stepId": "enter_otp",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "otp"
+        }
+      },
+      {
+        "stepId": "upload_income_certificate",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "income_certificate"
+        }
+      },
+      {
+        "stepId": "enter_captcha",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "captcha"
+        }
+      },
+      {
+        "stepId": "submit_application",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "submit_application"
+        }
+      },
+      {
+        "stepId": "read_application_id",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "id",
+          "value": "ctl00_ContentPlaceHolder1_lblApplicationId"
+        }
+      }
+    ],
+    "receiptId": "rcpt-0001",
+    "startedAt": "2026-11-25T11:40:00.000Z",
+    "endedAt": "2026-11-25T11:41:30.000Z"
+  },
+  {
+    "id": "run-0002-awaiting",
+    "toolId": "5c1a0b6e-0000-4000-8000-000000000001",
+    "toolVersion": 2,
+    "mode": "owner",
+    "dryRun": false,
+    "status": "awaiting_confirmation",
+    "inputsRedacted": {
+      "applicant_name": "Arjun Demo",
+      "date_of_birth": "2006-04-12",
+      "gender": "Female",
+      "mobile": "9000000002",
+      "email": "arjun@example.com",
+      "course": "B.Sc",
+      "year_of_study": "2nd Year",
+      "institution_name": "Demo Government College",
+      "annual_income": "180000",
+      "category": "General",
+      "income_certificate": "sample-income-certificate.pdf"
+    },
+    "outputs": {},
+    "need": {
+      "kind": "confirmation",
+      "stepId": "send_otp",
+      "preview": [
+        {
+          "label": "Applicant name",
+          "value": "Arjun Demo"
+        },
+        {
+          "label": "Mobile number",
+          "value": "9000000002"
+        },
+        {
+          "label": "Course",
+          "value": "B.Sc"
+        },
+        {
+          "label": "Annual family income",
+          "value": "180000"
+        }
+      ]
+    },
+    "trace": [
+      {
+        "stepId": "open_application_form",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420
+      },
+      {
+        "stepId": "enter_applicant_name",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "applicant_name"
+        }
+      },
+      {
+        "stepId": "enter_date_of_birth",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "date_of_birth"
+        }
+      },
+      {
+        "stepId": "select_gender",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "gender"
+        }
+      },
+      {
+        "stepId": "enter_mobile",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "mobile"
+        }
+      },
+      {
+        "stepId": "enter_email",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "email"
+        }
+      },
+      {
+        "stepId": "continue_to_academic_details",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "next_1"
+        }
+      },
+      {
+        "stepId": "select_course",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "course"
+        }
+      },
+      {
+        "stepId": "select_year_of_study",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "year_of_study"
+        }
+      },
+      {
+        "stepId": "enter_institution_name",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "institution_name"
+        }
+      },
+      {
+        "stepId": "enter_annual_income",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "label",
+          "value": "Annual family income"
+        }
+      },
+      {
+        "stepId": "select_category",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "category"
+        }
+      },
+      {
+        "stepId": "accept_declaration",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "declaration"
+        }
+      },
+      {
+        "stepId": "continue_to_documents",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "next_2"
+        }
+      },
+      {
+        "stepId": "send_otp",
+        "status": "awaiting",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420
+      }
+    ],
+    "startedAt": "2026-11-25T12:30:00.000Z"
+  },
+  {
+    "id": "run-0003-dryrun",
+    "toolId": "5c1a0b6e-0000-4000-8000-000000000001",
+    "toolVersion": 1,
+    "mode": "user",
+    "dryRun": true,
+    "status": "dry_run_complete",
+    "inputsRedacted": {
+      "applicant_name": "Nila Demo",
+      "date_of_birth": "2006-04-12",
+      "gender": "Female",
+      "mobile": "9000000001",
+      "email": "kavya@example.com",
+      "course": "B.Sc",
+      "year_of_study": "2nd Year",
+      "institution_name": "Demo Government College",
+      "annual_income": "180000",
+      "category": "General",
+      "income_certificate": "sample-income-certificate.pdf"
+    },
+    "outputs": {},
+    "trace": [
+      {
+        "stepId": "open_application_form",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420
+      },
+      {
+        "stepId": "enter_applicant_name",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "applicant_name"
+        }
+      },
+      {
+        "stepId": "enter_date_of_birth",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "date_of_birth"
+        }
+      },
+      {
+        "stepId": "select_gender",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "gender"
+        }
+      },
+      {
+        "stepId": "enter_mobile",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "mobile"
+        }
+      },
+      {
+        "stepId": "enter_email",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "email"
+        }
+      },
+      {
+        "stepId": "continue_to_academic_details",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "next_1"
+        }
+      },
+      {
+        "stepId": "select_course",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "course"
+        }
+      },
+      {
+        "stepId": "select_year_of_study",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "year_of_study"
+        }
+      },
+      {
+        "stepId": "enter_institution_name",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "institution_name"
+        }
+      },
+      {
+        "stepId": "enter_annual_income",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "annual_income"
+        }
+      },
+      {
+        "stepId": "select_category",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "category"
+        }
+      },
+      {
+        "stepId": "accept_declaration",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "declaration"
+        }
+      },
+      {
+        "stepId": "continue_to_documents",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "next_2"
+        }
+      },
+      {
+        "stepId": "send_otp",
+        "status": "blocked_dry_run",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "send_otp"
+        }
+      }
+    ],
+    "startedAt": "2026-11-25T12:00:00.000Z",
+    "endedAt": "2026-11-25T12:00:36.000Z"
+  },
+  {
+    "id": "run-0004-failed",
+    "toolId": "5c1a0b6e-0000-4000-8000-000000000002",
+    "toolVersion": 1,
+    "mode": "owner",
+    "dryRun": false,
+    "status": "failed",
+    "inputsRedacted": {
+      "application_id": "SSP-2026-000999",
+      "date_of_birth": "2006-04-12"
+    },
+    "outputs": {},
+    "trace": [
+      {
+        "stepId": "open_status_page",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420
+      },
+      {
+        "stepId": "enter_application_id",
+        "status": "failed",
+        "preResults": [
+          {
+            "ok": false,
+            "detail": "visible: no locator resolved to exactly one visible element"
+          }
+        ],
+        "postResults": [],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "error": "Precondition failed: field \"Application ID\" not found",
+        "evidenceBlobId": "blob-snapshot-0004"
+      }
+    ],
+    "failedStepId": "enter_application_id",
+    "startedAt": "2026-11-25T12:10:00.000Z",
+    "endedAt": "2026-11-25T12:10:18.000Z"
+  },
+  {
+    "id": "run-0005-running",
+    "toolId": "5c1a0b6e-0000-4000-8000-000000000002",
+    "toolVersion": 1,
+    "mode": "owner",
+    "dryRun": false,
+    "status": "running",
+    "inputsRedacted": {
+      "application_id": "SSP-2026-000123",
+      "date_of_birth": "2006-04-12"
+    },
+    "outputs": {},
+    "trace": [
+      {
+        "stepId": "open_status_page",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420
+      },
+      {
+        "stepId": "enter_application_id",
+        "status": "passed",
+        "preResults": [
+          {
+            "ok": true
+          }
+        ],
+        "postResults": [
+          {
+            "ok": true
+          }
+        ],
+        "startedAt": "2026-11-25T11:40:00.000Z",
+        "durationMs": 420,
+        "usedLocator": {
+          "kind": "testid",
+          "value": "application_id"
+        }
+      }
+    ],
+    "startedAt": "2026-11-25T12:40:00.000Z"
+  }
+]

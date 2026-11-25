@@ -21,7 +21,9 @@ export interface McpHttpOptions {
 export function createMcpHttpApp(opts: McpHttpOptions = {}) {
   const api = new ApiClient(opts.apiUrl);
   const catalog = new Catalog(api, opts.cacheMs);
-  const app = createMcpExpressApp({ host: "localhost" });
+  // Local: DNS-rebinding protection for localhost. Deployed: MCP_HOST=0.0.0.0 + MCP_ALLOWED_HOSTS=mcp.example.xyz
+  const allowedHosts = process.env.MCP_ALLOWED_HOSTS?.split(",").map((h) => h.trim()).filter(Boolean);
+  const app = createMcpExpressApp({ host: process.env.MCP_HOST || "localhost", ...(allowedHosts?.length ? { allowedHosts } : {}) });
 
   app.post("/mcp", async (req: Request, res: Response) => {
     const server = buildMcpServer(catalog, api);

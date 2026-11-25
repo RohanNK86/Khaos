@@ -122,12 +122,6 @@ importers:
       '@mcpify/contracts':
         specifier: workspace:^
         version: link:../../packages/contracts
-      '@mcpify/engine':
-        specifier: workspace:^
-        version: link:../../packages/engine
-      '@mcpify/repair':
-        specifier: workspace:^
-        version: link:../../packages/repair
       '@mcpify/storage':
         specifier: workspace:*
         version: link:../../packages/storage
@@ -137,13 +131,13 @@ importers:
       express:
         specifier: ^5
         version: 5.3.0
-      playwright:
-        specifier: 1.65.1
-        version: 1.65.1
       zod:
         specifier: ^4.1.0
         version: 4.6.7
     devDependencies:
+      '@mcpify/api':
+        specifier: workspace:*
+        version: link:../api
       '@mcpify/portals':
         specifier: workspace:^
         version: link:../portals
@@ -178,6 +172,12 @@ importers:
       '@mcpify/contracts':
         specifier: workspace:*
         version: link:../../packages/contracts
+      '@mcpify/engine':
+        specifier: workspace:*
+        version: link:../../packages/engine
+      '@mcpify/storage':
+        specifier: workspace:*
+        version: link:../../packages/storage
       playwright:
         specifier: 1.65.1
         version: 1.65.1
@@ -246,6 +246,9 @@ importers:
       '@mcpify/llm':
         specifier: workspace:^
         version: link:../llm
+      '@mcpify/recorder':
+        specifier: workspace:*
+        version: link:../../apps/recorder
       linkedom:
         specifier: ^0.18.15
         version: 0.18.15
@@ -259,9 +262,6 @@ importers:
       '@mcpify/portals':
         specifier: workspace:^
         version: link:../../apps/portals
-      '@mcpify/recorder':
-        specifier: workspace:^
-        version: link:../../apps/recorder
 
   packages/contracts:
     dependencies:
@@ -302,9 +302,6 @@ importers:
 
   packages/repair:
     dependencies:
-      '@mcpify/compiler':
-        specifier: workspace:^
-        version: link:../compiler
       '@mcpify/contracts':
         specifier: workspace:^
         version: link:../contracts

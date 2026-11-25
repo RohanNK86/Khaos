@@ -13,7 +13,6 @@
     "build": "echo nothing to build"
   },
   "dependencies": {
-    "@mcpify/compiler": "workspace:^",
     "@mcpify/contracts": "workspace:^",
     "@mcpify/engine": "workspace:^",
     "@mcpify/llm": "workspace:^",

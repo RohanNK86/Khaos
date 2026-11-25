@@ -19,10 +19,10 @@
     "@mcpify/llm": "workspace:^",
     "linkedom": "^0.18.15",
     "playwright": "1.65.1",
-    "zod": "^4.1.0"
+    "zod": "^4.1.0",
+    "@mcpify/recorder": "workspace:*"
   },
   "devDependencies": {
-    "@mcpify/portals": "workspace:^",
-    "@mcpify/recorder": "workspace:^"
+    "@mcpify/portals": "workspace:^"
   }
 }

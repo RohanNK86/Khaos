@@ -8,9 +8,7 @@ import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/
 import { createScholarshipPortal } from "@mcpify/portals";
 import { FsBlobStore, LocalEd25519Signer } from "@mcpify/storage";
 // The API is started in-process (relative import: @mcpify/api is not a declared dependency of this package).
-import { createApi, type Api } from "../../api/src/app.js";
-import { dropDatabase, recreateDatabase } from "../../api/src/db/client.js";
-import { loadFixtures } from "../../api/src/seed.js";
+import { createApi, dropDatabase, loadFixtures, recreateDatabase, type Api } from "@mcpify/api";
 import { createMcpHttpApp } from "../src/index.js";
 
 const TOKEN = { "x-lab-token": "changeme" };

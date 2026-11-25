@@ -28,7 +28,8 @@
     }
   },
   "devDependencies": {
-    "playwright": "1.65.1",
-    "@mcpify/portals": "workspace:*"
+    "@mcpify/portals": "workspace:*",
+    "happy-dom": "^21.0.4",
+    "playwright": "1.65.1"
   }
 }

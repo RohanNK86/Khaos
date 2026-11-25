@@ -18,11 +18,12 @@
   "dependencies": {
     "@mcpify/contracts": "workspace:^",
     "@mcpify/engine": "workspace:^",
+    "@mcpify/repair": "workspace:^",
+    "@mcpify/storage": "workspace:*",
     "@modelcontextprotocol/sdk": "^1.32",
     "express": "^5",
     "playwright": "1.65.1",
-    "zod": "^4.1.0",
-    "@mcpify/storage": "workspace:*"
+    "zod": "^4.1.0"
   },
   "devDependencies": {
     "@mcpify/portals": "workspace:^",

@@ -83,7 +83,14 @@ importers:
         specifier: 1.65.1
         version: 1.65.1
 
-  apps/recorder: {}
+  apps/recorder:
+    dependencies:
+      '@mcpify/contracts':
+        specifier: workspace:*
+        version: link:../../packages/contracts
+      playwright:
+        specifier: 1.65.1
+        version: 1.65.1
 
   apps/voice: {}
 

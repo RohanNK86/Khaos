@@ -1,4 +1,4 @@
-import { mkdtempSync, readFileSync, readdirSync, writeFileSync, mkdirSync } from "node:fs";
+import { mkdtempSync } from "node:fs";
 import type { Server } from "node:http";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -6,31 +6,43 @@ import { afterAll, beforeAll, expect, test } from "vitest";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
 import { createScholarshipPortal } from "@mcpify/portals";
-import { createMcpHttpApp, Registry } from "../src/index.js";
-import { p } from "../src/paths.js";
+import { FsBlobStore, LocalEd25519Signer } from "@mcpify/storage";
+// The API is started in-process (relative import: @mcpify/api is not a declared dependency of this package).
+import { createApi, type Api } from "../../api/src/app.js";
+import { dropDatabase, recreateDatabase } from "../../api/src/db/client.js";
+import { loadFixtures } from "../../api/src/seed.js";
+import { createMcpHttpApp } from "../src/index.js";
 
 const TOKEN = { "x-lab-token": "changeme" };
-let portal: Server, mcpHttp: Server, portalBase: string, client: Client;
-let close: () => Promise<void>;
+const DB = "mcpify_test_mcp_e2e";
+let portal: Server, mcpHttp: Server, portalBase: string, apiBase: string, client: Client, api: Api;
 const port = (s: Server) => { const a = s.address(); return typeof a === "object" && a ? a.port : 0; };
 
 beforeAll(async () => {
   portal = createScholarshipPortal().listen(0);
   portalBase = `http://localhost:${port(portal)}`;
-  // registry pointing at the golden tools, retargeted to the test portal port
-  const dir = mkdtempSync(join(tmpdir(), "mcpify-reg-"));
-  mkdirSync(join(dir, "tools"));
-  for (const f of readdirSync(p("fixtures/tools")).filter((x) => x.endsWith(".json"))) {
-    writeFileSync(join(dir, "tools", f), readFileSync(p("fixtures/tools", f), "utf8").replaceAll("http://localhost:5101", portalBase));
-  }
-  writeFileSync(join(dir, "sites.json"), readFileSync(p("fixtures/sites.json"), "utf8").replaceAll("http://localhost:5101", portalBase));
-  const { app, runs } = createMcpHttpApp({ headless: true, registry: new Registry([join(dir, "tools")], [join(dir, "sites.json")]) });
+  // API on a scratch database, seeded with the golden tools retargeted to the test portal port
+  const dir = mkdtempSync(join(tmpdir(), "mcpify-e2e-"));
+  api = await createApi({
+    databaseUrl: await recreateDatabase(DB),
+    headless: true,
+    blobs: new FsBlobStore(join(dir, "blobs")),
+    signer: new LocalEd25519Signer(join(dir, "keys")),
+    fixtures: () => loadFixtures((raw) => raw.replaceAll("http://localhost:5101", portalBase)),
+  });
+  apiBase = await api.app.listen({ port: 0, host: "127.0.0.1" });
+  const { app } = createMcpHttpApp({ apiUrl: apiBase });
   mcpHttp = app.listen(0);
-  close = () => runs.close();
   client = new Client({ name: "e2e", version: "0.0.0" });
   await client.connect(new StreamableHTTPClientTransport(new URL(`http://localhost:${port(mcpHttp)}/mcp`)));
+}, 30_000);
+afterAll(async () => {
+  await client?.close();
+  mcpHttp?.close();
+  await api?.close();
+  await dropDatabase(DB);
+  portal?.close();
 });
-afterAll(async () => { await client?.close(); await close?.(); mcpHttp?.close(); portal?.close(); });
 
 type R = { run_id: string; status: string; need?: { kind: string; param?: string; preview?: { label: string; value: string }[] }; outputs?: Record<string, string>; receipt_id?: string; message: string };
 const call = async (name: string, args: Record<string, unknown>) => {
@@ -62,7 +74,8 @@ test("apply via MCP: confirm → OTP → CAPTCHA → confirm → succeeded with 
 
   r = await call("mcpify_continue", { run_id: r.run_id, approve: true });
   expect(r).toMatchObject({ status: "awaiting_user_input", need: { param: "otp" } });
-  r = await call("mcpify_continue", { run_id: r.run_id, value: await latestOtp() });
+  const otp = await latestOtp();
+  r = await call("mcpify_continue", { run_id: r.run_id, value: otp });
   expect(r).toMatchObject({ status: "awaiting_user_input", need: { param: "captcha" } });
 
   // the "human" reads the CAPTCHA: in tests we read it through the lab hook
@@ -79,6 +92,15 @@ test("apply via MCP: confirm → OTP → CAPTCHA → confirm → succeeded with 
 
   const v = await call("mcpify_verify_receipt", { receipt_id: r.receipt_id });
   expect(v.valid).toBe(true);
+
+  // the OTP is never stored or returned (S8)
+  const stored = await api.ctx.store.getRun(r.run_id);
+  expect(stored?.status).toBe("succeeded");
+  expect(stored?.receiptId).toBe(r.receipt_id);
+  expect(JSON.stringify(stored)).not.toContain(otp);
+  expect(await (await fetch(`${apiBase}/runs/${r.run_id}`)).text()).not.toContain(otp);
+  const live = (await (await fetch(`http://localhost:${port(mcpHttp)}/api/runs`)).json()) as { id: string; toolName?: string; steps: unknown[] }[];
+  expect(live.find((x) => x.id === r.run_id)).toMatchObject({ toolName: "apply_scholarship", steps: expect.any(Array) });
 
   const status = await call("scholarship__check_application_status", { application_id: r.outputs!.application_id, date_of_birth: "2005-04-12" });
   expect(status).toMatchObject({ status: "succeeded", outputs: { application_status: "Under verification" } });

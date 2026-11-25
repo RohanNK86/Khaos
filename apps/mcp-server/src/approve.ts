@@ -1,42 +1,45 @@
 /**
- * Approve a compiled draft tool so the MCP server lists it.
- *   pnpm --filter @mcpify/mcp-server approve <draft.json> [--site scholarship]
- * Fills missing id/version/timestamps, sets status "approved", validates with ToolSchema,
- * writes .data/tools/approved/<site>.<name>.json (newer than the golden tool, so it wins).
+ * Approve a compiled draft tool through the MCPify API so the MCP server lists it.
+ *   pnpm --filter @mcpify/mcp-server approve <draft.json> [--site scholarship]   (POST /tools, then approve)
+ *   pnpm --filter @mcpify/mcp-server approve --id <toolId>                         (approve a draft already in the API)
+ * The API disables any other approved tool with the same site + name, so the new one replaces it.
  */
-import { mkdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
-import { join, resolve } from "node:path";
-import { ToolSchema, mcpToolName } from "@mcpify/contracts";
-import { DATA } from "./paths.js";
-import { Registry } from "./registry.js";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+import { mcpToolName } from "@mcpify/contracts";
+import { ApiClient } from "./api-client.js";
+import { p } from "./paths.js";
 
-const [file, ...rest] = process.argv.slice(2);
-if (!file) {
-  console.error("usage: approve <draft.json> [--site <slug>]");
-  process.exit(1);
+try {
+  process.loadEnvFile(p(".env"));
+} catch {
+  // .env is optional
 }
-const slug = rest[rest.indexOf("--site") + 1] && rest.includes("--site") ? rest[rest.indexOf("--site") + 1]! : undefined;
-const draft = JSON.parse(readFileSync(resolve(process.env.INIT_CWD ?? process.cwd(), file), "utf8")) as Record<string, unknown>;
-const sites = new Registry().sites();
-const site = sites.find((s) => (slug ? s.slug === slug : s.id === draft.siteId || (typeof draft.startUrl === "string" && draft.startUrl.startsWith(s.origin))));
-if (!site) {
-  console.error(`no site found (known: ${sites.map((s) => s.slug).join(", ")}); pass --site <slug>`);
-  process.exit(1);
+
+const args = process.argv.slice(2);
+const flag = (name: string) => (args.includes(name) ? args[args.indexOf(name) + 1] : undefined);
+const api = new ApiClient();
+
+async function main(): Promise<void> {
+  const id = flag("--id");
+  const file = args.find((a, i) => !a.startsWith("--") && !args[i - 1]?.startsWith("--"));
+  if (!id && !file) throw new Error("usage: approve <draft.json> [--site <slug>] | approve --id <toolId>");
+  const sites = await api.sites();
+  let toolId = id;
+  if (!toolId) {
+    const draft = JSON.parse(readFileSync(resolve(process.env.INIT_CWD ?? process.cwd(), file!), "utf8")) as Record<string, unknown>;
+    const slug = flag("--site");
+    const site = sites.find((s) => (slug ? s.slug === slug : s.id === draft.siteId || (typeof draft.startUrl === "string" && draft.startUrl.startsWith(s.origin))));
+    if (!site) throw new Error(`no site found (known: ${sites.map((s) => s.slug).join(", ")}); pass --site <slug>`);
+    toolId = (await api.createTool({ ...draft, siteId: site.id })).id;
+  }
+  const tool = await api.approveTool(toolId);
+  const site = sites.find((s) => s.id === tool.siteId);
+  console.log(`approved ${site ? mcpToolName(site, tool) : tool.name} v${tool.version} (${tool.steps.length} steps), id ${tool.id}`);
+  console.log("The MCP server lists it within ~10 s (reconnect the client to refresh).");
 }
-const now = new Date().toISOString();
-const out = join(DATA, "tools/approved", `${site.slug}.${String(draft.name)}.json`);
-const prevVersion = existsSync(out) ? (JSON.parse(readFileSync(out, "utf8")) as { version: number }).version : 0;
-const tool = ToolSchema.parse({
-  outputs: [],
-  ...draft,
-  id: (draft.id as string | undefined) ?? crypto.randomUUID(),
-  siteId: site.id,
-  version: Math.max(prevVersion + 1, Number(draft.version ?? 1)),
-  status: "approved",
-  createdAt: (draft.createdAt as string | undefined) ?? now,
-  updatedAt: now,
+
+main().catch((e: Error) => {
+  console.error(e.message);
+  process.exit(1);
 });
-mkdirSync(join(DATA, "tools/approved"), { recursive: true });
-writeFileSync(out, JSON.stringify(tool, null, 2) + "\n");
-console.log(`approved ${mcpToolName(site, tool)} v${tool.version} (${tool.steps.length} steps) -> ${out}`);
-console.log("The MCP server picks it up on the next tools/list (reconnect the client to refresh).");

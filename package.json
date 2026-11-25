@@ -13,7 +13,8 @@
     "format": "prettier --write .",
     "portal": "pnpm --filter @mcpify/portals dev",
     "mcp": "pnpm --filter @mcpify/mcp-server dev",
-    "demo": "pnpm --parallel --filter @mcpify/portals --filter @mcpify/mcp-server start"
+    "demo": "pnpm --parallel --filter @mcpify/api --filter @mcpify/portals --filter @mcpify/mcp-server start",
+    "api": "pnpm --filter @mcpify/api dev"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",

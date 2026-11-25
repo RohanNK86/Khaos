@@ -1,9 +1,8 @@
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { CallToolRequestSchema, ListToolsRequestSchema, type Tool as McpTool } from "@modelcontextprotocol/sdk/types.js";
-import { ReceiptSchema, type Run, type Tool, type ToolCallResult } from "@mcpify/contracts";
-import { prepareInputs } from "./inputs.js";
-import type { Registry } from "./registry.js";
-import type { RunManager } from "./run-manager.js";
+import { type Run, type Tool, type ToolCallResult } from "@mcpify/contracts";
+import type { ApiClient } from "./api-client.js";
+import type { Catalog } from "./catalog.js";
 
 const SUFFIX =
   "\n\nMCPify verified tool: every step is checked before and after it runs, with no screenshots. " +
@@ -35,12 +34,13 @@ const FIXED: McpTool[] = [
   },
 ];
 
-export function buildMcpServer(registry: Registry, runs: RunManager): Server {
+/** Low-level MCP server: tools/list from the API catalog, every call proxied to the API run endpoints. */
+export function buildMcpServer(catalog: Catalog, api: ApiClient): Server {
   const server = new Server({ name: "mcpify", version: "0.1.0" }, { capabilities: { tools: {} } });
 
   server.setRequestHandler(ListToolsRequestSchema, async () => ({
     tools: [
-      ...registry.entries().map(({ mcpName, tool, site }): McpTool => ({
+      ...(await catalog.entries()).map(({ mcpName, tool, site }): McpTool => ({
         name: mcpName,
         title: `${tool.title} (${site.name})`,
         description: tool.description + (site.mode === "user_only" ? "\n\nThis is a third-party site: MCPify only runs it in dry-run mode." : "") + SUFFIX,
@@ -60,39 +60,32 @@ export function buildMcpServer(registry: Registry, runs: RunManager): Server {
     }
   });
 
+  const withTool = async (run: Run) => result(run, await catalog.toolOf(run.toolId, run.toolVersion).catch(() => undefined));
+
   async function call(name: string, args: Record<string, unknown>): Promise<ToolCallResult | Record<string, unknown>> {
     switch (name) {
-      case "mcpify_continue": {
-        const run = await runs.continue(String(args.run_id), {
+      case "mcpify_continue":
+        return withTool(await api.continueRun(String(args.run_id), {
           approve: typeof args.approve === "boolean" ? args.approve : undefined,
           value: args.value === undefined ? undefined : String(args.value),
-        });
-        return result(run, runs.toolOf(run.id));
-      }
-      case "mcpify_get_run": {
-        const run = runs.get(String(args.run_id));
-        if (!run) throw new Error(`unknown run_id ${String(args.run_id)}`);
-        return result(run, runs.toolOf(run.id));
-      }
-      case "mcpify_cancel": {
-        const run = await runs.cancel(String(args.run_id));
-        return result(run, runs.toolOf(run.id));
-      }
+        }));
+      case "mcpify_get_run":
+        return withTool(await api.getRun(String(args.run_id)));
+      case "mcpify_cancel":
+        return withTool(await api.cancelRun(String(args.run_id)));
       case "mcpify_verify_receipt": {
-        const receipt = runs.getReceipt(String(args.receipt_id));
-        if (!receipt) throw new Error(`unknown receipt_id ${String(args.receipt_id)}`);
-        const valid = await runs.verify(ReceiptSchema.parse(receipt));
+        const receipt = await api.getReceipt(String(args.receipt_id));
+        const valid = await api.verifyReceipt(receipt);
         return { receipt_id: receipt.id, valid, key_id: receipt.keyId, issued_at: receipt.issuedAt, outputs: receipt.outputs, summary: receipt.summary,
           message: valid ? "Signature is valid: this receipt was issued by MCPify and has not been changed." : "Signature is NOT valid." };
       }
     }
-    const entry = registry.find(name);
+    const entry = await catalog.find(name);
     if (!entry) throw new Error(`unknown tool ${name}`);
-    const { mcpify_dry_run, ...raw } = args;
-    const { inputs, errors } = prepareInputs(entry.tool, raw);
-    if (errors.length) throw new Error(`Please fix the inputs: ${errors.join("; ")}`);
+    const { mcpify_dry_run, ...inputs } = args;
+    // the API validates and coerces inputs ("Please fix the inputs: ...") and forces dry runs on user_only sites
     const dryRun = mcpify_dry_run === true || entry.site.mode === "user_only";
-    return result(await runs.start(entry, inputs, dryRun), entry.tool);
+    return result(await api.startRun({ toolId: entry.tool.id, inputs, mode: "owner", dryRun }), entry.tool);
   }
 
   return server;

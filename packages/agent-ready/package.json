@@ -9,8 +9,8 @@
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json",
-    "test": "vitest run --passWithNoTests",
-    "build": "echo nothing to build"
+    "test": "vitest run",
+    "build": "node build.mjs"
   },
   "dependencies": {
     "@mcp-b/global": "^6.2.0",

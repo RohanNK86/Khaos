@@ -9,7 +9,8 @@
     "./playwright": "./src/playwright.ts",
     "./fake": "./src/fake-driver.ts",
     "./network-guard": "./src/network-guard.ts",
-    "./in-page": "./src/in-page.ts"
+    "./in-page": "./src/in-page.ts",
+    "./dom": "./src/dom.ts"
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json",

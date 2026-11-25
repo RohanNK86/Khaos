@@ -3,15 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "main": "./src/index.ts",
+  "main": "./src/controller.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/controller.ts"
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json",
-    "test": "vitest run --passWithNoTests",
-    "build": "echo nothing to build",
-    "dev": "tsx watch src/index.ts"
+    "test": "vitest run",
+    "build": "node build.mjs"
   },
   "dependencies": {
     "@mcpify/contracts": "workspace:^",

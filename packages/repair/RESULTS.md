@@ -17,5 +17,5 @@ LLM tier disabled (no credentials); every sandbox replay is an engine dry run, a
 | M7 variant (fill) | Next located only by role/text | failed at continue_to_academic_details | continue_to_academic_details | heuristic | 1.00 | passed | **auto_applied** | passes (dry run to Send OTP) | auto-repair |
 | M7 variant (commit) | same, step marked commit | failed at continue_to_academic_details | continue_to_academic_details | heuristic | 1.00 | failed | **pending** | - | pending (owner approves) |
 | M8 | new required Aadhaar field | failed at continue_to_academic_details | continue_to_academic_details | locator_fallback | 0.00 | not run | **needs_rerecord** | - | stop safely, needs_rerecord |
-| M9 | course options relabelled | failed at select_course | select_course | heuristic | 0.90 | passed | **pending** | with translated inputs: passes (dry run to Send OTP) | auto-repair via option mapping |
+| M9 | course options relabelled | failed at select_course | select_course | heuristic | 0.90 | passed | **auto_applied** | v2 with the agent's original values: passes (dry run to Send OTP) | auto-repair via option mapping |
 | M10 | CSS classes renamed | passes (dry run to Send OTP); income via `id` | - | - | - | - | - | - | engine still passes |

@@ -3,7 +3,7 @@ import type { Locator, RepairProposal, StepContract, Tool } from "@mcpify/contra
 import { openEvidence, type Candidate, type EvidencePage } from "./evidence.js";
 import { llmPick } from "./llm.js";
 import { pickConfident, rank, signatureOf, synthesizeLocators, withLocators, type OldSignature } from "./match.js";
-import { applyOptionAliases, encodeAliases, mapOptions } from "./options.js";
+import { encodeAliases, mapOptions } from "./options.js";
 import { retargetTool, runSandbox, type SandboxOptions } from "./sandbox.js";
 
 export type RepairDraft = Omit<RepairProposal, "id" | "createdAt">;
@@ -155,7 +155,7 @@ export async function repairStep(a: RepairArgs): Promise<RepairDraft> {
 
 /** Option mapping (selects), sandbox replay and the auto-apply rule for a found element. */
 async function finishMatch(a: RepairArgs, step: StepContract, m: Match, browser: Browser): Promise<RepairDraft> {
-  const proposedStep = withLocators(step, m.locators);
+  let proposedStep = withLocators(step, m.locators);
   let { method, confidence, note } = m;
   let inputs = a.sandbox?.inputs;
   const param = "param" in step.action ? step.action.param : "";
@@ -167,17 +167,19 @@ async function finishMatch(a: RepairArgs, step: StepContract, m: Match, browser:
   if (aliased) {
     method = "heuristic";
     confidence = round(Math.min(confidence, opt.score));
-    note = `${note}; options relabelled, the agent's values must be translated (StepContract has no option-mapping field, so this needs owner approval) ${encodeAliases(param, opt.aliases)}`;
-    inputs = inputs && applyOptionAliases(inputs, { [param]: opt.aliases });
+    note = `${note}; options relabelled, mapped with optionAliases ${encodeAliases(param, opt.aliases)}`;
+    if (proposedStep.action.type === "select") {
+      proposedStep = { ...proposedStep, action: { ...proposedStep.action, optionAliases: { ...proposedStep.action.optionAliases, ...opt.aliases } } };
+    }
   }
   let sandbox = NOT_RUN("no sandbox inputs given");
   if (inputs) {
     const patched = { ...a.tool, steps: a.tool.steps.map((s) => (s.id === step.id ? proposedStep : s)) };
     const target = a.portalUrl ? retargetTool(patched, a.portalUrl) : patched;
     sandbox = await runSandbox(a.sandbox?.browser ?? browser, target, step.id, { ...a.sandbox!, inputs });
-    if (aliased) sandbox.detail += " (with translated option values)";
+    if (aliased) sandbox.detail += " (old option values mapped by optionAliases)";
   }
   const reversible = step.risk === "read" || step.risk === "fill";
-  const auto = reversible && step.repair === "auto" && sandbox.passed && confidence >= AUTO_MIN_CONFIDENCE && !aliased;
+  const auto = reversible && step.repair === "auto" && sandbox.passed && confidence >= AUTO_MIN_CONFIDENCE;
   return draft(a, step, { proposedStep, method, confidence, sandbox, status: auto ? "auto_applied" : "pending", note });
 }

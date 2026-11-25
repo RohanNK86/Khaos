@@ -11,7 +11,7 @@ import { createScholarshipPortal } from "@mcpify/portals";
 import { runTool, type RunHooks } from "@mcpify/engine";
 import { createPlaywrightDriver } from "@mcpify/engine/playwright";
 import {
-  applyOptionAliases, applyProposal, failedChecksFromRun, optionAliases, repairAndRetry, repairStep, type RepairDraft,
+  applyProposal, failedChecksFromRun, optionAliases, repairAndRetry, repairStep, type RepairDraft,
 } from "../src/index.js";
 
 process.env.LLM_DISABLED = "1"; // no credentials in CI: tier 3 must be skipped cleanly
@@ -236,7 +236,7 @@ describe("Layout Lab mutations", () => {
     row({ id: "M8", change: "new required Aadhaar field", expected: "stop safely, needs_rerecord", engine: engineSays(r), failed: r.failedStepId!, ...repaired(p) });
   }, 120_000);
 
-  test("M9: course options relabelled → option mapping, pending (contract has no mapping field)", async () => {
+  test("M9: course options relabelled → optionAliases on the select step, auto_applied, original inputs work", async () => {
     expect(await mutate("M9")).toBe(true);
     const { run: r, evidence } = await run(golden);
     expect(r.failedStepId).toBe("select_course");
@@ -244,10 +244,11 @@ describe("Layout Lab mutations", () => {
     const al = optionAliases(p)!;
     expect(al.course).toMatchObject({ "B.Sc": "Bachelor of Science", "B.Com": "Bachelor of Commerce", "B.A": "Bachelor of Arts", "B.E": "Bachelor of Engineering" });
     expect(p.sandbox.passed).toBe(true);
-    expect(p.status).toBe("pending");
-    const again = await run(golden, { inputs: applyOptionAliases(inputs, al) });
+    expect(p.status).toBe("auto_applied");
+    expect(p.proposedStep.action).toMatchObject({ type: "select", optionAliases: { "B.Sc": "Bachelor of Science" } });
+    const again = await run(applyProposal(golden, p));
     expect(again.run.status).toBe("dry_run_complete");
-    row({ id: "M9", change: "course options relabelled", expected: "auto-repair via option mapping", engine: engineSays(r), failed: r.failedStepId!, ...repaired(p), rerun: `with translated inputs: ${engineSays(again.run)}` });
+    row({ id: "M9", change: "course options relabelled", expected: "auto-repair via option mapping", engine: engineSays(r), failed: r.failedStepId!, ...repaired(p), rerun: `v2 with the agent's original values: ${engineSays(again.run)}` });
   }, 120_000);
 
   test("M6: page 2 split → needs_rerecord", async (ctx) => {

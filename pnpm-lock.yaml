@@ -38,6 +38,9 @@ importers:
       '@mcpify/llm':
         specifier: workspace:^
         version: link:../../packages/llm
+      '@mcpify/repair':
+        specifier: workspace:*
+        version: link:../../packages/repair
       '@mcpify/storage':
         specifier: workspace:^
         version: link:../../packages/storage
@@ -57,6 +60,9 @@ importers:
         specifier: ^4.1.0
         version: 4.6.7
     devDependencies:
+      '@mcpify/portals':
+        specifier: workspace:*
+        version: link:../portals
       drizzle-kit:
         specifier: ^0.31.11
         version: 0.31.11

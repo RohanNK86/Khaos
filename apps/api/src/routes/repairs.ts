@@ -28,17 +28,7 @@ async function applyProposal(store: Store, p: RepairProposal, actor: "system" | 
 
 /** Repair proposals (01-CONTRACTS §10, §11). */
 export function repairRoutes(app: FastifyInstance, { store }: Ctx): void {
-  app.post("/repairs", async (req) => {
-    const body = parse(NewRepair, req.body, "repair proposal");
-    const tool = await mustTool(store, body.toolId);
-    if (!tool.steps.some((s) => s.id === body.stepId)) throw new HttpError(400, `tool ${tool.id} has no step ${body.stepId}`);
-    const status = decideRepairStatus(body, tool);
-    const proposal: RepairProposal = { ...body, id: randomUUID(), createdAt: new Date().toISOString(), status, reversible: SAFE_RISKS.has(body.proposedStep.risk) && body.reversible };
-    await store.saveRepair(proposal);
-    await store.audit({ siteId: tool.siteId, toolId: tool.id, actor: "system", action: "repair.created", detail: `${proposal.id} step ${proposal.stepId}: ${status}` });
-    if (status === "auto_applied") await applyProposal(store, proposal, "system");
-    return proposal;
-  });
+  app.post("/repairs", async (req) => fileRepair(store, parse(NewRepair, req.body, "repair proposal")));
 
   app.get("/repairs", async (req) => store.listRepairs(parse(StatusQuery, req.query, "query").status));
 
@@ -61,6 +51,18 @@ export function repairRoutes(app: FastifyInstance, { store }: Ctx): void {
   });
 }
 
+
+/** Store a proposal, apply the auto-apply rule, and patch the tool when auto-applied (POST /repairs and self-repair). */
+export async function fileRepair(store: Store, body: z.infer<typeof NewRepair>): Promise<RepairProposal> {
+  const tool = await mustTool(store, body.toolId);
+  if (!tool.steps.some((s) => s.id === body.stepId)) throw new HttpError(400, `tool ${tool.id} has no step ${body.stepId}`);
+  const status = decideRepairStatus(body, tool);
+  const proposal: RepairProposal = { ...body, id: randomUUID(), createdAt: new Date().toISOString(), status, reversible: SAFE_RISKS.has(body.proposedStep.risk) && body.reversible };
+  await store.saveRepair(proposal);
+  await store.audit({ siteId: tool.siteId, toolId: tool.id, actor: "system", action: "repair.created", detail: `${proposal.id} step ${proposal.stepId}: ${status}` });
+  if (status === "auto_applied") await applyProposal(store, proposal, "system");
+  return proposal;
+}
 async function mustPending(store: Store, id: string): Promise<RepairProposal> {
   const p = found(await store.getRepair(id), `repair ${id}`);
   if (p.status !== "pending") throw new HttpError(409, `repair ${id} is ${p.status}, not pending`);

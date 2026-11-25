@@ -1,6 +1,6 @@
 import { chromium, type Browser, type BrowserContext } from "playwright";
 import { MASK, redactInputs, sensitiveParams, type Need, type Run, type RunMode, type RunStatus, type Site, type StepTrace, type Tool } from "@mcpify/contracts";
-import { runTool, type NeedAnswer } from "@mcpify/engine";
+import { runTool, type Driver, type NeedAnswer, type RunHooks, type RunOptions } from "@mcpify/engine";
 import { createPlaywrightDriver } from "@mcpify/engine/playwright";
 import { installNetworkGuard, type BlockedRequest } from "@mcpify/engine/network-guard";
 import type { BlobStore, Signer } from "@mcpify/storage";
@@ -8,7 +8,7 @@ import { HttpError, notFound } from "../http.js";
 import { executedCommit, issueForRun } from "../receipts-service.js";
 import type { Store } from "../store.js";
 import { loadFile } from "./files.js";
-import { evidenceOf, onStepFailed } from "./repair-hook.js";
+import { evidenceOf, onStepFailed, type RepairContext } from "./repair-hook.js";
 
 const TERMINAL: RunStatus[] = ["succeeded", "failed", "stopped", "dry_run_complete", "repair_pending"];
 const IDLE_MS = 10 * 60 * 1000;
@@ -30,6 +30,8 @@ interface Live {
   lastActivity: number;
   blocked: BlockedRequest[];
   saving: Promise<void>;
+  /** Kept so a repaired tool can continue in the same page. */
+  exec?: { driver: Driver; hooks: RunHooks; opts: RunOptions };
 }
 
 export interface RunManagerDeps {
@@ -79,12 +81,15 @@ export class RunManager {
     try {
       const page = await this.openPage(live, site, dryRun);
       const driver = createPlaywrightDriver(page, { showActions: this.deps.showActions ?? !(this.deps.headless ?? false) });
-      void runTool(tool, inputs, driver, {
+      const hooks: RunHooks = {
         onNeed: (need) => this.pause(live, need),
         onStep: (t) => this.step(live, t),
         saveBlob: (content, mime) => this.deps.blobs.put(content, mime),
         loadFile,
-      }, { dryRun, mode: req.mode, runId, signal: live.abort.signal })
+      };
+      const opts: RunOptions = { dryRun, mode: req.mode, runId, signal: live.abort.signal };
+      live.exec = { driver, hooks, opts };
+      void runTool(tool, inputs, driver, hooks, opts)
         .then((final) => this.finish(live, final))
         .catch((e: Error) => this.crash(live, e));
     } catch (e) {
@@ -171,17 +176,39 @@ export class RunManager {
 
   private async finish(live: Live, final: Run): Promise<void> {
     let run: Run = { ...final };
-    if (executedCommit(run, live.tool)) {
+    if (run.status === "failed") run = await onStepFailed(this.scrub(live, run), live.tool, evidenceOf(run), await this.repairContext(live, run));
+    if (run.status === "succeeded" && executedCommit(run, live.tool)) {
       const receipt = await issueForRun(this.deps.store, this.deps.signer, this.scrub(live, run), live.tool, live.inputs).catch((e: Error) => {
         console.error(`[runs] receipt for ${run.id} failed: ${e.message}`);
         return undefined;
       });
       if (receipt) run.receiptId = receipt.id;
     }
-    if (run.status === "failed") run = await onStepFailed(this.scrub(live, run), live.tool, evidenceOf(run));
     live.run = run;
     await this.deps.store.audit({ siteId: live.tool.siteId, toolId: live.tool.id, runId: run.id, actor: "system", action: "run.finished", detail: run.status });
     this.done(live);
+  }
+
+  /** Lets the repair handler continue this run (once) with a patched tool in the same page. */
+  private async repairContext(live: Live, failed: Run): Promise<RepairContext | undefined> {
+    if (!live.exec || live.abort.signal.aborted) return undefined;
+    const exec = live.exec;
+    live.exec = undefined; // one repair per run
+    return {
+      inputs: live.inputs,
+      browser: await this.getBrowser(),
+      loadFile,
+      retry: async (patched, startIndex) => {
+        const committedStepIds = failed.trace
+          .filter((t) => t.status === "passed" && live.tool.steps.find((s) => s.id === t.stepId)?.risk === "commit")
+          .map((t) => t.stepId);
+        live.tool = patched;
+        live.run = { ...live.run, toolVersion: patched.version };
+        this.changed(live);
+        const again = await runTool(patched, live.inputs, exec.driver, exec.hooks, { ...exec.opts, startIndex, committedStepIds });
+        return { ...again, toolVersion: patched.version, startedAt: failed.startedAt, trace: [...failed.trace, ...again.trace] };
+      },
+    };
   }
 
   private async crash(live: Live, e: Error): Promise<void> {

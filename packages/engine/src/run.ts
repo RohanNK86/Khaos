@@ -93,7 +93,7 @@ export async function runTool(
       if (step.risk === "commit") committed.add(step.id);
 
       // 4. VERIFY (user-provided values are checked by the page itself, never stored)
-      const postInputs = userValue !== undefined ? { ...inputs, [stepParam(step)!]: userValue } : inputs;
+      const postInputs = userValue !== undefined ? { ...inputs, [stepParam(step)!]: userValue } : withAliases(step, inputs);
       const post = await evalAllUntil(step.post, driver, postInputs, run.outputs, timeout, opts.signal);
       trace.postResults = post.results;
       if (!post.ok) throw new StepFailure(`postcondition failed: ${failed(post.results)}`);
@@ -138,7 +138,7 @@ async function execute(
     case "fill":
       return driver.fill(el, formatInput(requireInput(inputs, a.param)));
     case "select":
-      return driver.select(el, formatInput(requireInput(inputs, a.param)));
+      return driver.select(el, formatInput(withAliases(step, inputs)[a.param] ?? requireInput(inputs, a.param)));
     case "check":
       return driver.check(el, requireInput(inputs, a.param) === true || requireInput(inputs, a.param) === "true");
     case "upload": {
@@ -152,6 +152,15 @@ async function execute(
       await driver.waitForSettled(timeout);
       return;
   }
+}
+
+/** Apply a select step's optionAliases (old label → new label) to the inputs it reads. */
+function withAliases(step: StepContract, inputs: Record<string, unknown>): Record<string, unknown> {
+  const a = step.action;
+  if (a.type !== "select" || !a.optionAliases) return inputs;
+  const v = formatInput(inputs[a.param]);
+  const hit = Object.entries(a.optionAliases).find(([old]) => old.toLowerCase() === v.toLowerCase());
+  return hit ? { ...inputs, [a.param]: hit[1] } : inputs;
 }
 
 function requireInput(inputs: Record<string, unknown>, param: string): unknown {

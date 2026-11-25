@@ -14,6 +14,8 @@ import { repairRoutes } from "./routes/repairs.js";
 import { runRoutes } from "./routes/runs.js";
 import { staticRoutes } from "./routes/static.js";
 import { RunManager } from "./runs/run-manager.js";
+import { setRepairHandler } from "./runs/repair-hook.js";
+import { createSelfRepairHandler } from "./runs/self-repair.js";
 import { seedIfEmpty, type Fixtures } from "./seed.js";
 import { Store } from "./store.js";
 
@@ -28,6 +30,8 @@ export interface ApiOptions {
   /** Fixtures used when the tools table is empty (default: fixtures/). */
   fixtures?: () => Fixtures;
   mcpifyJsPath?: string;
+  /** Repair failed steps inside live runs (default on; env MCPIFY_SELF_REPAIR=0 turns it off). */
+  selfRepair?: boolean;
 }
 
 export interface Api {
@@ -61,6 +65,7 @@ export async function createApi(opts: ApiOptions = {}): Promise<Api> {
   const headless = opts.headless ?? process.env.HEADLESS === "1";
   const runs = new RunManager({ store, blobs, signer, headless, showActions: opts.showActions });
   const ctx: Ctx = { store, blobs, signer, runs };
+  if (opts.selfRepair ?? process.env.MCPIFY_SELF_REPAIR !== "0") setRepairHandler(createSelfRepairHandler(store, blobs));
   const app = await buildApp(ctx, opts);
   return {
     app,

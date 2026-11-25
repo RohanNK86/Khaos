@@ -51,7 +51,12 @@ export const ConditionSchema = z.discriminatedUnion("kind", [
 export const ActionSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("navigate"), url: z.string() }),
   z.object({ type: z.literal("fill"), param: z.string() }),
-  z.object({ type: z.literal("select"), param: z.string() }),
+  z.object({
+    type: z.literal("select"),
+    param: z.string(),
+    /** Old option label → new label (set by repair when a site relabels options; agents keep sending old values). */
+    optionAliases: z.record(z.string(), z.string()).optional(),
+  }),
   z.object({ type: z.literal("check"), param: z.string() }),
   z.object({ type: z.literal("click") }),
   z.object({ type: z.literal("upload"), param: z.string() }),

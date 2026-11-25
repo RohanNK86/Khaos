@@ -101,10 +101,15 @@ export function rewriteConditions(conds: Condition[], old: Locator[], fresh: Loc
 
 /** The step with new locators and conditions; everything else frozen. */
 export function withLocators(step: StepContract, fresh: Locator[]): StepContract {
+  // New locators first; the old ones stay as fallbacks so the tool still works if the site rolls the change back.
+  const key = (l: Locator) => JSON.stringify(l);
+  const seen = new Set(fresh.map(key));
+  const merged = [...fresh.slice(0, 4), ...step.locators.filter((l) => !seen.has(key(l)))].slice(0, 5);
+  const locators = merged.length >= fresh.length ? merged : fresh;
   return {
     ...step,
-    locators: fresh,
-    pre: rewriteConditions(step.pre, step.locators, fresh),
-    post: rewriteConditions(step.post, step.locators, fresh),
+    locators,
+    pre: rewriteConditions(step.pre, step.locators, locators),
+    post: rewriteConditions(step.post, step.locators, locators),
   };
 }

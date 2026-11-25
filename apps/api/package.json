@@ -27,9 +27,11 @@
     "fastify": "^5.12.8",
     "playwright": "1.65.1",
     "postgres": "^4.1.1",
-    "zod": "^4.1.0"
+    "zod": "^4.1.0",
+    "@mcpify/repair": "workspace:*"
   },
   "devDependencies": {
-    "drizzle-kit": "^0.31.11"
+    "drizzle-kit": "^0.31.11",
+    "@mcpify/portals": "workspace:*"
   }
 }

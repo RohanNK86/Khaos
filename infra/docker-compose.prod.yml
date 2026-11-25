@@ -1,0 +1,46 @@
+# Single-box deployment (EC2 or similar). Run from the repo root:
+#   docker compose -f infra/docker-compose.prod.yml --env-file .env up -d --build
+x-app: &app
+  build: { context: .., dockerfile: infra/Dockerfile }
+  env_file: ../.env
+  restart: unless-stopped
+  environment:
+    DATABASE_URL: postgres://mcpify:${POSTGRES_PASSWORD:-mcpify}@postgres:5432/mcpify
+    API_URL: https://api.${DOMAIN}
+    HEADLESS: "1"
+
+services:
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment: { POSTGRES_USER: mcpify, POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-mcpify}", POSTGRES_DB: mcpify }
+    volumes: [pgdata:/var/lib/postgresql/data]
+  api:
+    <<: *app
+    command: pnpm --filter @mcpify/api start
+    depends_on: [postgres]
+    volumes: [appdata:/app/.data]
+  mcp:
+    <<: *app
+    command: pnpm --filter @mcpify/mcp-server start
+    environment: { API_URL: "http://api:4000", MCP_HOST: "0.0.0.0", MCP_ALLOWED_HOSTS: "mcp.${DOMAIN}" }
+    depends_on: [api]
+  portals:
+    <<: *app
+    command: pnpm --filter @mcpify/portals start
+  dashboard:
+    <<: *app
+    command: pnpm --filter @mcpify/dashboard start
+    environment: { API_URL: "http://api:4000" }
+  voice:
+    <<: *app
+    command: pnpm --filter @mcpify/voice start
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports: ["80:80", "443:443"]
+    environment: { DOMAIN: "${DOMAIN}" }
+    volumes: [./Caddyfile:/etc/caddy/Caddyfile:ro, caddydata:/data]
+    depends_on: [api, mcp, portals, dashboard, voice]
+
+volumes: { pgdata: {}, appdata: {}, caddydata: {} }

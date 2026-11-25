@@ -1,0 +1,8 @@
+# Automatic HTTPS for every subdomain of $DOMAIN (point *.DOMAIN A-records at the box first).
+api.{$DOMAIN}          { reverse_proxy api:4000 }
+mcp.{$DOMAIN}          { reverse_proxy mcp:4100 }
+app.{$DOMAIN}          { reverse_proxy dashboard:3000 }
+voice.{$DOMAIN}        { reverse_proxy voice:3100 }
+scholarship.{$DOMAIN}  { reverse_proxy portals:5101 }
+fees.{$DOMAIN}         { reverse_proxy portals:5102 }
+buspass.{$DOMAIN}      { reverse_proxy portals:5103 }

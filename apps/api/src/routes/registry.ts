@@ -10,6 +10,7 @@ const NewSite = SiteSchema.omit({ id: true });
 const ToolQuery = z.object({ siteId: z.string().optional(), status: ToolStatusSchema.optional() });
 const VersionParams = z.object({ id: z.string().min(1), v: z.coerce.number().int().min(1) });
 const PatchBody = z.object({ stepId: z.string().min(1), step: StepContractSchema, reason: z.string().min(1) });
+const LimitQuery = z.object({ limit: Limit });
 const AuditQuery = z.object({ siteId: z.string().optional(), limit: Limit });
 
 /** Health, sites, recordings, tools, audit (01-CONTRACTS §11). */
@@ -41,6 +42,8 @@ export function registryRoutes(app: FastifyInstance, { store }: Ctx): void {
     return { id: rec.id };
   });
 
+  app.get("/recordings", async (req) => store.listRecordings(parse(LimitQuery, req.query, "query").limit));
+
   app.get("/recordings/:id", async (req) => {
     const { id } = parse(IdParams, req.params, "params");
     return found(await store.getRecording(id), `recording ${id}`);
@@ -51,6 +54,13 @@ export function registryRoutes(app: FastifyInstance, { store }: Ctx): void {
   app.get("/tools", async (req) => store.listLatestTools(parse(ToolQuery, req.query, "query")));
 
   app.get("/tools/:id", async (req) => mustTool(store, parse(IdParams, req.params, "params").id));
+
+  app.get("/tools/:id/versions", async (req) => {
+    const { id } = parse(IdParams, req.params, "params");
+    const versions = await store.listToolVersions(id);
+    if (!versions.length) throw notFound(`tool ${id}`);
+    return versions;
+  });
 
   app.get("/tools/:id/versions/:v", async (req) => {
     const { id, v } = parse(VersionParams, req.params, "params");

@@ -60,6 +60,10 @@ export class Store {
     return (await this.db.select().from(tools).where(and(eq(tools.id, id), eq(tools.version, version))))[0]?.json;
   }
 
+  async listToolVersions(id: string): Promise<Tool[]> {
+    return (await this.db.select().from(tools).where(eq(tools.id, id)).orderBy(desc(tools.version))).map((r) => r.json);
+  }
+
   async listLatestTools(filter: { siteId?: string; status?: ToolStatus } = {}): Promise<Tool[]> {
     const rows = await this.db.selectDistinctOn([tools.id]).from(tools).orderBy(tools.id, desc(tools.version));
     return rows
@@ -91,6 +95,10 @@ export class Store {
       .onConflictDoUpdate({ target: recordings.id, set: { json: rec } });
   }
 
+  async listRecordings(limit: number): Promise<Recording[]> {
+    return (await this.db.select().from(recordings).orderBy(desc(recordings.createdAt)).limit(limit)).map((r) => r.json);
+  }
+
   async getRecording(id: string): Promise<Recording | undefined> {
     return (await this.db.select().from(recordings).where(eq(recordings.id, id)))[0]?.json;
   }
@@ -120,6 +128,10 @@ export class Store {
 
   async getReceipt(id: string): Promise<Receipt | undefined> {
     return (await this.db.select().from(receipts).where(eq(receipts.id, id)))[0]?.json;
+  }
+
+  async listReceipts(limit: number): Promise<Receipt[]> {
+    return (await this.db.select().from(receipts).orderBy(desc(sql`${receipts.json}->>'issuedAt'`)).limit(limit)).map((r) => r.json);
   }
 
   async receiptOfRun(runId: string): Promise<Receipt | undefined> {

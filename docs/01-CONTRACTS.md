@@ -321,3 +321,10 @@ Every interactive element also gets a stable `data-mcpify="<name>"` attribute in
 - **MCP (§12):** every site tool accepts `mcpify_dry_run: boolean`; sites with `mode: "user_only"` are always dry-run and get the network guard. Fourth fixed tool: `mcpify_verify_receipt({ receipt_id })` → `{ valid, ... }`.
 - **Until the API exists**, approved tools are JSON files: `fixtures/tools/*.json` and `.data/tools/approved/*.json`; sites in `fixtures/sites.json`.
 - **Portal hooks (§14):** `GET /__lab/captcha?session=<id>`; `session=latest` means the session that last opened page 3 (tests only).
+
+## 16. Additions in v1.2 (26 Nov, full build)
+- **Select steps:** `{ type: "select", param, optionAliases?: Record<oldLabel, newLabel> }`. Set by repair when a site relabels options (M9); the engine maps the agent's old value before selecting and before `valueEquals`.
+- **Repaired steps keep their old locators as fallbacks** (new ones first, max 5 in total), so a tool still works if the site rolls a change back.
+- **Self-repair inside live runs (API):** when a server-side run fails a step, the API runs Verified Selective Repair and files the proposal (same rule as `POST /repairs`). `auto_applied` → the tool becomes v+1 and the **same run continues** from the repaired step in the same page (trace shows the failed attempt, then the passed one; `run.toolVersion` is the new version). `pending` → the run ends `repair_pending`. `needs_rerecord` → the run stays `failed`. Turn off with `MCPIFY_SELF_REPAIR=0`.
+- **New API endpoints:** `GET /recordings?limit=`, `GET /receipts?limit=`, `GET /tools/:id/versions` (newest first), `GET /runs/:id/blocked` (requests blocked by the dry-run network guard).
+- **Approving a tool** disables any other approved tool with the same site and name (a compiled tool replaces the golden one).

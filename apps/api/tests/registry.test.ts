@@ -156,3 +156,12 @@ describe("agent proxy", () => {
     expect(rl.allow("1.2.3.4", 61_001)).toBe(true);
   });
 });
+
+test("list endpoints: recordings, receipts, tool versions", async () => {
+  expect((await api.app.inject({ method: "GET", url: "/recordings?limit=5" })).statusCode).toBe(200);
+  expect((await api.app.inject({ method: "GET", url: "/receipts" })).statusCode).toBe(200);
+  const versions = await api.app.inject({ method: "GET", url: "/tools/5c1a0b6e-0000-4000-8000-000000000002/versions" });
+  expect(versions.statusCode).toBe(200);
+  expect((versions.json() as { version: number }[])[0]!.version).toBeGreaterThanOrEqual(1);
+  expect((await api.app.inject({ method: "GET", url: "/tools/nope/versions" })).statusCode).toBe(404);
+});

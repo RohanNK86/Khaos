@@ -1,0 +1,381 @@
+{
+  "id": "5c1a0b6e-0000-4000-8000-000000000003",
+  "siteId": "site-fees",
+  "name": "check_dues",
+  "title": "Check semester fee dues",
+  "description": "Look up the semester fee dues on the University Fee Portal (DEMO). Read-only: nothing is paid or submitted. It PAUSES once to ask the user for their portal password (used to log in, never stored). Returns amount_due, due_date and fee_status.",
+  "version": 1,
+  "status": "approved",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "student_id": {
+        "type": "string",
+        "pattern": "^[A-Z]{4}\\d{7}$",
+        "title": "Student ID",
+        "description": "As printed on the student ID card, e.g. DEMO2026001"
+      }
+    },
+    "required": [
+      "student_id"
+    ],
+    "additionalProperties": false
+  },
+  "outputs": [
+    "amount_due",
+    "due_date",
+    "fee_status"
+  ],
+  "startUrl": "http://localhost:5102/login",
+  "steps": [
+    {
+      "id": "open_login_page",
+      "intent": "Open the student login page",
+      "action": {
+        "type": "navigate",
+        "url": "http://localhost:5102/login"
+      },
+      "locators": [],
+      "pre": [],
+      "post": [
+        {
+          "kind": "urlMatches",
+          "pattern": "/login$"
+        },
+        {
+          "kind": "textPresent",
+          "text": "Student Login"
+        }
+      ],
+      "risk": "read",
+      "repair": "auto"
+    },
+    {
+      "id": "enter_student_id",
+      "intent": "Fill the student ID",
+      "action": {
+        "type": "fill",
+        "param": "student_id"
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "student_id"
+        },
+        {
+          "kind": "id",
+          "value": "txtStudentId"
+        },
+        {
+          "kind": "name",
+          "value": "student_id"
+        },
+        {
+          "kind": "label",
+          "value": "Student ID"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "student_id"
+            },
+            {
+              "kind": "id",
+              "value": "txtStudentId"
+            },
+            {
+              "kind": "name",
+              "value": "student_id"
+            },
+            {
+              "kind": "label",
+              "value": "Student ID"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "valueEquals",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "student_id"
+            },
+            {
+              "kind": "id",
+              "value": "txtStudentId"
+            },
+            {
+              "kind": "name",
+              "value": "student_id"
+            },
+            {
+              "kind": "label",
+              "value": "Student ID"
+            }
+          ],
+          "param": "student_id"
+        },
+        {
+          "kind": "noErrorNear",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "student_id"
+            },
+            {
+              "kind": "id",
+              "value": "txtStudentId"
+            },
+            {
+              "kind": "name",
+              "value": "student_id"
+            },
+            {
+              "kind": "label",
+              "value": "Student ID"
+            }
+          ]
+        }
+      ],
+      "risk": "fill",
+      "repair": "auto"
+    },
+    {
+      "id": "enter_password",
+      "intent": "Enter the student's portal password",
+      "action": {
+        "type": "userInput",
+        "param": "password",
+        "prompt": "Please type your fee portal password. I will not store it."
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "password"
+        },
+        {
+          "kind": "id",
+          "value": "txtPassword"
+        },
+        {
+          "kind": "name",
+          "value": "password"
+        },
+        {
+          "kind": "label",
+          "value": "Password"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "password"
+            },
+            {
+              "kind": "id",
+              "value": "txtPassword"
+            },
+            {
+              "kind": "name",
+              "value": "password"
+            },
+            {
+              "kind": "label",
+              "value": "Password"
+            }
+          ]
+        }
+      ],
+      "post": [],
+      "risk": "auth",
+      "repair": "human",
+      "sensitive": true
+    },
+    {
+      "id": "log_in",
+      "intent": "Log in to the fee portal",
+      "action": {
+        "type": "click"
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "login"
+        },
+        {
+          "kind": "id",
+          "value": "btnLogin"
+        },
+        {
+          "kind": "role",
+          "role": "button",
+          "name": "Login"
+        },
+        {
+          "kind": "text",
+          "value": "Login"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "login"
+            },
+            {
+              "kind": "id",
+              "value": "btnLogin"
+            },
+            {
+              "kind": "role",
+              "role": "button",
+              "name": "Login"
+            },
+            {
+              "kind": "text",
+              "value": "Login"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "urlMatches",
+          "pattern": "/dues$"
+        }
+      ],
+      "risk": "auth",
+      "repair": "human",
+      "timeoutMs": 15000
+    },
+    {
+      "id": "read_amount_due",
+      "intent": "Read the amount due for this semester",
+      "action": {
+        "type": "extract"
+      },
+      "locators": [
+        {
+          "kind": "id",
+          "value": "lblAmountDue"
+        },
+        {
+          "kind": "near",
+          "anchorText": "Amount due",
+          "tag": "span"
+        }
+      ],
+      "pre": [],
+      "post": [
+        {
+          "kind": "extract",
+          "locators": [
+            {
+              "kind": "id",
+              "value": "lblAmountDue"
+            },
+            {
+              "kind": "near",
+              "anchorText": "Amount due",
+              "tag": "span"
+            }
+          ],
+          "as": "amount_due",
+          "pattern": "Rs\\. [\\d,]+\\.\\d{2}"
+        }
+      ],
+      "risk": "read",
+      "repair": "auto"
+    },
+    {
+      "id": "read_due_date",
+      "intent": "Read the fee due date",
+      "action": {
+        "type": "extract"
+      },
+      "locators": [
+        {
+          "kind": "id",
+          "value": "lblDueDate"
+        },
+        {
+          "kind": "near",
+          "anchorText": "Due date",
+          "tag": "span"
+        }
+      ],
+      "pre": [],
+      "post": [
+        {
+          "kind": "extract",
+          "locators": [
+            {
+              "kind": "id",
+              "value": "lblDueDate"
+            },
+            {
+              "kind": "near",
+              "anchorText": "Due date",
+              "tag": "span"
+            }
+          ],
+          "as": "due_date",
+          "pattern": "\\d{2}-\\d{2}-\\d{4}"
+        }
+      ],
+      "risk": "read",
+      "repair": "auto"
+    },
+    {
+      "id": "read_fee_status",
+      "intent": "Read whether the fee is paid or due",
+      "action": {
+        "type": "extract"
+      },
+      "locators": [
+        {
+          "kind": "id",
+          "value": "lblFeeStatus"
+        },
+        {
+          "kind": "near",
+          "anchorText": "Status",
+          "tag": "span"
+        }
+      ],
+      "pre": [],
+      "post": [
+        {
+          "kind": "extract",
+          "locators": [
+            {
+              "kind": "id",
+              "value": "lblFeeStatus"
+            },
+            {
+              "kind": "near",
+              "anchorText": "Status",
+              "tag": "span"
+            }
+          ],
+          "as": "fee_status"
+        }
+      ],
+      "risk": "read",
+      "repair": "auto"
+    }
+  ],
+  "createdAt": "2026-11-26T00:00:00.000Z",
+  "updatedAt": "2026-11-26T00:00:00.000Z"
+}

@@ -31,7 +31,18 @@ input[type=text],input[type=number],input[type=email],input[type=date],select{fo
 .foot{text-align:center;color:#666;font-size:10px;margin:10px}
 `;
 
-export function page(opts: { portalName: string; tagline: string; title: string; body: string; head?: string; extraHead?: string }): string {
+/** Default navigation (Portal 1). Other portals pass their own `nav`. */
+export const SCHOLARSHIP_NAV: [href: string, text: string][] = [
+  ["/", "Home"], ["/apply/1", "New Application"], ["/status", "Check Status"], ["/phone", "Phone (SMS)"],
+];
+
+const navLink = ([href, text]: [string, string]) =>
+  `<a href="${esc(href)}"${href === "/phone" ? ' target="_blank"' : ""}>${esc(text)}</a>`;
+
+export function page(opts: {
+  portalName: string; tagline: string; title: string; body: string; head?: string; extraHead?: string;
+  nav?: [string, string][]; footer?: string;
+}): string {
   return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <title>${esc(opts.title)} :: ${esc(opts.portalName)}</title>
@@ -39,8 +50,8 @@ export function page(opts: { portalName: string; tagline: string; title: string;
 <body>
 <div class="demo-banner" id="demoBanner">DEMO PORTAL: not a real government website. Built for MCPify testing.</div>
 <div class="hdr"><h1>${esc(opts.portalName)}</h1><small>${esc(opts.tagline)}</small></div>
-<div class="nav"><a href="/">Home</a><a href="/apply/1">New Application</a><a href="/status">Check Status</a><a href="/phone" target="_blank">Phone (SMS)</a></div>
+<div class="nav">${(opts.nav ?? SCHOLARSHIP_NAV).map(navLink).join("")}</div>
 <div class="wrap">${opts.body}</div>
-<div class="foot">Best viewed in Internet Explorer 8.0 at 1024 x 768 resolution. &copy; 2026 Demo Department (fictional).</div>
+<div class="foot">Best viewed in Internet Explorer 8.0 at 1024 x 768 resolution. &copy; 2026 ${esc(opts.footer ?? "Demo Department (fictional)")}.</div>
 </body></html>`;
 }

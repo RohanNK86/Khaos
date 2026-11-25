@@ -1,3 +1,5 @@
 [
-  { "id": "site-scholarship", "origin": "http://localhost:5101", "slug": "scholarship", "name": "State Scholarship Portal (DEMO)", "mode": "owner" }
+  { "id": "site-scholarship", "origin": "http://localhost:5101", "slug": "scholarship", "name": "State Scholarship Portal (DEMO)", "mode": "owner" },
+  { "id": "site-fees", "origin": "http://localhost:5102", "slug": "fees", "name": "University Fee Portal (DEMO)", "mode": "owner" },
+  { "id": "site-buspass", "origin": "http://localhost:5103", "slug": "buspass", "name": "Student Bus Pass Portal (DEMO)", "mode": "owner" }
 ]

@@ -52,6 +52,16 @@ export function page2Fields(m: Set<string>): Field[] {
   return m.has("M4") ? [f[3]!, f[4]!, f[0]!, f[2]!, f[1]!] : f;
 }
 
+/** Which part of page 2 to show: everything, or (with M6) 2a academic / 2b income. */
+export type Page2Part = "all" | "a" | "b";
+const PART_A = new Set(["course", "year_of_study", "institution_name"]);
+
+export function page2Part(m: Set<string>, part: Page2Part): Field[] {
+  const f = page2Fields(m);
+  if (part === "all") return f;
+  return f.filter((x) => PART_A.has(x.key) === (part === "a"));
+}
+
 export const DECLARATION = { key: "declaration", ctl: "chkDeclare", label: "I declare the above information is true" };
 
 export const MUTATIONS: Record<string, string> = {
@@ -60,6 +70,7 @@ export const MUTATIONS: Record<string, string> = {
   M3: "Submit button moved above the OTP section",
   M4: "Fields on page 2 reordered",
   M5: "Page 2 wrapped in an extra div/table (CSS paths change)",
+  M6: "Page 2 split into two pages: 2a academic, 2b income + category + declaration",
   M7: 'Next button text becomes "Continue"',
   M8: 'New required field "Aadhaar (last 4 digits)" on page 1',
   M9: 'Course options relabelled ("B.Sc" becomes "Bachelor of Science")',

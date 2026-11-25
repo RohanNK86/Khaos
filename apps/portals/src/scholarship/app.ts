@@ -2,9 +2,10 @@ import express, { type Request, type Response } from "express";
 import multer from "multer";
 import { attrs, esc, page } from "../shared/html.js";
 import { labRouter } from "../shared/lab.js";
+import { phoneHtml, type Sms } from "../shared/phone.js";
 import { SessionStore, type SessionData } from "../shared/session.js";
 import {
-  DECLARATION, MUTATIONS, PREFIX_ID, PREFIX_NAME, page1Fields, page2Fields, validate, type Field,
+  DECLARATION, MUTATIONS, PREFIX_ID, PREFIX_NAME, page1Fields, page2Fields, page2Part, validate, type Field, type Page2Part,
 } from "./fields.js";
 
 const PORTAL = "State Scholarship Portal (DEMO)";
@@ -19,7 +20,6 @@ interface Application {
   certificate: { name: string; size: number };
   status: string;
 }
-interface Sms { to: string; text: string; at: string }
 
 interface Ctx { s: SessionData; sid: string; m: Set<string>; owner: boolean }
 
@@ -129,33 +129,63 @@ export function createScholarshipPortal(opts: { apiUrl?: string } = {}) {
     res.redirect(303, "/apply/2");
   });
 
-  function renderPage2(c: Ctx, values: Record<string, string>, errors: Record<string, string>) {
-    const table = `<table class="${cls(c, "frm")}">${rows(c, page2Fields(c.m), values, errors, true)}
+  const PAGE2_VIEW: Record<Page2Part, { action: string; heading: string; btn: string; testid: string }> = {
+    all: { action: "/apply/2", heading: "Step 2 of 3 : Academic and Income Details", btn: "btnNext2", testid: "next_2" },
+    a: { action: "/apply/2", heading: "Step 2a of 3 : Academic Details", btn: "btnNext2a", testid: "next_2a" },
+    b: { action: "/apply/2b", heading: "Step 2b of 3 : Income and Category", btn: "btnNext2", testid: "next_2" },
+  };
+
+  /** Page 2; with M6 it is split into 2a (academic) and 2b (income, category, declaration). */
+  function renderPage2(c: Ctx, values: Record<string, string>, errors: Record<string, string>, part: Page2Part = "all") {
+    const v = PAGE2_VIEW[part];
+    const declaration = part === "a" ? "" : `
 <tr><td colspan="2"><input ${attrs({ type: "checkbox", id: PREFIX_ID + DECLARATION.ctl, name: PREFIX_NAME + DECLARATION.ctl, value: "on", checked: values.declaration === "on", "data-mcpify": mc(c, "declaration") })}/>
-<label for="${PREFIX_ID + DECLARATION.ctl}">${DECLARATION.label}</label>${errSpan(c, DECLARATION, errors.declaration)}</td></tr></table>`;
+<label for="${PREFIX_ID + DECLARATION.ctl}">${DECLARATION.label}</label>${errSpan(c, DECLARATION, errors.declaration)}</td></tr>`;
+    const table = `<table class="${cls(c, "frm")}">${rows(c, page2Part(c.m, part), values, errors, true)}${declaration}</table>`;
     const wrapped = c.m.has("M5") ? `<div class="panel-outer"><table width="100%"><tr><td><div>${table}</div></td></tr></table></div>` : table;
     return render(c, "Application - Step 2", `
-<form method="post" action="/apply/2" id="aspnetForm" name="aspnetForm">
-<div class="${cls(c, "sec")}">Step 2 of 3 : Academic and Income Details</div>${wrapped}
-<p><input type="submit" class="${cls(c, "btn")}" ${attrs({ id: PREFIX_ID + "btnNext2", name: PREFIX_NAME + "btnNext2", value: btnText(c), "data-mcpify": mc(c, "next_2") })}/></p>
+<form method="post" action="${v.action}" id="aspnetForm" name="aspnetForm">
+<div class="${cls(c, "sec")}">${v.heading}</div>${wrapped}
+<p><input type="submit" class="${cls(c, "btn")}" ${attrs({ id: PREFIX_ID + v.btn, name: PREFIX_NAME + v.btn, value: btnText(c), "data-mcpify": mc(c, v.testid) })}/></p>
 </form>`);
   }
 
   app.get("/apply/2", (req, res) => {
     const c = ctx(req, res);
     if (!c.s.personal) { res.redirect(303, "/apply/1"); return; }
-    res.send(renderPage2(c, (c.s.academic as Record<string, string>) ?? {}, {}));
+    res.send(renderPage2(c, (c.s.academic as Record<string, string>) ?? {}, {}, c.m.has("M6") ? "a" : "all"));
   });
-  app.post("/apply/2", (req, res) => {
+  /** M6: page 2a keeps the academic values in the session and moves on to 2b. */
+  function savePage2a(c: Ctx, body: Record<string, string>, res: Response) {
+    const fields = page2Part(c.m, "a");
+    const values = read(fields, body);
+    const errors = validate(fields, body);
+    if (Object.keys(errors).length) { res.send(renderPage2(c, values, errors, "a")); return; }
+    c.s.academicA = values;
+    res.redirect(303, "/apply/2b");
+  }
+
+  app.get("/apply/2b", (req, res) => {
+    const c = ctx(req, res);
+    if (!c.m.has("M6") || !c.s.academicA) { res.redirect(303, c.s.personal ? "/apply/2" : "/apply/1"); return; }
+    res.send(renderPage2(c, {}, {}, "b"));
+  });
+  app.post(["/apply/2", "/apply/2b"], (req, res) => {
     const c = ctx(req, res);
     if (!c.s.personal) { res.redirect(303, "/apply/1"); return; }
-    const fields = page2Fields(c.m);
+    const split = req.path === "/apply/2b";
+    if (!split && c.m.has("M6")) { savePage2a(c, req.body, res); return; }
+    if (split && !c.s.academicA) { res.redirect(303, "/apply/2"); return; }
+    const fields = page2Part(c.m, split ? "b" : "all");
     const values: Record<string, string> = { ...read(fields, req.body), declaration: req.body[PREFIX_NAME + DECLARATION.ctl] === "on" ? "on" : "" };
     const errors = validate(fields, req.body);
     if (!values.declaration) errors.declaration = "You must accept the declaration";
-    if (Object.keys(errors).length) { res.send(renderPage2(c, values, errors)); return; }
-    c.s.academic = values;
-    c.s.academicLabels = Object.fromEntries(fields.map((f) => [f.label, labelOf(f, values[f.key]!)]));
+    if (Object.keys(errors).length) { res.send(renderPage2(c, values, errors, split ? "b" : "all")); return; }
+    const allFields = page2Fields(c.m);
+    const merged: Record<string, string> = split ? { ...(c.s.academicA as Record<string, string>), ...values } : values;
+    c.s.academic = merged;
+    c.s.academicLabels = Object.fromEntries(allFields.map((f) => [f.label, labelOf(f, merged[f.key] ?? "")]));
+    delete c.s.academicA;
     res.redirect(303, "/apply/3");
   });
 
@@ -273,11 +303,7 @@ ${c.m.has("M3") ? submitRow + otpRows : otpRows + submitRow}
 
   // ── simulated phone ────────────────────────────────────────────────────────
   app.get("/phone", (_req, res) => {
-    const items = sms.slice(0, 10).map((m) => `<div style="background:#fff;border-radius:12px;padding:10px 12px;margin:8px 0;box-shadow:0 1px 2px #0002">
-<div style="font-size:11px;color:#777">To ******${esc(m.to.slice(-4))} · ${esc(new Date(m.at).toLocaleTimeString())}</div><div style="font-size:15px">${esc(m.text)}</div></div>`).join("");
-    res.send(`<!doctype html><meta http-equiv="refresh" content="3"><title>Phone (simulated SMS)</title>
-<body style="font-family:system-ui;background:#ddd;margin:0"><div style="max-width:360px;margin:20px auto;background:#eef;border:10px solid #222;border-radius:28px;min-height:560px;padding:14px">
-<div style="text-align:center;font-weight:bold">Messages (simulated phone for the DEMO portal)</div>${items || '<p style="color:#666;text-align:center">No messages yet.</p>'}</div></body>`);
+    res.send(phoneHtml(sms));
   });
 
   return app;

@@ -1,0 +1,825 @@
+{
+  "id": "5c1a0b6e-0000-4000-8000-000000000004",
+  "siteId": "site-fees",
+  "name": "pay_semester_fee",
+  "title": "Pay semester fee",
+  "description": "Pay the semester fee on the University Fee Portal (DEMO) through its simulated payment gateway (no money moves). Payment is never automated without the human: it PAUSES to ask the user for their portal password and for the card number, expiry and CVV (never stored), PAUSES for the user's confirmation before pressing Pay (irreversible), and then asks for the OTP sent to their registered mobile. Returns receipt_number and amount_paid.",
+  "version": 1,
+  "status": "approved",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "student_id": {
+        "type": "string",
+        "pattern": "^[A-Z]{4}\\d{7}$",
+        "title": "Student ID",
+        "description": "As printed on the student ID card, e.g. DEMO2026001"
+      },
+      "name_on_card": {
+        "type": "string",
+        "title": "Name on card",
+        "description": "As printed on the card"
+      }
+    },
+    "required": [
+      "student_id",
+      "name_on_card"
+    ],
+    "additionalProperties": false
+  },
+  "outputs": [
+    "receipt_number",
+    "amount_paid"
+  ],
+  "startUrl": "http://localhost:5102/login",
+  "steps": [
+    {
+      "id": "open_login_page",
+      "intent": "Open the student login page",
+      "action": {
+        "type": "navigate",
+        "url": "http://localhost:5102/login"
+      },
+      "locators": [],
+      "pre": [],
+      "post": [
+        {
+          "kind": "urlMatches",
+          "pattern": "/login$"
+        },
+        {
+          "kind": "textPresent",
+          "text": "Student Login"
+        }
+      ],
+      "risk": "read",
+      "repair": "auto"
+    },
+    {
+      "id": "enter_student_id",
+      "intent": "Fill the student ID",
+      "action": {
+        "type": "fill",
+        "param": "student_id"
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "student_id"
+        },
+        {
+          "kind": "id",
+          "value": "txtStudentId"
+        },
+        {
+          "kind": "name",
+          "value": "student_id"
+        },
+        {
+          "kind": "label",
+          "value": "Student ID"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "student_id"
+            },
+            {
+              "kind": "id",
+              "value": "txtStudentId"
+            },
+            {
+              "kind": "name",
+              "value": "student_id"
+            },
+            {
+              "kind": "label",
+              "value": "Student ID"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "valueEquals",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "student_id"
+            },
+            {
+              "kind": "id",
+              "value": "txtStudentId"
+            },
+            {
+              "kind": "name",
+              "value": "student_id"
+            },
+            {
+              "kind": "label",
+              "value": "Student ID"
+            }
+          ],
+          "param": "student_id"
+        },
+        {
+          "kind": "noErrorNear",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "student_id"
+            },
+            {
+              "kind": "id",
+              "value": "txtStudentId"
+            },
+            {
+              "kind": "name",
+              "value": "student_id"
+            },
+            {
+              "kind": "label",
+              "value": "Student ID"
+            }
+          ]
+        }
+      ],
+      "risk": "fill",
+      "repair": "auto"
+    },
+    {
+      "id": "enter_password",
+      "intent": "Enter the student's portal password",
+      "action": {
+        "type": "userInput",
+        "param": "password",
+        "prompt": "Please type your fee portal password. I will not store it."
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "password"
+        },
+        {
+          "kind": "id",
+          "value": "txtPassword"
+        },
+        {
+          "kind": "name",
+          "value": "password"
+        },
+        {
+          "kind": "label",
+          "value": "Password"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "password"
+            },
+            {
+              "kind": "id",
+              "value": "txtPassword"
+            },
+            {
+              "kind": "name",
+              "value": "password"
+            },
+            {
+              "kind": "label",
+              "value": "Password"
+            }
+          ]
+        }
+      ],
+      "post": [],
+      "risk": "auth",
+      "repair": "human",
+      "sensitive": true
+    },
+    {
+      "id": "log_in",
+      "intent": "Log in to the fee portal",
+      "action": {
+        "type": "click"
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "login"
+        },
+        {
+          "kind": "id",
+          "value": "btnLogin"
+        },
+        {
+          "kind": "role",
+          "role": "button",
+          "name": "Login"
+        },
+        {
+          "kind": "text",
+          "value": "Login"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "login"
+            },
+            {
+              "kind": "id",
+              "value": "btnLogin"
+            },
+            {
+              "kind": "role",
+              "role": "button",
+              "name": "Login"
+            },
+            {
+              "kind": "text",
+              "value": "Login"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "urlMatches",
+          "pattern": "/dues$"
+        }
+      ],
+      "risk": "auth",
+      "repair": "human",
+      "timeoutMs": 15000
+    },
+    {
+      "id": "open_payment_page",
+      "intent": "Open the payment page for the semester fee",
+      "action": {
+        "type": "click"
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "pay_semester_fee"
+        },
+        {
+          "kind": "id",
+          "value": "btnPayFee"
+        },
+        {
+          "kind": "role",
+          "role": "button",
+          "name": "Pay Semester Fee"
+        },
+        {
+          "kind": "text",
+          "value": "Pay Semester Fee"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "pay_semester_fee"
+            },
+            {
+              "kind": "id",
+              "value": "btnPayFee"
+            },
+            {
+              "kind": "role",
+              "role": "button",
+              "name": "Pay Semester Fee"
+            },
+            {
+              "kind": "text",
+              "value": "Pay Semester Fee"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "urlMatches",
+          "pattern": "/pay$"
+        },
+        {
+          "kind": "textPresent",
+          "text": "This is a simulation; no money moves"
+        }
+      ],
+      "risk": "fill",
+      "repair": "auto",
+      "timeoutMs": 15000
+    },
+    {
+      "id": "enter_card_number",
+      "intent": "Enter the card number",
+      "action": {
+        "type": "userInput",
+        "param": "card_number",
+        "prompt": "Please type the card number (DEMO test card only). I will not store it."
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "card_number"
+        },
+        {
+          "kind": "id",
+          "value": "txtCardNumber"
+        },
+        {
+          "kind": "name",
+          "value": "card_number"
+        },
+        {
+          "kind": "label",
+          "value": "Card Number"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "card_number"
+            },
+            {
+              "kind": "id",
+              "value": "txtCardNumber"
+            },
+            {
+              "kind": "name",
+              "value": "card_number"
+            },
+            {
+              "kind": "label",
+              "value": "Card Number"
+            }
+          ]
+        }
+      ],
+      "post": [],
+      "risk": "auth",
+      "repair": "human",
+      "sensitive": true
+    },
+    {
+      "id": "enter_card_expiry",
+      "intent": "Enter the card expiry date",
+      "action": {
+        "type": "userInput",
+        "param": "card_expiry",
+        "prompt": "Please type the card expiry as MM/YY."
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "card_expiry"
+        },
+        {
+          "kind": "id",
+          "value": "txtExpiry"
+        },
+        {
+          "kind": "name",
+          "value": "card_expiry"
+        },
+        {
+          "kind": "label",
+          "value": "Expiry (MM/YY)"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "card_expiry"
+            },
+            {
+              "kind": "id",
+              "value": "txtExpiry"
+            },
+            {
+              "kind": "name",
+              "value": "card_expiry"
+            },
+            {
+              "kind": "label",
+              "value": "Expiry (MM/YY)"
+            }
+          ]
+        }
+      ],
+      "post": [],
+      "risk": "auth",
+      "repair": "human",
+      "sensitive": true
+    },
+    {
+      "id": "enter_card_cvv",
+      "intent": "Enter the card CVV",
+      "action": {
+        "type": "userInput",
+        "param": "card_cvv",
+        "prompt": "Please type the 3-digit CVV on the back of the card. I will not store it."
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "card_cvv"
+        },
+        {
+          "kind": "id",
+          "value": "txtCvv"
+        },
+        {
+          "kind": "name",
+          "value": "card_cvv"
+        },
+        {
+          "kind": "label",
+          "value": "CVV"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "card_cvv"
+            },
+            {
+              "kind": "id",
+              "value": "txtCvv"
+            },
+            {
+              "kind": "name",
+              "value": "card_cvv"
+            },
+            {
+              "kind": "label",
+              "value": "CVV"
+            }
+          ]
+        }
+      ],
+      "post": [],
+      "risk": "auth",
+      "repair": "human",
+      "sensitive": true
+    },
+    {
+      "id": "enter_name_on_card",
+      "intent": "Fill the name as printed on the card",
+      "action": {
+        "type": "fill",
+        "param": "name_on_card"
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "name_on_card"
+        },
+        {
+          "kind": "id",
+          "value": "txtCardName"
+        },
+        {
+          "kind": "name",
+          "value": "card_name"
+        },
+        {
+          "kind": "label",
+          "value": "Name on Card"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "name_on_card"
+            },
+            {
+              "kind": "id",
+              "value": "txtCardName"
+            },
+            {
+              "kind": "name",
+              "value": "card_name"
+            },
+            {
+              "kind": "label",
+              "value": "Name on Card"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "valueEquals",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "name_on_card"
+            },
+            {
+              "kind": "id",
+              "value": "txtCardName"
+            },
+            {
+              "kind": "name",
+              "value": "card_name"
+            },
+            {
+              "kind": "label",
+              "value": "Name on Card"
+            }
+          ],
+          "param": "name_on_card"
+        },
+        {
+          "kind": "noErrorNear",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "name_on_card"
+            },
+            {
+              "kind": "id",
+              "value": "txtCardName"
+            },
+            {
+              "kind": "name",
+              "value": "card_name"
+            },
+            {
+              "kind": "label",
+              "value": "Name on Card"
+            }
+          ]
+        }
+      ],
+      "risk": "fill",
+      "repair": "auto"
+    },
+    {
+      "id": "pay",
+      "intent": "Pay the semester fee with the card",
+      "action": {
+        "type": "click"
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "pay"
+        },
+        {
+          "kind": "id",
+          "value": "btnPay"
+        },
+        {
+          "kind": "role",
+          "role": "button",
+          "name": "Pay"
+        },
+        {
+          "kind": "text",
+          "value": "Pay"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "pay"
+            },
+            {
+              "kind": "id",
+              "value": "btnPay"
+            },
+            {
+              "kind": "role",
+              "role": "button",
+              "name": "Pay"
+            },
+            {
+              "kind": "text",
+              "value": "Pay"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "urlMatches",
+          "pattern": "/pay/verify$"
+        },
+        {
+          "kind": "textPresent",
+          "text": "OTP has been sent"
+        }
+      ],
+      "risk": "commit",
+      "repair": "human",
+      "timeoutMs": 15000
+    },
+    {
+      "id": "enter_payment_otp",
+      "intent": "Enter the payment OTP the student received by SMS",
+      "action": {
+        "type": "userInput",
+        "param": "otp",
+        "prompt": "Please tell me the 6-digit OTP sent to your mobile number to approve the payment."
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "otp"
+        },
+        {
+          "kind": "id",
+          "value": "txtOtp"
+        },
+        {
+          "kind": "name",
+          "value": "otp"
+        },
+        {
+          "kind": "label",
+          "value": "Enter OTP"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "otp"
+            },
+            {
+              "kind": "id",
+              "value": "txtOtp"
+            },
+            {
+              "kind": "name",
+              "value": "otp"
+            },
+            {
+              "kind": "label",
+              "value": "Enter OTP"
+            }
+          ]
+        }
+      ],
+      "post": [],
+      "risk": "auth",
+      "repair": "human",
+      "sensitive": true
+    },
+    {
+      "id": "submit_payment_otp",
+      "intent": "Submit the OTP to approve the payment",
+      "action": {
+        "type": "click"
+      },
+      "locators": [
+        {
+          "kind": "testid",
+          "value": "submit_otp"
+        },
+        {
+          "kind": "id",
+          "value": "btnSubmitOtp"
+        },
+        {
+          "kind": "role",
+          "role": "button",
+          "name": "Submit OTP"
+        },
+        {
+          "kind": "text",
+          "value": "Submit OTP"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "testid",
+              "value": "submit_otp"
+            },
+            {
+              "kind": "id",
+              "value": "btnSubmitOtp"
+            },
+            {
+              "kind": "role",
+              "role": "button",
+              "name": "Submit OTP"
+            },
+            {
+              "kind": "text",
+              "value": "Submit OTP"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "urlMatches",
+          "pattern": "/pay/receipt$"
+        }
+      ],
+      "risk": "auth",
+      "repair": "human",
+      "timeoutMs": 15000
+    },
+    {
+      "id": "read_receipt_number",
+      "intent": "Read the receipt number from the receipt page",
+      "action": {
+        "type": "extract"
+      },
+      "locators": [
+        {
+          "kind": "id",
+          "value": "lblReceiptNo"
+        }
+      ],
+      "pre": [],
+      "post": [
+        {
+          "kind": "extract",
+          "locators": [
+            {
+              "kind": "id",
+              "value": "lblReceiptNo"
+            }
+          ],
+          "as": "receipt_number",
+          "pattern": "UFP-RCPT-\\d{4}-\\d{5}"
+        }
+      ],
+      "risk": "read",
+      "repair": "auto"
+    },
+    {
+      "id": "read_amount_paid",
+      "intent": "Read the amount paid",
+      "action": {
+        "type": "extract"
+      },
+      "locators": [
+        {
+          "kind": "id",
+          "value": "lblAmountPaid"
+        }
+      ],
+      "pre": [],
+      "post": [
+        {
+          "kind": "extract",
+          "locators": [
+            {
+              "kind": "id",
+              "value": "lblAmountPaid"
+            }
+          ],
+          "as": "amount_paid",
+          "pattern": "Rs\\. [\\d,]+\\.\\d{2}"
+        }
+      ],
+      "risk": "read",
+      "repair": "auto"
+    }
+  ],
+  "createdAt": "2026-11-26T00:00:00.000Z",
+  "updatedAt": "2026-11-26T00:00:00.000Z"
+}

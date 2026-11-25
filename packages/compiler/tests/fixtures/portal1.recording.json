@@ -1,0 +1,493 @@
+{
+  "id": "f3c09ead-f8d0-41ca-abda-d7980bb2f9e6",
+  "siteOrigin": "http://localhost:54878",
+  "startUrl": "http://localhost:54878/apply/1",
+  "taskName": "apply_scholarship",
+  "events": [
+    {
+      "seq": 0,
+      "t": 15,
+      "type": "navigate",
+      "url": "http://localhost:54878/apply/1",
+      "domSnapshotBlobId": "d336f89a736e6e76a231fad565746770e7dbbbe603bdc9bf74441ede9f6fd077"
+    },
+    {
+      "seq": 1,
+      "t": 54,
+      "type": "change",
+      "url": "http://localhost:54878/apply/1",
+      "target": {
+        "tag": "input",
+        "type": "text",
+        "id": "ctl00_ContentPlaceHolder1_txtApplicantName",
+        "name": "ctl00$ContentPlaceHolder1$txtApplicantName",
+        "classes": [],
+        "label": "Applicant Name",
+        "nearText": "State Scholarship Portal (DEMO)",
+        "cssPath": "input#ctl00_ContentPlaceHolder1_txtApplicantName",
+        "xpath": "/html[1]/body[1]/div[4]/form[1]/table[1]/tbody[1]/tr[1]/td[2]/input[1]",
+        "inForm": "aspnetForm"
+      },
+      "value": "Asha Demo",
+      "domSnapshotBlobId": "d336f89a736e6e76a231fad565746770e7dbbbe603bdc9bf74441ede9f6fd077"
+    },
+    {
+      "seq": 2,
+      "t": 55,
+      "type": "change",
+      "url": "http://localhost:54878/apply/1",
+      "target": {
+        "tag": "input",
+        "type": "date",
+        "id": "ctl00_ContentPlaceHolder1_txtDOB",
+        "name": "ctl00$ContentPlaceHolder1$txtDOB",
+        "classes": [],
+        "label": "Date of Birth",
+        "nearText": "State Scholarship Portal (DEMO)",
+        "cssPath": "input#ctl00_ContentPlaceHolder1_txtDOB",
+        "xpath": "/html[1]/body[1]/div[4]/form[1]/table[1]/tbody[1]/tr[2]/td[2]/input[1]",
+        "inForm": "aspnetForm"
+      },
+      "value": "2005-04-12",
+      "domSnapshotBlobId": "d336f89a736e6e76a231fad565746770e7dbbbe603bdc9bf74441ede9f6fd077"
+    },
+    {
+      "seq": 3,
+      "t": 59,
+      "type": "change",
+      "url": "http://localhost:54878/apply/1",
+      "target": {
+        "tag": "select",
+        "id": "ctl00_ContentPlaceHolder1_ddlGender",
+        "name": "ctl00$ContentPlaceHolder1$ddlGender",
+        "classes": [],
+        "label": "Gender",
+        "nearText": "State Scholarship Portal (DEMO)",
+        "cssPath": "select#ctl00_ContentPlaceHolder1_ddlGender",
+        "xpath": "/html[1]/body[1]/div[4]/form[1]/table[1]/tbody[1]/tr[3]/td[2]/select[1]",
+        "options": [
+          {
+            "value": "0",
+            "label": "--Select--"
+          },
+          {
+            "value": "M",
+            "label": "Male"
+          },
+          {
+            "value": "F",
+            "label": "Female"
+          },
+          {
+            "value": "O",
+            "label": "Other"
+          }
+        ],
+        "inForm": "aspnetForm"
+      },
+      "value": "Female",
+      "domSnapshotBlobId": "d336f89a736e6e76a231fad565746770e7dbbbe603bdc9bf74441ede9f6fd077"
+    },
+    {
+      "seq": 4,
+      "t": 64,
+      "type": "change",
+      "url": "http://localhost:54878/apply/1",
+      "target": {
+        "tag": "input",
+        "type": "text",
+        "id": "ctl00_ContentPlaceHolder1_txtMobile",
+        "name": "ctl00$ContentPlaceHolder1$txtMobile",
+        "classes": [],
+        "label": "Mobile Number",
+        "nearText": "State Scholarship Portal (DEMO)",
+        "cssPath": "input#ctl00_ContentPlaceHolder1_txtMobile",
+        "xpath": "/html[1]/body[1]/div[4]/form[1]/table[1]/tbody[1]/tr[4]/td[2]/input[1]",
+        "inForm": "aspnetForm"
+      },
+      "value": "9876543210",
+      "domSnapshotBlobId": "d336f89a736e6e76a231fad565746770e7dbbbe603bdc9bf74441ede9f6fd077"
+    },
+    {
+      "seq": 5,
+      "t": 101,
+      "type": "change",
+      "url": "http://localhost:54878/apply/1",
+      "target": {
+        "tag": "input",
+        "type": "email",
+        "id": "ctl00_ContentPlaceHolder1_txtEmail",
+        "name": "ctl00$ContentPlaceHolder1$txtEmail",
+        "classes": [],
+        "label": "Email ID",
+        "nearText": "State Scholarship Portal (DEMO)",
+        "cssPath": "input#ctl00_ContentPlaceHolder1_txtEmail",
+        "xpath": "/html[1]/body[1]/div[4]/form[1]/table[1]/tbody[1]/tr[5]/td[2]/input[1]",
+        "inForm": "aspnetForm"
+      },
+      "value": "asha.demo@example.com",
+      "domSnapshotBlobId": "d336f89a736e6e76a231fad565746770e7dbbbe603bdc9bf74441ede9f6fd077"
+    },
+    {
+      "seq": 6,
+      "t": 103,
+      "type": "click",
+      "url": "http://localhost:54878/apply/1",
+      "target": {
+        "tag": "input",
+        "type": "submit",
+        "id": "ctl00_ContentPlaceHolder1_btnNext1",
+        "name": "ctl00$ContentPlaceHolder1$btnNext1",
+        "classes": [
+          "btn"
+        ],
+        "text": "Next",
+        "nearText": "State Scholarship Portal (DEMO)",
+        "cssPath": "input#ctl00_ContentPlaceHolder1_btnNext1",
+        "xpath": "/html[1]/body[1]/div[4]/form[1]/p[1]/input[1]",
+        "inForm": "aspnetForm"
+      },
+      "domSnapshotBlobId": "d336f89a736e6e76a231fad565746770e7dbbbe603bdc9bf74441ede9f6fd077"
+    },
+    {
+      "seq": 7,
+      "t": 126,
+      "type": "navigate",
+      "url": "http://localhost:54878/apply/2",
+      "domSnapshotBlobId": "d546abf8166b515e0be818863422e4ad69aef3c31788238267ae741a4595b43b"
+    },
+    {
+      "seq": 8,
+      "t": 140,
+      "type": "change",
+      "url": "http://localhost:54878/apply/2",
+      "target": {
+        "tag": "select",
+        "id": "ctl00_ContentPlaceHolder1_ddlCourse",
+        "name": "ctl00$ContentPlaceHolder1$ddlCourse",
+        "classes": [],
+        "label": "Course",
+        "nearText": "State Scholarship Portal (DEMO)",
+        "cssPath": "select#ctl00_ContentPlaceHolder1_ddlCourse",
+        "xpath": "/html[1]/body[1]/div[4]/form[1]/table[1]/tbody[1]/tr[1]/td[2]/select[1]",
+        "options": [
+          {
+            "value": "0",
+            "label": "--Select--"
+          },
+          {
+            "value": "01",
+            "label": "B.Sc"
+          },
+          {
+            "value": "02",
+            "label": "B.Com"
+          },
+          {
+            "value": "03",
+            "label": "B.A"
+          },
+          {
+            "value": "04",
+            "label": "B.E"
+          },
+          {
+            "value": "05",
+            "label": "Diploma"
+          }
+        ],
+        "inForm": "aspnetForm"
+      },
+      "value": "B.Sc",
+      "domSnapshotBlobId": "d546abf8166b515e0be818863422e4ad69aef3c31788238267ae741a4595b43b"
+    },
+    {
+      "seq": 9,
+      "t": 143,
+      "type": "change",
+      "url": "http://localhost:54878/apply/2",
+      "target": {
+        "tag": "select",
+        "id": "ctl00_ContentPlaceHolder1_ddlYear",
+        "name": "ctl00$ContentPlaceHolder1$ddlYear",
+        "classes": [],
+        "label": "Year of Study",
+        "nearText": "State Scholarship Portal (DEMO)",
+        "cssPath": "select#ctl00_ContentPlaceHolder1_ddlYear",
+        "xpath": "/html[1]/body[1]/div[4]/form[1]/table[1]/tbody[1]/tr[2]/td[2]/select[1]",
+        "options": [
+          {
+            "value": "0",
+            "label": "--Select--"
+          },
+          {
+            "value": "1",
+            "label": "1st Year"
+          },
+          {
+            "value": "2",
+            "label": "2nd Year"
+          },
+          {
+            "value": "3",
+            "label": "3rd Year"
+          },
+          {
+            "value": "4",
+            "label": "4th Year"
+          }
+        ],
+        "inForm": "aspnetForm"
+      },
+      "value": "2nd Year",
+      "domSnapshotBlobId": "d546abf8166b515e0be818863422e4ad69aef3c31788238267ae741a4595b43b"
+    },
+    {
+      "seq": 10,
+      "t": 147,
+      "type": "change",
+      "url": "http://localhost:54878/apply/2",
+      "target": {
+        "tag": "input",
+        "type": "text",
+        "id": "ctl00_ContentPlaceHolder1_txtInstitution",
+        "name": "ctl00$ContentPlaceHolder1$txtInstitution",
+        "classes": [],
+        "label": "Institution Name",
+        "nearText": "State Scholarship Portal (DEMO)",
+        "cssPath": "input#ctl00_ContentPlaceHolder1_txtInstitution",
+        "xpath": "/html[1]/body[1]/div[4]/form[1]/table[1]/tbody[1]/tr[3]/td[2]/input[1]",
+        "inForm": "aspnetForm"
+      },
+      "value": "Demo Government College",
+      "domSnapshotBlobId": "d546abf8166b515e0be818863422e4ad69aef3c31788238267ae741a4595b43b"
+    },
+    {
+      "seq": 11,
+      "t": 180,
+      "type": "change",
+      "url": "http://localhost:54878/apply/2",
+      "target": {
+        "tag": "input",
+        "type": "number",
+        "id": "ctl00_ContentPlaceHolder1_txtIncome",
+        "name": "ctl00$ContentPlaceHolder1$txtIncome",
+        "classes": [],
+        "label": "Annual family income",
+        "nearText": "State Scholarship Portal (DEMO)",
+        "cssPath": "input#ctl00_ContentPlaceHolder1_txtIncome",
+        "xpath": "/html[1]/body[1]/div[4]/form[1]/table[1]/tbody[1]/tr[4]/td[2]/input[1]",
+        "inForm": "aspnetForm"
+      },
+      "value": "180000",
+      "domSnapshotBlobId": "d546abf8166b515e0be818863422e4ad69aef3c31788238267ae741a4595b43b"
+    },
+    {
+      "seq": 12,
+      "t": 152,
+      "type": "change",
+      "url": "http://localhost:54878/apply/2",
+      "target": {
+        "tag": "select",
+        "id": "ctl00_ContentPlaceHolder1_ddlCategory",
+        "name": "ctl00$ContentPlaceHolder1$ddlCategory",
+        "classes": [],
+        "label": "Category",
+        "nearText": "State Scholarship Portal (DEMO)",
+        "cssPath": "select#ctl00_ContentPlaceHolder1_ddlCategory",
+        "xpath": "/html[1]/body[1]/div[4]/form[1]/table[1]/tbody[1]/tr[5]/td[2]/select[1]",
+        "options": [
+          {
+            "value": "0",
+            "label": "--Select--"
+          },
+          {
+            "value": "GEN",
+            "label": "General"
+          },
+          {
+            "value": "OBC",
+            "label": "OBC"
+          },
+          {
+            "value": "SC",
+            "label": "SC"
+          },
+          {
+            "value": "ST",
+            "label": "ST"
+          }
+        ],
+        "inForm": "aspnetForm"
+      },
+      "value": "OBC",
+      "domSnapshotBlobId": "d546abf8166b515e0be818863422e4ad69aef3c31788238267ae741a4595b43b"
+    },
+    {
+      "seq": 13,
+      "t": 182,
+      "type": "change",
+      "url": "http://localhost:54878/apply/2",
+      "target": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "ctl00_ContentPlaceHolder1_chkDeclare",
+        "name": "ctl00$ContentPlaceHolder1$chkDeclare",
+        "classes": [],
+        "label": "I declare the above information is true",
+        "nearText": "State Scholarship Portal (DEMO)",
+        "cssPath": "input#ctl00_ContentPlaceHolder1_chkDeclare",
+        "xpath": "/html[1]/body[1]/div[4]/form[1]/table[1]/tbody[1]/tr[6]/td[1]/input[1]",
+        "inForm": "aspnetForm"
+      },
+      "value": "true",
+      "domSnapshotBlobId": "d546abf8166b515e0be818863422e4ad69aef3c31788238267ae741a4595b43b"
+    },
+    {
+      "seq": 14,
+      "t": 217,
+      "type": "click",
+      "url": "http://localhost:54878/apply/2",
+      "target": {
+        "tag": "input",
+        "type": "submit",
+        "id": "ctl00_ContentPlaceHolder1_btnNext2",
+        "name": "ctl00$ContentPlaceHolder1$btnNext2",
+        "classes": [
+          "btn"
+        ],
+        "text": "Next",
+        "nearText": "State Scholarship Portal (DEMO)",
+        "cssPath": "input#ctl00_ContentPlaceHolder1_btnNext2",
+        "xpath": "/html[1]/body[1]/div[4]/form[1]/p[1]/input[1]",
+        "inForm": "aspnetForm"
+      },
+      "domSnapshotBlobId": "d546abf8166b515e0be818863422e4ad69aef3c31788238267ae741a4595b43b"
+    },
+    {
+      "seq": 15,
+      "t": 233,
+      "type": "navigate",
+      "url": "http://localhost:54878/apply/3",
+      "domSnapshotBlobId": "c16e75544177cccfee58d18af80a96df12507377bd95daceadab031909546ae4"
+    },
+    {
+      "seq": 16,
+      "t": 270,
+      "type": "click",
+      "url": "http://localhost:54878/apply/3",
+      "target": {
+        "tag": "input",
+        "type": "submit",
+        "id": "ctl00_ContentPlaceHolder1_btnSendOtp",
+        "name": "ctl00$ContentPlaceHolder1$btnSendOtp",
+        "classes": [
+          "btn"
+        ],
+        "label": "Mobile verification",
+        "text": "Send OTP",
+        "nearText": "State Scholarship Portal (DEMO)",
+        "cssPath": "input#ctl00_ContentPlaceHolder1_btnSendOtp",
+        "xpath": "/html[1]/body[1]/div[4]/form[1]/table[1]/tbody[1]/tr[1]/td[2]/input[1]",
+        "inForm": "frmOtp"
+      },
+      "domSnapshotBlobId": "c16e75544177cccfee58d18af80a96df12507377bd95daceadab031909546ae4"
+    },
+    {
+      "seq": 17,
+      "t": 289,
+      "type": "navigate",
+      "url": "http://localhost:54878/apply/3",
+      "domSnapshotBlobId": "0ca6346f583b19ad67e11244d5f69f24fc97b46c7cd0eda744354332cda61445"
+    },
+    {
+      "seq": 18,
+      "t": 342,
+      "type": "change",
+      "url": "http://localhost:54878/apply/3",
+      "target": {
+        "tag": "input",
+        "type": "text",
+        "id": "ctl00_ContentPlaceHolder1_txtOTP",
+        "name": "ctl00$ContentPlaceHolder1$txtOTP",
+        "classes": [],
+        "label": "Enter OTP",
+        "nearText": "State Scholarship Portal (DEMO)",
+        "cssPath": "input#ctl00_ContentPlaceHolder1_txtOTP",
+        "xpath": "/html[1]/body[1]/div[4]/form[2]/table[1]/tbody[1]/tr[2]/td[2]/input[1]",
+        "inForm": "aspnetForm"
+      },
+      "value": "•••",
+      "domSnapshotBlobId": "0ca6346f583b19ad67e11244d5f69f24fc97b46c7cd0eda744354332cda61445"
+    },
+    {
+      "seq": 19,
+      "t": 333,
+      "type": "change",
+      "url": "http://localhost:54878/apply/3",
+      "target": {
+        "tag": "input",
+        "type": "file",
+        "id": "ctl00_ContentPlaceHolder1_fuIncomeCert",
+        "name": "ctl00$ContentPlaceHolder1$fuIncomeCert",
+        "classes": [],
+        "label": "Income Certificate (PDF/JPG, max 1 MB)",
+        "nearText": "State Scholarship Portal (DEMO)",
+        "cssPath": "input#ctl00_ContentPlaceHolder1_fuIncomeCert",
+        "xpath": "/html[1]/body[1]/div[4]/form[2]/table[1]/tbody[1]/tr[1]/td[2]/input[1]",
+        "inForm": "aspnetForm"
+      },
+      "value": "sample-income-certificate.pdf",
+      "domSnapshotBlobId": "0ca6346f583b19ad67e11244d5f69f24fc97b46c7cd0eda744354332cda61445"
+    },
+    {
+      "seq": 20,
+      "t": 376,
+      "type": "change",
+      "url": "http://localhost:54878/apply/3",
+      "target": {
+        "tag": "input",
+        "type": "text",
+        "id": "ctl00_ContentPlaceHolder1_txtCaptcha",
+        "name": "ctl00$ContentPlaceHolder1$txtCaptcha",
+        "classes": [],
+        "label": "Type the characters shown",
+        "nearText": "State Scholarship Portal (DEMO)",
+        "cssPath": "input#ctl00_ContentPlaceHolder1_txtCaptcha",
+        "xpath": "/html[1]/body[1]/div[4]/form[2]/table[1]/tbody[1]/tr[3]/td[2]/input[1]",
+        "inForm": "aspnetForm"
+      },
+      "value": "•••",
+      "domSnapshotBlobId": "0ca6346f583b19ad67e11244d5f69f24fc97b46c7cd0eda744354332cda61445"
+    },
+    {
+      "seq": 21,
+      "t": 378,
+      "type": "click",
+      "url": "http://localhost:54878/apply/3",
+      "target": {
+        "tag": "input",
+        "type": "submit",
+        "id": "ctl00_ContentPlaceHolder1_btnSubmit",
+        "name": "ctl00$ContentPlaceHolder1$btnSubmit",
+        "classes": [
+          "btn"
+        ],
+        "text": "Submit Application",
+        "nearText": "State Scholarship Portal (DEMO)",
+        "cssPath": "input#ctl00_ContentPlaceHolder1_btnSubmit",
+        "xpath": "/html[1]/body[1]/div[4]/form[2]/table[1]/tbody[1]/tr[4]/td[1]/input[1]",
+        "inForm": "aspnetForm"
+      },
+      "domSnapshotBlobId": "0ca6346f583b19ad67e11244d5f69f24fc97b46c7cd0eda744354332cda61445"
+    },
+    {
+      "seq": 22,
+      "t": 400,
+      "type": "navigate",
+      "url": "http://localhost:54878/apply/done",
+      "domSnapshotBlobId": "9fa8889d6425b0a00fde1be8e6794cdb3638f3a52e0646a71acbf15d1c8c0266"
+    }
+  ],
+  "createdAt": "2026-11-25T23:04:43.103Z"
+}

@@ -9,8 +9,9 @@
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json",
-    "test": "vitest run --passWithNoTests",
-    "build": "echo nothing to build"
+    "test": "vitest run",
+    "build": "echo nothing to build",
+    "compile": "tsx src/cli.ts"
   },
   "dependencies": {
     "@mcpify/contracts": "workspace:^",

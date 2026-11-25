@@ -11,6 +11,11 @@
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run --passWithNoTests",
     "build": "echo nothing to build",
-    "dev": "tsx watch src/index.ts"
+    "dev": "tsx watch src/index.ts",
+    "record": "tsx src/cli.ts record"
+  },
+  "dependencies": {
+    "@mcpify/contracts": "workspace:*",
+    "playwright": "1.65.1"
   }
 }

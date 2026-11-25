@@ -9,5 +9,6 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 22, cache: pnpm }
       - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @mcpify/recorder exec playwright install --with-deps chromium
       - run: pnpm -r typecheck
       - run: pnpm -r test

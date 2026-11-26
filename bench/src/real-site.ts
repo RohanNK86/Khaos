@@ -20,7 +20,10 @@ import { createPlaywrightDriver } from "@mcpify/engine/playwright";
 import { installNetworkGuard } from "@mcpify/engine/network-guard";
 import { IN_PAGE_JS } from "@mcpify/engine/in-page";
 
-const here = (p: string) => resolve(process.env.INIT_CWD ?? process.cwd(), p);
+const BENCH = new URL("..", import.meta.url).pathname;
+/** bench/real-site/... and bench/results/... always live in the bench folder; other paths are relative to where you typed. */
+const here = (p: string) =>
+  /^(real-site|results)\//.test(p) ? resolve(BENCH, p) : resolve(process.env.INIT_CWD ?? process.cwd(), p);
 const [cmd, target, ...rest] = process.argv.slice(2);
 const flag = (f: string) => rest.includes(f);
 const opt = (f: string) => (rest.includes(f) ? rest[rest.indexOf(f) + 1] : undefined);

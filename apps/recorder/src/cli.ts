@@ -1,3 +1,4 @@
+import { fromRoot } from './paths.js';
 ﻿/**
  * pnpm --filter @mcpify/recorder record --site <slug> --task <task> [--url <url>] [--dry-run]
  * Opens a headed Chromium; do the task once; press Ctrl+Shift+S in the page or type `done` here to stop.
@@ -43,6 +44,7 @@ function waitForDone(): { done: Promise<void>; close: () => void } {
 }
 
 async function main() {
+  try { process.loadEnvFile(fromRoot('.env')); } catch { /* no .env: defaults */ }
   const args = parseArgs(process.argv.slice(2));
   const startUrl = await startUrlFor(args);
   const browser = await chromium.launch({ headless: false });

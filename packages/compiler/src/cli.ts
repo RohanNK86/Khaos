@@ -28,6 +28,7 @@ async function loadRecording(ref: string): Promise<Recording> {
 }
 
 async function main() {
+  try { process.loadEnvFile(fromRoot('.env')); } catch { /* no .env: defaults */ }
   const args = process.argv.slice(2);
   const option = (name: string) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : undefined; };
   const ref = option('--recording');

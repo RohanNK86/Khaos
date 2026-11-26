@@ -186,13 +186,14 @@ async function extractStep(ctx: Ctx, last: PlannedStep | undefined): Promise<{ s
   if (!ctx.dom || !last?.after?.snapshotId) return null;
   const found = (await ctx.dom.outputs(last.after.snapshotId))[0];
   if (!found) return null;
-  const output = snake(found.label || 'reference_id', 4) || 'reference_id';
+  const label = (found.label || '').replace(/\s+(of|for|is)$/i, '');
+  const output = snake(label || 'reference_id', 4) || 'reference_id';
   const shot: PlannedStep = { kind: 'click', event: last.event, snapshotId: last.after.snapshotId };
   const locators = await locatorsFor(ctx, shot, found.target, found.label || undefined);
   return {
     output,
     step: {
-      id: stepId(ctx, `read_${output}`), intent: `Read the ${(found.label || 'reference number').replace(/\s+(of|for|is)$/i, '')} shown on the result page`,
+      id: stepId(ctx, `read_${output}`), intent: `Read the ${label || 'reference number'} shown on the result page`,
       action: { type: 'extract' }, locators, pre: [],
       post: [{ kind: 'extract', locators, as: output, pattern: patternFromValue(found.value) }], risk: 'read', repair: 'auto',
     },

@@ -17,7 +17,7 @@ Team **khaos**: 10-day buildathon. Four people, four Claude Code sessions, one r
 `CLAUDE.md` in the repo root is loaded automatically by Claude Code and holds the shared rules.
 
 ## Read in this order
-0. **[DEMO.md](DEMO.md): how to run and present the full product**
+0. **[DEMO.md](DEMO.md): how to run and present the full product** · [HOW-IT-WORKS.md](HOW-IT-WORKS.md): plain-language explanation (recording, compiling, government adoption)
 1. [00-ARCHITECTURE.md](00-ARCHITECTURE.md): what we're building and where everything lives
 2. [01-CONTRACTS.md](01-CONTRACTS.md): shared types and APIs (**source of truth**)
 3. [02-PLAN-AND-SYNC.md](02-PLAN-AND-SYNC.md): checkpoints, day plan, waiting protocol

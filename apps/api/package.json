@@ -15,7 +15,8 @@
     "start": "tsx src/index.ts",
     "seed": "tsx src/seed.ts",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate"
+    "db:migrate": "drizzle-kit migrate",
+    "demo:reset": "tsx src/reset-demo.ts"
   },
   "dependencies": {
     "@fastify/cors": "^11.4.3",

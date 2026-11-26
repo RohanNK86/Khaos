@@ -8,6 +8,9 @@ docker compose up -d                  # Postgres (Docker Desktop must be running
 ```
 `.env` (git-ignored) needs `ANTHROPIC_API_KEY` + `LLM_PROVIDER=anthropic` for the AI parts, `ELEVENLABS_API_KEY` for voice.
 
+## Before every rehearsal and before the real demo
+`pnpm demo:reset` (servers running): golden tools back to v1 (otherwise a repaired v2 already knows the renamed field and the repair moment won't happen), repairs cleared, portals and Layout Lab reset. Then open a **new** Claude Code chat.
+
 ## Start everything
 ```bash
 pnpm demo:all        # API :4000, portals :5101-5103, MCP :4100, voice page :3100, dashboard :3000

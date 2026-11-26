@@ -22,7 +22,7 @@ test("parseJson returns parsed output and uses structured outputs", async () => 
   expect(out).toEqual({ name: "income" });
   const p = c.calls[0] as { model: string; output_config: { effort: string; format: unknown } };
   expect(p.model).toBe(MODEL());
-  expect(p.output_config.effort).toBe("medium");
+  expect(p.output_config.effort).toBe("low");
   expect(p.output_config.format).toBeDefined();
 });
 

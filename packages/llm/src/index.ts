@@ -43,6 +43,12 @@ export function getClaude(): ClaudeLike {
   return cached;
 }
 
+/** Default effort for structured calls: "low" keeps token use (and cost) down; override with LLM_EFFORT. */
+export function defaultEffort(): "low" | "medium" | "high" {
+  const e = process.env.LLM_EFFORT;
+  return e === "medium" || e === "high" ? e : "low";
+}
+
 export class LlmError extends Error {
   constructor(message: string, readonly reason: "unavailable" | "refusal" | "max_tokens" | "schema" | "api") {
     super(message);
@@ -71,7 +77,7 @@ export async function parseJson<S extends z.ZodType>(
         max_tokens: opts.maxTokens ?? 16000,
         system,
         messages: [{ role: "user", content: attempt === 0 ? user : `${user}\n\n(Your previous answer did not match the schema: ${lastError}. Answer again.)` }],
-        output_config: { format: zodOutputFormat(schema), effort: opts.effort ?? "medium" },
+        output_config: { format: zodOutputFormat(schema), effort: opts.effort ?? defaultEffort() },
       });
     } catch (e) {
       throw new LlmError(`Claude request failed: ${(e as Error).message}`, "api");

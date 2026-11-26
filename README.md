@@ -98,7 +98,27 @@ Each step of a tool is a contract, not just a recorded click:
 
 When a website changes, MCPify does not re-learn the whole site. It freezes only the broken step, collects evidence (current DOM and the step's intent), proposes a fix, replays it in a sandbox and checks the postcondition. A fix is applied as a versioned patch only if it is **verified and reversible**; otherwise the tool stops and asks a human.
 
-## Tech stack (planned)
+## Run it
+
+```bash
+corepack enable && pnpm install
+pnpm --filter @mcpify/portals exec playwright install chromium
+docker compose up -d          # Postgres
+pnpm demo                     # builds mcpify.js + extension, then API :4000, portals :5101-5103, MCP server :4100
+pnpm --filter @mcpify/dashboard dev    # owner dashboard :3000 (optional)
+```
+| URL | What |
+|---|---|
+| http://localhost:4100 | live run view (every step: check → do → verify) |
+| http://localhost:4100/mcp | MCP endpoint (Claude Code in this repo picks it up from `.mcp.json`) |
+| http://localhost:3000 | owner dashboard: tools, runs, repairs, receipts, audit |
+| http://localhost:5101 / 5102 / 5103 | demo portals (scholarship, fees, bus pass); `/phone` shows OTPs, `/__lab` changes the layout live |
+
+Make a new tool: `pnpm --filter @mcpify/recorder record --site scholarship --task <name>` → `pnpm --filter @mcpify/compiler compile --recording <file>` → `pnpm --filter @mcpify/mcp-server approve <draft.json>`.
+Chrome extension: `pnpm build:web`, then load `apps/extension/dist` unpacked. Benchmarks: `pnpm --filter @mcpify/bench bench` (results in `bench/results/summary.md`).
+Tests: `pnpm test` (Postgres must be running). Status of every part: `docs/STATUS.md`.
+
+## Tech stack
 
 | Layer | Tools |
 |---|---|

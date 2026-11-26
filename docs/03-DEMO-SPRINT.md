@@ -1,5 +1,7 @@
 # 03 · Demo sprint (26 Nov): what is built and how to run the demo
 
+> **Update 26 Nov:** the full build is done (see `docs/STATUS.md`). `pnpm demo` now also starts the API and needs Postgres (`docker compose up -d`); `approve` publishes through the API. For the exact demo-day state use the git tag `demo-26nov`.
+
 **Until the 26th demo, this file overrides the 10-day plan.** Scope: one working end-to-end slice on Portal 1, plus a real-site dry run.
 Present it as an **early prototype, day 2 of 10**. Show no speed or cost claims beyond what the live view measures on screen.
 

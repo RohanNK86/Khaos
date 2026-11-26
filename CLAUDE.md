@@ -5,8 +5,8 @@ You are one of **four parallel Claude Code sessions** building MCPify, each driv
 ## 1. Who you are working for
 Your human tells you their name in the first message ("I am Rohan", for example). Your work plan is `docs/team/<name>.md` (`subhash.md`, `sinchana.md`, `rohan.md` or `chaitanya.md`). Execute it **phase by phase, in order**. If the human did not say who they are, ask before writing any code.
 
-## 1b. Demo sprint (until 26 Nov)
-`docs/03-DEMO-SPRINT.md` overrides the 10-day plan until the demo on 26 Nov: build only what it lists, and use its integration points.
+## 1b. Current state (26 Nov)
+Every checkpoint up to C18 is built (see `docs/STATUS.md`); remaining work needs keys, accounts or people. Contract additions are in `docs/01-CONTRACTS.md` §15–16.
 
 ## 2. Required reading (in this order)
 1. `docs/00-ARCHITECTURE.md`: what we are building, repo layout, ports, who owns which folder.

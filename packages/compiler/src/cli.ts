@@ -7,7 +7,7 @@ import { readFile, readdir } from 'node:fs/promises';
 import { RecordingSchema, type Recording } from '@mcpify/contracts';
 import { apiUrl, fromRoot, fromUser } from '@mcpify/recorder';
 import { compile } from './compile.js';
-import { publishDraft, saveDraft } from './save.js';
+import { draftHash, publishDraft, saveDraft } from './save.js';
 import { validateDraft } from './validate.js';
 
 const USAGE = 'Usage: compile --recording <file|id> [--out <file>] [--validate] [--site-id <id>] [--no-llm]';
@@ -46,7 +46,11 @@ async function main() {
   console.log(`[compiler] ${draft.steps.length} steps, risks: ${draft.steps.map(s => s.risk).join(' ')}`);
   console.log(`[compiler] draft written to ${path}${out ? ` and ${fromUser(out)}` : ''}`);
   const posted = await publishDraft(draft);
-  if (posted) console.log(`[compiler] posted to the API as tool ${posted.id}`);
+  if (posted) {
+    // remember which API tool this file is, so `approve <file>` approves it instead of creating a copy
+    await saveDraft({ ...draft, apiToolId: posted.id, apiToolHash: draftHash(draft) }, path);
+    console.log(`[compiler] posted to the API as tool ${posted.id}`);
+  }
   console.log(`Next: pnpm --filter @mcpify/mcp-server approve ${path}`);
 }
 

@@ -23,6 +23,10 @@ export type ToolDraft = Omit<Tool, 'id' | 'version' | 'status' | 'createdAt' | '
   examples: Record<string, unknown>;
   warnings: string[];
   validation?: ValidationResult;
+  /** Set after the draft was posted to the API (so `approve <file>` approves that tool). */
+  apiToolId?: string;
+  /** draftHash() at posting time; a different hash means the owner edited the file. */
+  apiToolHash?: string;
 };
 
 export interface CompileOptions {

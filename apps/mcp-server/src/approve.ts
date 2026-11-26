@@ -4,6 +4,7 @@
  *   pnpm --filter @mcpify/mcp-server approve --id <toolId>                         (approve a draft already in the API)
  * The API disables any other approved tool with the same site + name, so the new one replaces it.
  */
+import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { mcpToolName } from "@mcpify/contracts";
@@ -31,7 +32,10 @@ async function main(): Promise<void> {
     const slug = flag("--site");
     const site = sites.find((s) => (slug ? s.slug === slug : s.id === draft.siteId || (typeof draft.startUrl === "string" && draft.startUrl.startsWith(s.origin))));
     if (!site) throw new Error(`no site found (known: ${sites.map((s) => s.slug).join(", ")}); pass --site <slug>`);
-    toolId = (await api.createTool({ ...draft, siteId: site.id })).id;
+    const { apiToolId, apiToolHash, ...body } = draft;
+    const unchanged = typeof apiToolId === "string" && apiToolHash === draftHash(draft);
+    toolId = unchanged ? apiToolId : (await api.createTool({ ...body, siteId: site.id })).id;
+    if (unchanged) console.log(`draft already in the API as ${apiToolId} (unchanged since compile)`);
   }
   const tool = await api.approveTool(toolId);
   const site = sites.find((s) => s.id === tool.siteId);
@@ -43,3 +47,9 @@ main().catch((e: Error) => {
   console.error(e.message);
   process.exit(1);
 });
+
+/** Same rule as @mcpify/compiler draftHash: hash of the publishable fields. */
+function draftHash(draft: Record<string, unknown>): string {
+  const { examples: _e, warnings: _w, validation: _v, status: _s, apiToolId: _i, apiToolHash: _h, ...body } = draft;
+  return createHash("sha256").update(JSON.stringify(body)).digest("hex");
+}

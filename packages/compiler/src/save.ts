@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
 import { fromRoot, postJson, siteByOrigin } from '@mcpify/recorder';
@@ -23,6 +24,12 @@ export async function publishDraft(draft: ToolDraft): Promise<{ id: string } | n
     console.warn('[compiler] draft has no siteId (site not in fixtures/sites.json); not posted to the API');
     return null;
   }
-  const { examples: _e, warnings: _w, validation: _v, status: _s, ...body } = draft;
+  const { examples: _e, warnings: _w, validation: _v, status: _s, apiToolId: _i, apiToolHash: _h, ...body } = draft;
   return postJson<{ id: string }>('/tools', body);
+}
+
+/** Hash of the publishable part of a draft (the same rule is used by `approve` to detect owner edits). */
+export function draftHash(draft: object): string {
+  const { examples: _e, warnings: _w, validation: _v, status: _s, apiToolId: _i, apiToolHash: _h, ...body } = draft as Record<string, unknown>;
+  return createHash('sha256').update(JSON.stringify(body)).digest('hex');
 }

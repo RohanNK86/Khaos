@@ -60,3 +60,10 @@ When the agent calls it, the engine opens the real website, performs every step 
 
 ## 5. Without permission ("user mode")
 The Chrome extension runs tools in the user's own tab. On any site that has not opted in, **dry run is forced and every sending request is blocked**: it fills and verifies, it never sends. Example: India Post "Calculate Postage" (`bench/real-site/`), where 4 steps were verified and 5 sending requests (including the page's own background requests) were blocked.
+
+## 6. Voice
+- **The voice page** (`apps/voice`, http://localhost:3100) is a small demo page, not a dashboard: the ElevenLabs talk button beside the portal and the live run view, so you can watch the form being filled while you speak.
+- **How it connects:** your voice → the ElevenLabs agent "MCPify Sahayak" (runs on ElevenLabs' servers) → our MCP tools over the internet → the MCPify engine → the portal. It uses exactly the same tools as Claude, reads the preview aloud, asks "Shall I submit?" and asks for the OTP.
+- **Locally:** `pnpm demo`, then `pnpm voice:up` (opens a temporary public tunnel, registers it with ElevenLabs, creates/updates the agent), then `pnpm --filter @mcpify/voice start`.
+- **In the real world:** the same widget can be added to any website with two lines of HTML, or the agent can be connected to a phone number. That needs the permanent public MCP address from the AWS deployment.
+- **Status:** works end to end in English; Kannada and Hindi are configured and still being tested.

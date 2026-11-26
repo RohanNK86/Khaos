@@ -19,7 +19,7 @@ When marking ✅, fill in the short commit hash and date. Always `git pull --reb
 | C10 | mcpify.js WebMCP script tag | Chaitanya | ✅ | fd796ea | 2026-11-26 | mcpify.js registers tools with WebMCP / MCP-B |
 | C11 | Layout Lab M1–M10 | Sinchana | ✅ | ee02ae0 | 2026-11-26 | M1–M10 all implemented |
 | C12 | Selective repair | Rohan | ✅ | 75c876b | 2026-11-26 | self-repair inside live runs; M1+M2 and M9 heal, M6/M8 stop safely |
-| C13 | Voice via ElevenLabs | Sinchana | 🟡 | 475ea0f | 2026-11-26 | voice page + agent config ready; needs ElevenLabs key + public URL |
+| C13 | Voice via ElevenLabs | Sinchana | ✅ | 32d55f6 | 2026-11-27 | voice → ElevenLabs agent → tunnel → MCPify works (English); Kannada/Hindi tests pending |
 | C14 | Signed receipts | Subhash | ✅ | 987b900 | 2026-11-25 | local Ed25519 (KMS after demo) |
 | C15 | Portals 2 and 3 + tools | Sinchana | ✅ | ee02ae0 | 2026-11-26 | Portals 2 + 3 + 3 golden tools |
 | C16 | Benchmarks | Subhash | 🟡 | 807bd36 | 2026-11-26 | MCPify measured (5 flows × 20); computer-use baseline needs a key |

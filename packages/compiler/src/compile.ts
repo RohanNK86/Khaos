@@ -192,7 +192,7 @@ async function extractStep(ctx: Ctx, last: PlannedStep | undefined): Promise<{ s
   return {
     output,
     step: {
-      id: stepId(ctx, `read_${output}`), intent: `Read the ${found.label || 'reference number'} from the confirmation page`,
+      id: stepId(ctx, `read_${output}`), intent: `Read the ${(found.label || 'reference number').replace(/\s+(of|for|is)$/i, '')} shown on the result page`,
       action: { type: 'extract' }, locators, pre: [],
       post: [{ kind: 'extract', locators, as: output, pattern: patternFromValue(found.value) }], risk: 'read', repair: 'auto',
     },

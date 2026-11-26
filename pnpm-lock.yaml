@@ -194,12 +194,18 @@ importers:
 
   bench:
     dependencies:
+      '@mcpify/api':
+        specifier: workspace:*
+        version: link:../apps/api
       '@mcpify/contracts':
         specifier: workspace:*
         version: link:../packages/contracts
       '@mcpify/engine':
         specifier: workspace:*
         version: link:../packages/engine
+      '@mcpify/mcp-server':
+        specifier: workspace:*
+        version: link:../apps/mcp-server
       '@mcpify/portals':
         specifier: workspace:^
         version: link:../apps/portals

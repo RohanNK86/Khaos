@@ -1,3 +1,9 @@
+# Voice (ElevenLabs)
+
+**Quick start:** `pnpm demo` in one terminal, then `pnpm voice:up` in another. It opens a temporary public tunnel, registers it with ElevenLabs as an MCP server, creates the "MCPify Sahayak" agent the first time (agent id saved in `.env`), and keeps the tunnel open until Ctrl+C.
+One-time prerequisite: in the ElevenLabs dashboard, accept the **Model Context Protocol Server Terms** (Agents → Integrations). Until then ElevenLabs answers "User does not have access to MCP servers" and nothing is created.
+Talking to the agent uses your ElevenLabs allowance (free plan: keep tests short). Creating the agent and MCP registration does not.
+
 # @mcpify/voice: Sahayak voice client (C13 prep)
 
 A small page on **http://localhost:3100** with the ElevenLabs Agents widget ("MCPify Sahayak") next to two iframes: the demo portal (`http://localhost:5101`) and the MCP server's live verified-run view (`http://localhost:4100`).

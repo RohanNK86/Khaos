@@ -16,7 +16,9 @@
     "demo": "pnpm build:web && pnpm --parallel --filter @mcpify/api --filter @mcpify/portals --filter @mcpify/mcp-server start",
     "api": "pnpm --filter @mcpify/api dev",
     "build:web": "pnpm --filter @mcpify/agent-ready build && pnpm --filter @mcpify/extension build",
-    "tunnel": "cloudflared tunnel --url http://localhost:4100 --http-host-header localhost:4100"
+    "tunnel": "cloudflared tunnel --url http://localhost:4100 --http-host-header localhost:4100",
+    "voice:up": "pnpm --filter @mcpify/voice voice:up",
+    "demo:all": "pnpm build:web && pnpm --parallel --filter @mcpify/api --filter @mcpify/portals --filter @mcpify/mcp-server --filter @mcpify/voice start & pnpm --filter @mcpify/dashboard dev"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",

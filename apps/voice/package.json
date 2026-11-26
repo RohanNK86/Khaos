@@ -12,7 +12,8 @@
     "test": "vitest run",
     "build": "echo nothing to build",
     "dev": "tsx watch --env-file-if-exists=../../.env src/main.ts",
-    "start": "tsx --env-file-if-exists=../../.env src/main.ts"
+    "start": "tsx --env-file-if-exists=../../.env src/main.ts",
+    "voice:up": "tsx src/voice-up.ts"
   },
   "dependencies": {
     "express": "^5"

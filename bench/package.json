@@ -7,7 +7,8 @@
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run --passWithNoTests",
     "build": "echo nothing to build",
-    "real-site": "tsx src/real-site.ts"
+    "real-site": "tsx src/real-site.ts",
+    "bench": "tsx src/run.ts"
   },
   "dependencies": {
     "@mcpify/contracts": "workspace:*",
@@ -15,6 +16,8 @@
     "@mcpify/portals": "workspace:^",
     "@mcpify/storage": "workspace:^",
     "@modelcontextprotocol/sdk": "^1.32",
-    "playwright": "1.65.1"
+    "playwright": "1.65.1",
+    "@mcpify/api": "workspace:*",
+    "@mcpify/mcp-server": "workspace:*"
   }
 }

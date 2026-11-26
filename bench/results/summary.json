@@ -1,0 +1,187 @@
+{
+  "environment": {
+    "date": "2026-11-26T11:42:55.979Z",
+    "durationS": 88,
+    "node": "v22.23.5",
+    "os": "darwin 27.0.0",
+    "cpu": "Apple M3",
+    "cores": 8,
+    "ramGb": 16,
+    "browser": "Chromium (Playwright 1.65.1), headless, no highlighting",
+    "llm": "none configured (LLM_DISABLED=1)"
+  },
+  "flows": [
+    {
+      "flow": "apply",
+      "tool": "scholarship__apply_scholarship",
+      "dryRun": false,
+      "n": 20,
+      "success": 20,
+      "successRate": 1,
+      "wallMsMean": 712,
+      "wallMsP50": 703,
+      "wallMsP95": 723,
+      "steps": 20,
+      "checks": 47,
+      "pauses": 4,
+      "mcpRoundTrips": 5,
+      "modelCalls": 0
+    },
+    {
+      "flow": "status",
+      "tool": "scholarship__check_application_status",
+      "dryRun": false,
+      "n": 20,
+      "success": 20,
+      "successRate": 1,
+      "wallMsMean": 234,
+      "wallMsP50": 229,
+      "wallMsP95": 250,
+      "steps": 5,
+      "checks": 10,
+      "pauses": 0,
+      "mcpRoundTrips": 1,
+      "modelCalls": 0
+    },
+    {
+      "flow": "dues",
+      "tool": "fees__check_dues",
+      "dryRun": false,
+      "n": 20,
+      "success": 20,
+      "successRate": 1,
+      "wallMsMean": 264,
+      "wallMsP50": 263,
+      "wallMsP95": 268,
+      "steps": 7,
+      "checks": 11,
+      "pauses": 1,
+      "mcpRoundTrips": 2,
+      "modelCalls": 0
+    },
+    {
+      "flow": "pay_dry",
+      "tool": "fees__pay_semester_fee",
+      "dryRun": true,
+      "n": 20,
+      "success": 20,
+      "successRate": 1,
+      "wallMsMean": 418,
+      "wallMsP50": 417,
+      "wallMsP95": 425,
+      "steps": 9,
+      "checks": 18,
+      "pauses": 4,
+      "mcpRoundTrips": 5,
+      "modelCalls": 0
+    },
+    {
+      "flow": "renew",
+      "tool": "buspass__renew_bus_pass",
+      "dryRun": false,
+      "n": 20,
+      "success": 20,
+      "successRate": 1,
+      "wallMsMean": 777,
+      "wallMsP50": 779,
+      "wallMsP95": 795,
+      "steps": 15,
+      "checks": 33,
+      "pauses": 3,
+      "mcpRoundTrips": 4,
+      "modelCalls": 0
+    }
+  ],
+  "repairs": [
+    {
+      "mutation": "M1",
+      "outcome": "passed unchanged",
+      "runStatus": "dry_run_complete",
+      "toolVersion": 1,
+      "ms": 526.4205839999995
+    },
+    {
+      "mutation": "M2",
+      "outcome": "passed unchanged",
+      "runStatus": "dry_run_complete",
+      "toolVersion": 1,
+      "ms": 503.9134170000034
+    },
+    {
+      "mutation": "M1+M2",
+      "outcome": "healed in-run (tool v+1)",
+      "runStatus": "dry_run_complete",
+      "toolVersion": 2,
+      "ms": 8886.243124999994,
+      "method": "heuristic",
+      "confidence": 0.93,
+      "repairStatus": "auto_applied"
+    },
+    {
+      "mutation": "M3",
+      "outcome": "passed unchanged",
+      "runStatus": "dry_run_complete",
+      "toolVersion": 1,
+      "ms": 524.1589170000007
+    },
+    {
+      "mutation": "M4",
+      "outcome": "passed unchanged",
+      "runStatus": "dry_run_complete",
+      "toolVersion": 1,
+      "ms": 515.6537499999977
+    },
+    {
+      "mutation": "M5",
+      "outcome": "passed unchanged",
+      "runStatus": "dry_run_complete",
+      "toolVersion": 1,
+      "ms": 468.481667
+    },
+    {
+      "mutation": "M6",
+      "outcome": "stopped safely: needs re-record",
+      "runStatus": "failed",
+      "toolVersion": 1,
+      "ms": 8482.837249999997,
+      "method": "heuristic",
+      "confidence": 0.18,
+      "repairStatus": "needs_rerecord"
+    },
+    {
+      "mutation": "M7",
+      "outcome": "passed unchanged",
+      "runStatus": "dry_run_complete",
+      "toolVersion": 1,
+      "ms": 509.02016600000206
+    },
+    {
+      "mutation": "M8",
+      "outcome": "stopped safely: needs re-record",
+      "runStatus": "failed",
+      "toolVersion": 1,
+      "ms": 15625.521999999997,
+      "method": "locator_fallback",
+      "confidence": 0,
+      "repairStatus": "needs_rerecord"
+    },
+    {
+      "mutation": "M9",
+      "outcome": "healed in-run (tool v+1)",
+      "runStatus": "dry_run_complete",
+      "toolVersion": 2,
+      "ms": 843.7703329999931,
+      "method": "heuristic",
+      "confidence": 0.9,
+      "repairStatus": "auto_applied"
+    },
+    {
+      "mutation": "M10",
+      "outcome": "passed unchanged",
+      "runStatus": "dry_run_complete",
+      "toolVersion": 1,
+      "ms": 535.7165419999947
+    }
+  ],
+  "baseline": "not run: needs an LLM key and approval (see bench/README.md)"
+}

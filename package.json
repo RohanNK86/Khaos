@@ -15,10 +15,12 @@
     "mcp": "pnpm --filter @mcpify/mcp-server dev",
     "demo": "pnpm build:web && pnpm --parallel --filter @mcpify/api --filter @mcpify/portals --filter @mcpify/mcp-server start",
     "api": "pnpm --filter @mcpify/api dev",
-    "build:web": "pnpm --filter @mcpify/agent-ready build && pnpm --filter @mcpify/extension build"
+    "build:web": "pnpm --filter @mcpify/agent-ready build && pnpm --filter @mcpify/extension build",
+    "tunnel": "cloudflared tunnel --url http://localhost:4100 --http-host-header localhost:4100"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
+    "cloudflared": "0.7.3",
     "prettier": "^3.4.0",
     "tsx": "^4.19.0",
     "typescript": "^5.7.0",

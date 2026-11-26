@@ -21,7 +21,7 @@ Notes:
 - Runs are headless in production (`HEADLESS=1`); the live view at `https://mcp.<domain>/` still shows every step.
 
 ## Option B: quick public URL from your laptop (no AWS)
-`brew install cloudflared` then `cloudflared tunnel --url http://localhost:4100` → use the printed `https://….trycloudflare.com/mcp` as `PUBLIC_MCP_URL`. (On hold until you approve installing cloudflared.)
+`pnpm tunnel` (cloudflared is a project-only dev dependency) → use the printed `https://….trycloudflare.com/mcp` as `PUBLIC_MCP_URL`. The tunnel rewrites the Host header to `localhost:4100` so the MCP server's DNS-rebinding protection accepts it. Anyone with the URL can call your MCP server while it is open: don't share it publicly and stop it (Ctrl+C) when done.
 
 ## AWS services used later
 - **Bedrock**: Claude Haiku 5.5 (`LLM_PROVIDER=bedrock`, `AWS_REGION`, model access enabled in the console).

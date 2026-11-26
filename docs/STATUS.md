@@ -23,6 +23,6 @@ When marking ✅, fill in the short commit hash and date. Always `git pull --reb
 | C14 | Signed receipts | Subhash | ✅ | 987b900 | 2026-11-25 | local Ed25519 (KMS after demo) |
 | C15 | Portals 2 and 3 + tools | Sinchana | ✅ | ee02ae0 | 2026-11-26 | Portals 2 + 3 + 3 golden tools |
 | C16 | Benchmarks | Subhash | 🟡 | 807bd36 | 2026-11-26 | MCPify measured (5 flows × 20); computer-use baseline needs a key |
-| C17 | Real gov sites dry-run | Chaitanya | 🟡 |  |  | real-site probe/run tool ready; sites to be chosen |
+| C17 | Real gov sites dry-run | Chaitanya | 🟡 | | 2026-11-27 | India Post Calculate Postage: dry run verified (4 steps, POST blocked, nothing sent); 1 site so far |
 | C18 | Public deployment | Subhash | 🟡 | 27a58c7 | 2026-11-26 | deploy files ready in infra/; not deployed (on hold) |
 | C19 | Integration freeze | All | ⬜ |  |  | full rehearsal with the team |

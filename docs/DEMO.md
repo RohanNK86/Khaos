@@ -31,6 +31,8 @@ Runs open a visible Chromium window that highlights every action (set `HEADLESS=
 6. **One script tag (30 s)**: open `http://localhost:5101/?owner=1` → DevTools console `MCPify.tools` → tools registered with WebMCP. Dashboard → Sites shows the script tag.
 7. **User mode on any site (30 s)**: Chrome → `chrome://extensions` → Developer mode → Load unpacked `apps/extension/dist`. On a non-demo site the side panel forces dry run and blocks every send.
 8. **Voice (optional)**: `pnpm voice:up` in another terminal, then talk on `http://localhost:3100`. Needs the one-time ElevenLabs MCP terms (see apps/voice/README.md). Keep it short on the free plan.
+8b. **A real government site, dry run (20 s, best as a recorded clip)**: India Post "Calculate Postage" (no login, no CAPTCHA, no personal data; robots.txt allows normal pages):
+   `pnpm --filter @mcpify/bench real-site run real-site/indiapost-postage --video` → a visible browser fills origin PIN, destination PIN and weight, verifies each, stops before "Calculate Postage", and the guard logs the blocked POST. Video: `bench/results/raw/videos/`. Max 3–4 runs in total; it is a real site.
 9. **Numbers (20 s)**: `bench/results/summary.md`: 100/100 runs, 0 model calls per run, layout-change table. Say only what it measured.
 
 ## If something breaks

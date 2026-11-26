@@ -1,0 +1,258 @@
+{
+  "id": "7e1a0b6e-0000-4000-8000-0000000000a1",
+  "siteId": "site-indiapost",
+  "name": "calculate_postage",
+  "title": "Calculate postage (India Post)",
+  "description": "Calculates domestic postage on the official India Post website. DRY RUN ONLY: fills the form and stops before 'Calculate Postage' is sent.",
+  "version": 1,
+  "status": "draft",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "origin_pincode": {
+        "type": "string",
+        "title": "Origin PIN code"
+      },
+      "destination_pincode": {
+        "type": "string",
+        "title": "Destination PIN code"
+      },
+      "weight_grams": {
+        "type": "string",
+        "title": "Weight (grams)"
+      }
+    },
+    "required": [
+      "origin_pincode",
+      "destination_pincode",
+      "weight_grams"
+    ]
+  },
+  "outputs": [],
+  "startUrl": "https://www.indiapost.gov.in/calculate-postage",
+  "steps": [
+    {
+      "id": "open_calculator",
+      "intent": "Open India Post's Calculate Postage page",
+      "action": {
+        "type": "navigate",
+        "url": "https://www.indiapost.gov.in/calculate-postage"
+      },
+      "locators": [],
+      "pre": [],
+      "post": [
+        {
+          "kind": "textPresent",
+          "text": "Calculate Postage"
+        }
+      ],
+      "risk": "read",
+      "repair": "auto",
+      "timeoutMs": 30000
+    },
+    {
+      "id": "enter_origin_pincode",
+      "intent": "Fill the origin PIN code",
+      "action": {
+        "type": "fill",
+        "param": "origin_pincode"
+      },
+      "locators": [
+        {
+          "kind": "label",
+          "value": "Origin Pincode or Location"
+        },
+        {
+          "kind": "near",
+          "anchorText": "Origin Pincode or Location",
+          "tag": "input"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "label",
+              "value": "Origin Pincode or Location"
+            },
+            {
+              "kind": "near",
+              "anchorText": "Origin Pincode or Location",
+              "tag": "input"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "valueEquals",
+          "locators": [
+            {
+              "kind": "label",
+              "value": "Origin Pincode or Location"
+            },
+            {
+              "kind": "near",
+              "anchorText": "Origin Pincode or Location",
+              "tag": "input"
+            }
+          ],
+          "param": "origin_pincode"
+        }
+      ],
+      "risk": "fill",
+      "repair": "auto",
+      "timeoutMs": 15000
+    },
+    {
+      "id": "enter_destination_pincode",
+      "intent": "Fill the destination PIN code",
+      "action": {
+        "type": "fill",
+        "param": "destination_pincode"
+      },
+      "locators": [
+        {
+          "kind": "label",
+          "value": "Destination Pincode or Location"
+        },
+        {
+          "kind": "near",
+          "anchorText": "Destination Pincode or Location",
+          "tag": "input"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "label",
+              "value": "Destination Pincode or Location"
+            },
+            {
+              "kind": "near",
+              "anchorText": "Destination Pincode or Location",
+              "tag": "input"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "valueEquals",
+          "locators": [
+            {
+              "kind": "label",
+              "value": "Destination Pincode or Location"
+            },
+            {
+              "kind": "near",
+              "anchorText": "Destination Pincode or Location",
+              "tag": "input"
+            }
+          ],
+          "param": "destination_pincode"
+        }
+      ],
+      "risk": "fill",
+      "repair": "auto",
+      "timeoutMs": 15000
+    },
+    {
+      "id": "enter_weight",
+      "intent": "Fill the parcel weight in grams",
+      "action": {
+        "type": "fill",
+        "param": "weight_grams"
+      },
+      "locators": [
+        {
+          "kind": "label",
+          "value": "Weight (gms)"
+        },
+        {
+          "kind": "near",
+          "anchorText": "Weight (gms)",
+          "tag": "input"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "label",
+              "value": "Weight (gms)"
+            },
+            {
+              "kind": "near",
+              "anchorText": "Weight (gms)",
+              "tag": "input"
+            }
+          ]
+        }
+      ],
+      "post": [
+        {
+          "kind": "valueEquals",
+          "locators": [
+            {
+              "kind": "label",
+              "value": "Weight (gms)"
+            },
+            {
+              "kind": "near",
+              "anchorText": "Weight (gms)",
+              "tag": "input"
+            }
+          ],
+          "param": "weight_grams"
+        }
+      ],
+      "risk": "fill",
+      "repair": "auto",
+      "timeoutMs": 15000
+    },
+    {
+      "id": "calculate_postage",
+      "intent": "Click Calculate Postage (sends the form: blocked in dry run)",
+      "action": {
+        "type": "click"
+      },
+      "locators": [
+        {
+          "kind": "role",
+          "role": "button",
+          "name": "Calculate Postage"
+        },
+        {
+          "kind": "text",
+          "value": "Calculate Postage"
+        }
+      ],
+      "pre": [
+        {
+          "kind": "visible",
+          "locators": [
+            {
+              "kind": "role",
+              "role": "button",
+              "name": "Calculate Postage"
+            },
+            {
+              "kind": "text",
+              "value": "Calculate Postage"
+            }
+          ]
+        }
+      ],
+      "post": [],
+      "risk": "commit",
+      "repair": "human"
+    }
+  ],
+  "createdAt": "2026-11-27T00:00:00.000Z",
+  "updatedAt": "2026-11-27T00:00:00.000Z"
+}

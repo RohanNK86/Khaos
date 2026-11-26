@@ -1,0 +1,18 @@
+India Post "Calculate Postage" (https://www.indiapost.gov.in/calculate-postage): MCPify dry run, 27 Nov 2026, visible Chromium, --delay 700
+Inputs: origin PIN 560054, destination PIN 110001, weight 500 g (public values, no personal data)
+
+  ⛔ blocked POST https://www.indiapost.gov.in/calculate-postage
+  ✓ open_calculator
+  ✓ enter_origin_pincode  (found by label)
+  ⛔ blocked POST https://www.indiapost.gov.in/calculate-postage
+  ⛔ blocked POST https://www.indiapost.gov.in/calculate-postage
+  ✓ enter_destination_pincode  (found by label)
+  ⛔ blocked POST https://www.indiapost.gov.in/calculate-postage
+  ⛔ blocked POST https://www.indiapost.gov.in/calculate-postage
+  ✓ enter_weight  (found by label)
+  ⛔ calculate_postage
+
+dry_run_complete: 4 steps verified in 6.5 s; 5 sending request(s) blocked; nothing was sent.
+
+Note: the page sends background POSTs while you type (PIN suggestions); the guard blocked all of them.
+A later run the same day was refused by the site (HTTP error) after several visits: we stopped and did not retry.

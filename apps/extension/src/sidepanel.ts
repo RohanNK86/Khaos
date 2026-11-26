@@ -4,7 +4,7 @@ import type { FileBlob, NeedAnswer, RunHooks } from "@mcpify/engine";
 import { chatTurn, ChatUnavailable, type ChatMessage } from "./chat.js";
 import { executeRun, reportRun, type RunResult } from "./controller.js";
 import { coerceInputs, formFields, type FormField, type RawValues } from "./form.js";
-import { createGuard, type BlockedRequest } from "./guard.js";
+import { createGuard, guardRuleId, type BlockedRequest } from "./guard.js";
 import { effectiveSafety, originOf, policyFor, type DryRunPolicy } from "./policy.js";
 import { chromeTransport, createRemoteDriver } from "./remote-driver.js";
 import { DEFAULT_API_BASE, loadTools, type ToolSource } from "./tools-source.js";
@@ -56,7 +56,11 @@ async function refreshTab() {
   if (!changed) return;
   s.policy = policyFor(origin);
   s.dryRun = s.policy.dryRunDefault;
-  s.strictGuard = true;
+  // Strict network guard by default only on third-party sites; on our demo portals "Next" is a draft-saving POST
+  // and the engine's dry run already stops at the first commit step (same rule as the server).
+  s.strictGuard = !s.policy.isDemo;
+  // Remove a guard rule an interrupted earlier run may have left on this tab.
+  if (s.tabId !== null) await chrome.declarativeNetRequest.updateSessionRules({ removeRuleIds: [guardRuleId(s.tabId)] }).catch(() => undefined);
   s.tool = null;
   s.result = null;
   s.source = origin ? await loadTools(s.apiBase, origin) : { source: "none", site: null, tools: [] };
